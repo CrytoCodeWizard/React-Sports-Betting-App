@@ -1,23 +1,45 @@
 import logo from './logo.svg';
+import React,{ useEffect, useState } from "react";
+import GameOverview from "./Components/GameOverview";
 import './App.css';
 
 function App() {
+
+  const [games, setGames] = useState([]);
+  useEffect(() => {
+    fetch('https://odds.p.rapidapi.com/v4/sports/americanfootball_nfl/odds?regions=us&oddsFormat=decimal&markets=spreads&dateFormat=iso', {
+      method: 'GET',
+      headers: {
+        'X-RapidAPI-Key': process.env.REACT_APP_API_KEY_SPORT_ODDS,
+        'X-RapidAPI-Host': 'odds.p.rapidapi.com'
+      }
+    })
+        .then((response) => response.json())
+        .then((data) => {
+          setGames(data);
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+  }, []);
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app-container">
+      <h1>Upcoming Games</h1>
+   
+      <div className="game-container">
+        <div className="all-container">
+          {games.map((game, index) => (
+            <GameOverview
+              key={game.id}
+              homeTeam={game.home_team}
+              awayTeam={game.away_team}
+              bookmakers={game.bookmakers}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
