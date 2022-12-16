@@ -3,6 +3,8 @@ import OddsDisplay from "./OddsDisplay";
 
 const GameOverview = (game, index) => {
     const [show,setShow] = useState(false);
+    const today = new Date();
+    const gameStart = new Date(game.startTime);
     return (
         <div className="thumb-container">
             <div className="column-image">
@@ -10,7 +12,9 @@ const GameOverview = (game, index) => {
                 <img src={"./TeamImages/" + game.homeTeam + ".jpg"} width="192" height="192" />
             </div>
             <p><b>{game.awayTeam}</b> @ <b>{game.homeTeam}</b></p>
-            <button onClick={()=>setShow(!show)}>{show===true?"Hide Odds":"Odds"}</button>
+            {today>=gameStart?<p className="live"><b>LIVE</b></p>:<p>{game.startTime}</p>}
+            <p></p>
+            <button class="button" onClick={()=>setShow(!show)}>{show===true?<p className="odds-button">Hide Odds</p>:today>=gameStart?<p className="odds-button">Live Odds</p>:<p className="odds-button">Odds</p>}</button>
             {show===true?<div>
                 {game.bookmakers.map((bookmaker, index) => (
                     <OddsDisplay

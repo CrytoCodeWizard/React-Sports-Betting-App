@@ -23,7 +23,7 @@ function App() {
         });
   }, []);
 
-
+  games.map((game) => (game.commence_time = new Date(game.commence_time).toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'})));
   return (
     <div className="app-container">
       <h1>Upcoming Games</h1>
@@ -36,6 +36,7 @@ function App() {
               homeTeam={game.home_team}
               awayTeam={game.away_team}
               bookmakers={game.bookmakers}
+              startTime={game.commence_time}
             />
           ))}
         </div>
