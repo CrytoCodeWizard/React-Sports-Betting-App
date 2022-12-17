@@ -32,7 +32,7 @@ const GameOverview = (game, index) => {
 }
 
 function compareBookies(a, b) {
-    if(a.title < b.title){
+    if(a.title.toLowerCase() < b.title.toLowerCase()){
         return -1;
     }
     return 1;
