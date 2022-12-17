@@ -5,14 +5,15 @@ const GameOverview = (game, index) => {
     const [show,setShow] = useState(false);
     const today = new Date();
     const gameStart = new Date(game.startTime);
+    game.bookmakers.sort(compareBookies);
     return (
         <div className="thumb-container">
             <div className="column-image">
                 <img src={"./TeamImages/" + game.awayTeam + ".jpg"} width="192" height="192" />
                 <img src={"./TeamImages/" + game.homeTeam + ".jpg"} width="192" height="192" />
             </div>
-            <p><b>{game.awayTeam}</b> @ <b>{game.homeTeam}</b></p>
-            {today>=gameStart?<p className="live"><b>LIVE</b></p>:<p>{game.startTime}</p>}
+            <p className="game-text">{game.awayTeam} @ {game.homeTeam}</p>
+            {today>=gameStart?<p className="live"><b>LIVE</b></p>:<p className="game-text">{game.startTime}</p>}
             <p></p>
             <button class="button" onClick={()=>setShow(!show)}>{show===true?<p className="odds-button">Hide Odds</p>:today>=gameStart?<p className="odds-button">Live Odds</p>:<p className="odds-button">Odds</p>}</button>
             {show===true?<div>
@@ -28,6 +29,13 @@ const GameOverview = (game, index) => {
             </div>:<></>}
         </div>
     )
+}
+
+function compareBookies(a, b) {
+    if(a.title < b.title){
+        return -1;
+    }
+    return 1;
 }
 
 function isFavoredOrEven(bookmaker){

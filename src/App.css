@@ -65,6 +65,7 @@
 
 .live {
   color: rgb(126, 11, 11);
+  font-family: monospace;
   -webkit-animation: blink 2.0s linear infinite;
   -moz-animation: blink 2.0s linear infinite;
   -ms-animation: blink 2.0s linear infinite;
@@ -81,7 +82,7 @@
   color: #3B3B3B;
   cursor: pointer;
   display: inline-block;
-  font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  font-family: monospace;
   font-size: 14px;
   font-weight: 600;
   line-height: normal;
@@ -116,4 +117,7 @@
   transform: translateY(0);
 }
 
-
+.game-text {
+  font-family: monospace;
+  font-size: 16px;
+}
