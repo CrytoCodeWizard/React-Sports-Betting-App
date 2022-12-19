@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 
-const OddsDisplay = (bookmaker, index) => {
+const OddsDisplay = (bookmaker) => {
     return (
 
         <div>

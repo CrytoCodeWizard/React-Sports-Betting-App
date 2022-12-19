@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import OddsDisplay from "./OddsDisplay";
 
-const GameOverview = (game, index) => {
+const GameOverview = (game) => {
     const [show,setShow] = useState(false);
     const today = new Date();
     const gameStart = new Date(game.startTime);
@@ -9,8 +9,8 @@ const GameOverview = (game, index) => {
     return (
         <div className="thumb-container">
             <div className="column-image">
-                <img src={"./" + game.sportName + "TeamImages/" + game.awayTeam + ".jpg"} width="192" height="192" />
-                <img src={"./" + game.sportName + "TeamImages/" + game.homeTeam + ".jpg"} width="192" height="192" />
+                <img src={"./" + game.sportName + "TeamImages/" + game.awayTeam + ".jpg"} alt={game.awayTeam} width="208" height="208" />
+                <img src={"./" + game.sportName + "TeamImages/" + game.homeTeam + ".jpg"} alt={game.homeTeam} width="208" height="208" />
             </div>
             <p className="game-text">{game.awayTeam} @ {game.homeTeam}</p>
             {today>=gameStart?<p className="live"><b>LIVE</b></p>:<p className="game-text">{game.startTime}</p>}

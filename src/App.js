@@ -47,7 +47,7 @@ function App() {
       <div className="app-container">
         <div className="game-container">
           <div className="all-container">
-            {games.map((game, index) => (
+            {games.map((game) => (
               <GameOverview
                 key={game.id}
                 homeTeam={game.home_team}
