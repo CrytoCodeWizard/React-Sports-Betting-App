@@ -117,7 +117,26 @@
   transform: translateY(0);
 }
 
+.odds-button-text {
+  margin: auto;
+  line-height: 1.25rem;
+}
+
 .game-text {
   font-family: monospace;
   font-size: 16px;
+}
+
+.title-heading {
+  font-size: 50px;
+  text-align: center;
+}
+
+.navbar-custom {
+  background-color: rgb(241, 238, 238);
+}
+
+.navbar-text-custom {
+  font-family: monospace;
+  border: none;
 }
