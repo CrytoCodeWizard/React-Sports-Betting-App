@@ -15,7 +15,7 @@ const GameOverview = (game) => {
             <p className="game-text">{game.awayTeam} @ {game.homeTeam}</p>
             {today>=gameStart?<p className="live"><b>LIVE</b></p>:<p className="game-text">{game.startTime}</p>}
             <p></p>
-            <button className="button" onClick={()=>setShow(!show)}>{show===true?<p className="odds-button-text">Hide Odds</p>:today>=gameStart?<p className="odds-button-text">Live Odds</p>:<p className="odds-button-text">Odds</p>}</button>
+            <button className="odds-button" onClick={()=>setShow(!show)}>{show===true?<p className="odds-button-text">Hide Odds</p>:today>=gameStart?<p className="odds-button-text">Live Odds</p>:<p className="odds-button-text">Odds</p>}</button>
             {show===true?<p></p>:<></>}
             {show===true?<div>
                 {game.bookmakers.map((bookmaker, index) => (

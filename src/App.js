@@ -30,19 +30,11 @@ function App() {
     <div>
       <div className="title-heading">Live Sporting Odds</div>
       <p></p>
-        <nav className="navbar navbar-expand-lg navbar-light navbar-custom">
-            <div
-              className="collapse navbar-collapse justify-content-center"
-            >
-              <ul className="navbar-nav mb-2 mb-lg-0">
-                <li className="nav-item">
-                  <button className="nav-link active navbar-text-custom" onClick={() => setSport('americanfootball_nfl')}>NFL</button>
-                </li>
-                <li className="nav-item">
-                  <button className="nav-link active navbar-text-custom" onClick={() => setSport('basketball_nba')}>NBA</button>
-                </li>
-              </ul>
-            </div>
+        <nav className="navbar navbar-light navbar-custom justify-content-center">    
+          {sport === 'americanfootball_nfl'?<button className="active navbar-text-custom nav-button-selected" onClick={() => setSport('americanfootball_nfl')}>NFL</button>:
+          <button className="active navbar-text-custom nav-button" onClick={() => setSport('americanfootball_nfl')}>NFL</button>}
+          {sport === 'basketball_nba'?<button className="active navbar-text-custom nav-button-selected" onClick={() => setSport('basketball_nba')}>NBA</button>:
+          <button className="active navbar-text-custom nav-button" onClick={() => setSport('basketball_nba')}>NBA</button>}
         </nav>
       <div className="app-container">
         <div className="game-container">
