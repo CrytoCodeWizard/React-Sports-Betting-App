@@ -4,19 +4,19 @@ React App (Javascript, HTML, CSS) that allows the user to view various upcoming/
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-##Prerequisites
+## Prerequisites
 
 1. Go to [Live Sports API](https://rapidapi.com/theoddsapi/api/live-sports-odds), create a free acount and subscribe to the unpaid version of the API.
-  - Once subscribed, your API Key can be found under X-RapidAPI-Key
+   - Once subscribed, your API Key can be found under X-RapidAPI-Key
 2. You’ll need to have Node 14.0.0 or later version on your local development machine. [Node.js](https://nodejs.org/en/download/)
 
 ## Installation Instructions
 
 1. Download the project/save zip and unzip
-2. In the text editor of your choice, open 'sports-odds-app/src/App.js and go to line 15. replace 'process.env.REACT_APP_API_KEY_SPORT_ODDS' with your API key from step 1 of the prerequisites
-3. Navigate to the project home on the command line using 'cd' and run 'npm start', the application should open at 'http://localhost:3000/'.
+2. In the text editor of your choice, open `sports-odds-app/src/App.js` and go to line 15. replace `process.env.REACT_APP_API_KEY_SPORT_ODDS` with your API key from step 1 of the prerequisites
+3. Navigate to the project home on the command line using `cd` and run `npm start`, the application should open at `http://localhost:3000/`.
 
-##Credits
+## Credits
 
 This project utilizes [Live Sports API](https://rapidapi.com/theoddsapi/api/live-sports-odds) by [The Odds API](https://rapidapi.com/user/theoddsapi)
 
