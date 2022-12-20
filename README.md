@@ -1,6 +1,8 @@
-# Getting Started with Create React App
+# Upcoming/Live Sports Odds Draft
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+This project utilizes [Live Sports API](https://rapidapi.com/theoddsapi/api/live-sports-odds) by [The Odds API](https://rapidapi.com/user/theoddsapi)
 
 ## Available Scripts
 
