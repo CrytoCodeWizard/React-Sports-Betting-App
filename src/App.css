@@ -73,7 +73,7 @@
   animation: blink 2.0s linear infinite;
 }
 
-.button {
+.odds-button {
   appearance: none;
   background-color: transparent;
   border: 1px solid #1A1A1A;
@@ -101,18 +101,18 @@
   will-change: transform;
 }
 
-.button:disabled {
+.odds-button:disabled {
   pointer-events: none;
 }
 
-.button:hover {
+.odds-button:hover {
   color: #fff;
   background-color: #1A1A1A;
   box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
   transform: translateY(-2px);
 }
 
-.button:active {
+.odds-button:active {
   box-shadow: none;
   transform: translateY(0);
 }
@@ -120,6 +120,16 @@
 .odds-button-text {
   margin: auto;
   line-height: 1.25rem;
+}
+
+.nav-button:hover {
+  background-color: rgb(207, 205, 205);
+  border-radius: 15px;
+}
+
+.nav-button-selected{
+  background-color: rgb(207, 205, 205);
+  border-radius: 15px;
 }
 
 .game-text {
