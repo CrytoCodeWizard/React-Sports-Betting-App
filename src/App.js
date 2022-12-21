@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 function App() {
 
   const [games, setGames] = useState([]);
-  const [sport, setSport] = useState('americanfootball_nfl');
+  const [sport, setSport] = useState(window.localStorage.getItem('sport') || 'americanfootball_nfl');
 
   useEffect(() => {
     fetch('https://odds.p.rapidapi.com/v4/sports/' + sport + '/odds?regions=us&oddsFormat=decimal&markets=spreads&dateFormat=iso', {
@@ -24,6 +24,7 @@ function App() {
         .catch((err) => {
           console.log(err.message);
         });
+        window.localStorage.setItem('sport', sport);
     }, [sport]);
 
   return (
