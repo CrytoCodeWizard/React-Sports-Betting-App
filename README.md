@@ -16,6 +16,13 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 2. In the text editor of your choice, open `sports-odds-app/src/App.js` and go to line 15. replace `process.env.REACT_APP_API_KEY_SPORT_ODDS` with your API key from step 1 of the prerequisites
 3. Navigate to the project home on the command line using `cd` and run `npm install`, followed by `npm start`, the application should open at `http://localhost:3000/`.
 
+## Screenshots
+
+![oddsapp1](https://user-images.githubusercontent.com/43187188/208797158-56eb0522-648a-4101-b21c-154abef97502.PNG)
+
+![oddsapp2](https://user-images.githubusercontent.com/43187188/208797120-5a352466-5b98-454f-98c6-13020c3ef178.png)
+
+
 ## Credits
 
 This project utilizes [Live Sports API](https://rapidapi.com/theoddsapi/api/live-sports-odds) by [The Odds API](https://rapidapi.com/user/theoddsapi)
