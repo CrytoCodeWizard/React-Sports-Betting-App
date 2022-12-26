@@ -22,8 +22,8 @@ const GameOverview = (game) => {
                     <OddsDisplay
                     key={bookmaker.key}
                     bookmakerTitle={bookmaker.title}
-                    favoredTeam={isFavoredOrEven(bookmaker)?bookmaker.markets[0].outcomes[0].name:bookmaker.markets[0].outcomes[1].name}
-                    odds={isFavoredOrEven(bookmaker)?bookmaker.markets[0].outcomes[0].point:bookmaker.markets[0].outcomes[1].point}
+                    favoredTeam={isFirstTeamFavoredOrEven(bookmaker)?bookmaker.markets[0].outcomes[0].name:bookmaker.markets[0].outcomes[1].name}
+                    odds={isFirstTeamFavoredOrEven(bookmaker)?bookmaker.markets[0].outcomes[0].point:bookmaker.markets[0].outcomes[1].point}
                     />
                     
                 ))}
@@ -33,13 +33,27 @@ const GameOverview = (game) => {
 }
 
 function compareBookies(a, b) {
-    if(a.title.toLowerCase() < b.title.toLowerCase()){
+    var aOdds = getSpread(a), bOdds = getSpread(b);
+      
+    if(Math.abs(aOdds) < Math.abs(bOdds)){
         return -1;
+    }
+    else if(aOdds === bOdds){
+        if(a.title.toLowerCase() < b.title.toLowerCase()){
+            return -1;
+        }
     }
     return 1;
 }
 
-function isFavoredOrEven(bookmaker){
+function getSpread(bookmaker){
+    if(isFirstTeamFavoredOrEven(bookmaker)){
+        return bookmaker.markets[0].outcomes[0].point;
+    }
+    return bookmaker.markets[0].outcomes[0].point;
+}
+
+function isFirstTeamFavoredOrEven(bookmaker){
    return bookmaker.markets[0].outcomes[0].point<=0;
 }
 
