@@ -5,8 +5,9 @@ const OddsDisplay = (bookmaker) => {
     return (
 
         <div>
-            {bookmaker.odds===0?<p>{bookmaker.bookmakerTitle}: Even</p>:<p>{bookmaker.bookmakerTitle}: {bookmaker.favoredTeam} {bookmaker.odds}</p>}
+            <p><a href={bookmaker.bookmakerLink} target="_blank">{bookmaker.bookmakerTitle}</a>: {bookmaker.odds===0?<t>Even</t>:<t>{bookmaker.favoredTeam} {bookmaker.odds}</t>}</p>
         </div>
+        
     )
     
 }
