@@ -9,17 +9,18 @@ function App() {
   const [sport, setSport] = useState(window.localStorage.getItem('sport') || 'americanfootball_nfl');
 
   useEffect(() => {
-    fetch('https://odds.p.rapidapi.com/v4/sports/' + sport + '/odds?regions=us&oddsFormat=decimal&markets=spreads&dateFormat=iso', {
+    const urls = ['https://odds.p.rapidapi.com/v4/sports/' + sport + '/odds?regions=us&oddsFormat=decimal&markets=spreads&dateFormat=iso', 'https://odds.p.rapidapi.com/v4/sports/' + sport + '/scores'];
+    Promise.all(urls.map(url => fetch(url, {
       method: 'GET',
       headers: {
         'X-RapidAPI-Key': process.env.REACT_APP_API_KEY_SPORT_ODDS,
         'X-RapidAPI-Host': 'odds.p.rapidapi.com'
       }
     })
-        .then((response) => response.json())
-        .then((data) => {
-          data.map((game) => (game.commence_time = new Date(game.commence_time).toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'})));
-          setGames(data);
+        .then((response) => response.json())))
+        .then(([odds, scores]) => {
+          var res = scores.map(x => Object.assign(x, odds.find(y => y.id === x.id)));
+          setGames(res);
         })
         .catch((err) => {
           console.log(err.message);

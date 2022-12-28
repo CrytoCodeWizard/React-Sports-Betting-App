@@ -4,10 +4,6 @@
   justify-content: space-between;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
 .app-container {
   display: flex;
   flex-direction: column;
@@ -149,4 +145,19 @@
 .navbar-text-custom {
   font-family: monospace;
   border: none;
+}
+
+a:link{
+  color: rgb(7, 10, 211);
+  text-decoration: none;
+}
+
+a:visited {
+  color: rgb(7, 10, 211);
+  text-decoration: none;
+}
+
+a:active {
+  color: rgb(7, 10, 211);
+  text-decoration: none;
 }

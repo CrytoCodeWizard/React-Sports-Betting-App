@@ -5,6 +5,7 @@ const GameOverview = (game) => {
     const [show,setShow] = useState(false);
     const today = new Date();
     const gameStart = new Date(game.startTime);
+    const stringifiedGameStart = gameStart.toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'});
     
     const bookmaker_links={ 
         "barstool":"https://www.barstoolsportsbook.com/",
@@ -39,7 +40,7 @@ const GameOverview = (game) => {
                 <img src={"./" + game.sportName + "TeamImages/" + game.homeTeam + ".jpg"} alt={game.homeTeam} width="208" height="208" />
             </div>
             <p className="game-text">{game.awayTeam} @ {game.homeTeam}</p>
-            {today>=gameStart?<p className="live"><b>LIVE</b></p>:<p className="game-text">{game.startTime}</p>}
+            {today>=gameStart?<p className="live"><b>LIVE</b></p>:<p className="game-text">{stringifiedGameStart}</p>}
             <p></p>
             <button className="odds-button" onClick={()=>setShow(!show)}>{show===true?<p className="odds-button-text">Hide Odds</p>:today>=gameStart?<p className="odds-button-text">Live Odds</p>:<p className="odds-button-text">Odds</p>}</button>
             {show===true?<p></p>:<></>}
