@@ -49,6 +49,7 @@ function App() {
                 bookmakers={game.bookmakers}
                 startTime={game.commence_time}
                 sportName={game.sport_title}
+                curScore={game.scores}
               />
             ))}
           </div>

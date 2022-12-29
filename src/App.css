@@ -157,6 +157,10 @@ a:visited {
   text-decoration: none;
 }
 
+a:hover {
+  text-decoration: underline;
+}
+
 a:active {
   color: rgb(7, 10, 211);
   text-decoration: none;

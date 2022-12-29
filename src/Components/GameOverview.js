@@ -41,9 +41,11 @@ const GameOverview = (game) => {
             </div>
             <p className="game-text">{game.awayTeam} @ {game.homeTeam}</p>
             {today>=gameStart?<p className="live"><b>LIVE</b></p>:<p className="game-text">{stringifiedGameStart}</p>}
-            <p></p>
+            <div>
+                {game.curScore?<p className="game-text">{game.curScore[1].score} - {game.curScore[0].score}</p>:<p><br></br></p>}
+            </div>
             <button className="odds-button" onClick={()=>setShow(!show)}>{show===true?<p className="odds-button-text">Hide Odds</p>:today>=gameStart?<p className="odds-button-text">Live Odds</p>:<p className="odds-button-text">Odds</p>}</button>
-            {show===true?<p></p>:<></>}
+            {show===true?<br></br>:<></>}
             {show===true?<div>
                 {game.bookmakers.map((bookmaker, index) => (
                     <OddsDisplay
