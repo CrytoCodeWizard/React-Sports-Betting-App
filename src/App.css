@@ -9,16 +9,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  padding: 3rem 1rem;
+  padding: 1rem;
 }
-.app-container h1{
-  width: 0ch;
-  color: rgb(38, 16, 236);
-  overflow: hidden;
-  white-space: nowrap;
-  animation: text 4s steps(15) infinite alternate;
-}
+
 .game-container {
   display: flex;
   flex-direction: column;
@@ -133,13 +126,21 @@
   font-size: 16px;
 }
 
+.state-dropdown {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+
 .title-heading {
   font-size: 50px;
   text-align: center;
+  margin-bottom: 1rem;
 }
 
 .navbar-custom {
   background-color: rgb(241, 238, 238);
+  
 }
 
 .navbar-text-custom {
