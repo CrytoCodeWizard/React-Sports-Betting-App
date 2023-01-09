@@ -18,9 +18,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Screenshots
 
-![oddsapp1](https://user-images.githubusercontent.com/43187188/208797158-56eb0522-648a-4101-b21c-154abef97502.PNG)
+![oddsapp1](https://user-images.githubusercontent.com/43187188/211229748-988a05d5-db63-42a7-aa03-5601be223a94.png)
 
-![oddsapp2](https://user-images.githubusercontent.com/43187188/208797120-5a352466-5b98-454f-98c6-13020c3ef178.png)
+![oddsapp2](https://user-images.githubusercontent.com/43187188/211229805-0a3af628-d57a-4300-83e4-ee017364ec90.png)
 
 
 ## Credits
