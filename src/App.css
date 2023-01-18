@@ -166,3 +166,12 @@ a:active {
   color: rgb(7, 10, 211);
   text-decoration: none;
 }
+
+.odds-list-text {
+  display: inline;
+}
+
+.current-odds-block::before {
+  content: '\A';
+  white-space: pre;
+}
