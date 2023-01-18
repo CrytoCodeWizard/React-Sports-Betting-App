@@ -13,7 +13,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Installation Instructions
 
 1. Download the project/save zip and unzip
-2. In the text editor of your choice, open `sports-odds-app/src/App.js` and go to line 15. replace `process.env.REACT_APP_API_KEY_SPORT_ODDS` with your API key from step 1 of the prerequisites
+2. In the text editor of your choice, open `sports-odds-app/src/App.js` and go to line 19. replace `process.env.REACT_APP_API_KEY_SPORT_ODDS` with your API key from step 1 of the prerequisites
 3. Navigate to the project home on the command line using `cd` and run `npm install`, followed by `npm start`, the application should open at `http://localhost:3000/`.
 
 ## Screenshots
