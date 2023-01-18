@@ -1,7 +1,27 @@
-.column-image {
+a:active {
+  color: rgb(7, 10, 211);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:link{
+  color: rgb(7, 10, 211);
+  text-decoration: none;
+}
+
+a:visited {
+  color: rgb(7, 10, 211);
+  text-decoration: none;
+}
+
+.all-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
 }
 
 .app-container {
@@ -10,34 +30,6 @@
   align-items: center;
   justify-content: center;
   padding: 1rem;
-}
-
-.game-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.thumb-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem 0.2rem;
-  margin: 0.3rem;
-  border: 1px solid #110c0c;
-  border-radius: 2rem;
-  min-width: 160px;
-  text-align: center;
-  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.089);
-}
-
-.all-container {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
 }
 
 @keyframes blink {
@@ -52,6 +44,29 @@
   100% { text-shadow: 0px 0 15px red; }
 }
 
+.column-image {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.current-odds-block::before {
+  content: '\A';
+  white-space: pre;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-text {
+  font-family: monospace;
+  font-size: 16px;
+}
+
 .live {
   color: rgb(126, 11, 11);
   font-family: monospace;
@@ -60,6 +75,26 @@
   -ms-animation: blink 2.0s linear infinite;
   -o-animation: blink 2.0s linear infinite;
   animation: blink 2.0s linear infinite;
+}
+
+.navbar-custom {
+  background-color: rgb(241, 238, 238);
+  
+}
+
+.navbar-text-custom {
+  font-family: monospace;
+  border: none;
+}
+
+.nav-button:hover {
+  background-color: rgb(207, 205, 205);
+  border-radius: 15px;
+}
+
+.nav-button-selected{
+  background-color: rgb(207, 205, 205);
+  border-radius: 15px;
 }
 
 .odds-button {
@@ -90,6 +125,11 @@
   will-change: transform;
 }
 
+.odds-button:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
+
 .odds-button:disabled {
   pointer-events: none;
 }
@@ -101,29 +141,13 @@
   transform: translateY(-2px);
 }
 
-.odds-button:active {
-  box-shadow: none;
-  transform: translateY(0);
-}
-
 .odds-button-text {
   margin: auto;
   line-height: 1.25rem;
 }
 
-.nav-button:hover {
-  background-color: rgb(207, 205, 205);
-  border-radius: 15px;
-}
-
-.nav-button-selected{
-  background-color: rgb(207, 205, 205);
-  border-radius: 15px;
-}
-
-.game-text {
-  font-family: monospace;
-  font-size: 16px;
+.odds-list-text {
+  display: inline;
 }
 
 .state-dropdown {
@@ -132,46 +156,22 @@
   padding: 1rem;
 }
 
+.thumb-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 0.2rem;
+  margin: 0.3rem;
+  border: 1px solid #110c0c;
+  border-radius: 2rem;
+  min-width: 160px;
+  text-align: center;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.089);
+}
+
 .title-heading {
   font-size: 50px;
   text-align: center;
   margin-bottom: 1rem;
-}
-
-.navbar-custom {
-  background-color: rgb(241, 238, 238);
-  
-}
-
-.navbar-text-custom {
-  font-family: monospace;
-  border: none;
-}
-
-a:link{
-  color: rgb(7, 10, 211);
-  text-decoration: none;
-}
-
-a:visited {
-  color: rgb(7, 10, 211);
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-a:active {
-  color: rgb(7, 10, 211);
-  text-decoration: none;
-}
-
-.odds-list-text {
-  display: inline;
-}
-
-.current-odds-block::before {
-  content: '\A';
-  white-space: pre;
 }
