@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import OddsDisplay from "./OddsDisplay";
 
 const GameOverview = (game) => {
-    const [show,setShow] = useState(false);
+    const [showSpread,setShowSpread] = useState(false);
     const today = new Date();
     const gameStart = new Date(game.startTime);
     const stringifiedGameStart = gameStart.toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'});
@@ -35,17 +35,21 @@ const GameOverview = (game) => {
     game.bookmakers.sort(compareBookies);
     return (
         <div className="thumb-container">
-            <div className="column-image">
-                <img src={"./" + game.sportName + "TeamImages/" + game.awayTeam + ".jpg"} alt={game.awayTeam} width="208" height="208" />
-                <img src={"./" + game.sportName + "TeamImages/" + game.homeTeam + ".jpg"} alt={game.homeTeam} width="208" height="208" />
+            <div className="column-images">
+                <img className="column-image" src={"./" + game.sportName + "TeamImages/" + game.awayTeam + ".jpg"} alt={game.awayTeam} />
+                <img className="column-image" src={"./" + game.sportName + "TeamImages/" + game.homeTeam + ".jpg"} alt={game.homeTeam} />
             </div>
             <p className="game-text">{game.awayTeam} @ {game.homeTeam}</p>
             {today>=gameStart?<p className="live"><b>LIVE</b></p>:<p className="game-text">{stringifiedGameStart}</p>}
             <div>
                 {game.curScore?<p className="game-text">{game.curScore[1].score} - {game.curScore[0].score}</p>:<p><br></br></p>}
             </div>
-            <button className="odds-button" onClick={()=>setShow(!show)}>{show===true?<p className="odds-button-text">Hide Spreads</p>:today>=gameStart?<p className="odds-button-text">Live Spreads</p>:<p className="odds-button-text">Spreads</p>}</button>
-            {show===true?<div>
+            <div className="odds-button-outer">
+                <button className="odds-button" onClick={()=>setShowSpread(!showSpread)}>{showSpread===true?<p className="odds-button-text">Spread</p>:<p className="odds-button-text">Spread</p>}</button>
+                <button className="odds-button">{showSpread===true?<p className="odds-button-text">Moneyline</p>:<p className="odds-button-text">Moneyline</p>}</button>
+                <button className="odds-button">{showSpread===true?<p className="odds-button-text">Total</p>:<p className="odds-button-text">Total</p>}</button>
+            </div>
+            {showSpread===true?<div>
                 {game.bookmakers.map((bookmaker, index) => (
                     <OddsDisplay
                     key={bookmaker.key}

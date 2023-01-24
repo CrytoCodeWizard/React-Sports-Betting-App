@@ -38,7 +38,7 @@ function App() {
 
   return (
     <div>
-      <div className="title-heading">Live Sporting Spreads</div>
+      <div className="title-heading">Shop the Line</div>
         <nav className="navbar navbar-light navbar-custom justify-content-center">    
           {sport === 'americanfootball_nfl'?<button className="active navbar-text-custom nav-button-selected" onClick={() => setSport('americanfootball_nfl')}>NFL</button>:
           <button className="active navbar-text-custom nav-button" onClick={() => setSport('americanfootball_nfl')}>NFL</button>}
