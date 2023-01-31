@@ -1,6 +1,6 @@
 import React from 'react'
 
-const OddsDisplay = (bookmaker) => {
+const SpreadDisplay = (bookmaker) => {
     return (
 
         <div>
@@ -11,4 +11,4 @@ const OddsDisplay = (bookmaker) => {
     
 }
 
-export default OddsDisplay
+export default SpreadDisplay
