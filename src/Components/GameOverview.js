@@ -22,9 +22,6 @@ const GameOverview = (game) => {
         }
     }
     
-    console.log(totalsList);
-    console.log(moneyLineList);
-    
     const bookmaker_links={ 
         "barstool":"https://www.barstoolsportsbook.com/",
         "betonlineag":"https://www.betonline.ag/",
@@ -51,6 +48,9 @@ const GameOverview = (game) => {
     };
 
     spreadList.sort(compareBookiesSpread);
+    moneyLineList.sort(compareBookiesH2H);
+    totalsList.sort(compareBookiesTotals);
+
     return (
         <div className="thumb-container">
             <div className="column-images">
@@ -63,9 +63,9 @@ const GameOverview = (game) => {
                 {game.curScore?<p className="game-text">{game.curScore[1].score} - {game.curScore[0].score}</p>:<p><br></br></p>}
             </div>
             <div className="odds-button-outer">
-                <button className="odds-button" onClick={() => OddButtonClick('spread', showSpread, setShowSpread, showH2H, setShowH2H, showTotal, setShowTotal)}>{showSpread===true?<p className="odds-button-text">Spread</p>:<p className="odds-button-text">Spread</p>}</button>
-                <button className="odds-button" onClick={() => OddButtonClick('h2h', showSpread, setShowSpread, showH2H, setShowH2H, showTotal, setShowTotal)}>{showH2H===true?<p className="odds-button-text">Moneyline</p>:<p className="odds-button-text">Moneyline</p>}</button>
-                <button className="odds-button" onClick={() => OddButtonClick('total', showSpread, setShowSpread, showH2H, setShowH2H, showTotal, setShowTotal)}>{showTotal===true?<p className="odds-button-text">Total</p>:<p className="odds-button-text">Total</p>}</button>
+                <button className="odds-button" onClick={() => OddButtonClick(setShowSpread, showSpread, setShowH2H, setShowTotal)}>{showSpread===true?<p className="odds-button-text">Spread</p>:<p className="odds-button-text">Spread</p>}</button>
+                <button className="odds-button" onClick={() => OddButtonClick(setShowH2H, showH2H, setShowSpread, setShowTotal)}>{showH2H===true?<p className="odds-button-text">Moneyline</p>:<p className="odds-button-text">Moneyline</p>}</button>
+                <button className="odds-button" onClick={() => OddButtonClick(setShowTotal, showTotal, setShowH2H, setShowSpread)}>{showTotal===true?<p className="odds-button-text">Total</p>:<p className="odds-button-text">Total</p>}</button>
             </div>
             {showSpread===true?<div>
                 {spreadList.map((bookmaker, index) => (
@@ -85,8 +85,8 @@ const GameOverview = (game) => {
                     key={bookmaker.key}
                     bookmakerTitle={bookmaker.title}
                     bookmakerLink={bookmaker_links[bookmaker.key]}
-                    favoredTeam={isFirstTeamFavoredML(bookmaker) ? bookmaker.markets[0].outcomes[0].name +  ' ' + EuroToAmericanMLConverter(bookmaker.markets[0].outcomes[0].price) : bookmaker.markets[0].outcomes[1].name +  ' ' + EuroToAmericanMLConverter(bookmaker.markets[0].outcomes[1].price)}
-                    underdog={isFirstTeamFavoredML(bookmaker) ? bookmaker.markets[0].outcomes[1].name +  ' ' + EuroToAmericanMLConverter(bookmaker.markets[0].outcomes[1].price) : bookmaker.markets[0].outcomes[0].name +  ' ' + EuroToAmericanMLConverter(bookmaker.markets[0].outcomes[0].price)}
+                    favoredTeam={isFirstTeamFavoredML(bookmaker) ? bookmaker.markets[0].outcomes[0].name +  ' ( ' + MLPrep(bookmaker.markets[0].outcomes[0].price) + ' )' : bookmaker.markets[0].outcomes[1].name +  ' ( ' + MLPrep(bookmaker.markets[0].outcomes[1].price) + ' )'}
+                    underdog={isFirstTeamFavoredML(bookmaker) ? bookmaker.markets[0].outcomes[1].name +  ' ( ' + MLPrep(bookmaker.markets[0].outcomes[1].price) + ' )' : bookmaker.markets[0].outcomes[0].name +  ' (' + MLPrep(bookmaker.markets[0].outcomes[0].price) + ' )'}
                     />
                     
                 ))}
@@ -107,23 +107,10 @@ const GameOverview = (game) => {
     )
 }
 
-function OddButtonClick(type, showSpread, setShowSpread, showH2H, setShowH2H, showTotal, setShowTotal){
-    if(type==='spread'){
-        setShowSpread(!showSpread);
-        setShowH2H(false);
-        setShowTotal(false);
-    }
-    else if(type==='h2h'){
-        setShowH2H(!showH2H);
-        setShowSpread(false);
-        setShowTotal(false);
-    }
-    else if(type==='total'){
-        setShowTotal(!showTotal);
-        setShowSpread(false);
-        setShowH2H(false);
-    }
-
+function OddButtonClick(setButtonClicked, buttonClickedStatus, setToFalseA, setToFalseB){
+    setButtonClicked(!buttonClickedStatus);
+    setToFalseA(false);
+    setToFalseB(false);
 }
 
 function manipJSON(bookmaker, market){
@@ -133,25 +120,38 @@ function manipJSON(bookmaker, market){
     return j;
 }
 
-function compareBookiesSpread(a, b) {
-    var aOdds = getSpread(a), bOdds = getSpread(b);
+function compareBookiesTotals(a, b){
+    var aOdds = a.markets[0].outcomes[0].point;
+    var bOdds = b.markets[0].outcomes[0].point;
 
-    if(Math.abs(aOdds) < Math.abs(bOdds)){
+    return sortHelper(aOdds, bOdds, a, b);
+}
+
+function compareBookiesH2H(a, b){
+    var aOdds = Math.abs(a.markets[0].outcomes[0].price - a.markets[0].outcomes[1].price), 
+        bOdds = Math.abs(b.markets[0].outcomes[0].price - b.markets[0].outcomes[1].price);
+
+    return sortHelper(aOdds, bOdds, a, b);
+}
+
+function compareBookiesSpread(a, b) {
+    var aOdds = Math.abs(a.markets[0].outcomes[0].point),
+        bOdds = Math.abs(b.markets[0].outcomes[0].point);
+
+    return sortHelper(aOdds, bOdds, a, b);
+}
+
+function sortHelper(aOdds, bOdds, a, b){
+    if(aOdds < bOdds){
         return -1;
     }
     else if(aOdds === bOdds){
         if(a.title.toLowerCase() < b.title.toLowerCase()){
             return -1;
         }
-    }
+        return 1;
+    }  
     return 1;
-}
-
-function getSpread(bookmaker){
-    if(isFirstTeamFavoredOrEvenSpread(bookmaker)){
-        return bookmaker.markets[0].outcomes[0].point;
-    }
-    return bookmaker.markets[0].outcomes[0].point;
 }
 
 function isFirstTeamFavoredOrEvenSpread(bookmaker){
@@ -162,12 +162,12 @@ function isFirstTeamFavoredML(bookmaker){
     return bookmaker.markets[0].outcomes[0].price<=bookmaker.markets[0].outcomes[1].price;
 }
 
-function EuroToAmericanMLConverter(decimal){
-    if(decimal < 2){
-        return '' + Math.round(-100 / (decimal-1));
+function MLPrep(ml){
+    if(ml < 0){
+        return '' + ml;
     }
     else{
-        return '+' + Math.round((decimal - 1) * 100);
+        return '+' + ml;
     }
 }
 
