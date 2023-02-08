@@ -22,6 +22,9 @@ const GameOverview = (game) => {
         }
     }
     
+    console.log(totalsList);
+
+
     const bookmaker_links={ 
         "barstool":"https://www.barstoolsportsbook.com/",
         "betonlineag":"https://www.betonline.ag/",
@@ -73,8 +76,8 @@ const GameOverview = (game) => {
                     key={bookmaker.key}
                     bookmakerTitle={bookmaker.title}
                     bookmakerLink={bookmaker_links[bookmaker.key]}
-                    favoredTeam={isFirstTeamFavoredOrEvenSpread(bookmaker)?bookmaker.markets[0].outcomes[0].name:bookmaker.markets[0].outcomes[1].name}
-                    odds={isFirstTeamFavoredOrEvenSpread(bookmaker)?bookmaker.markets[0].outcomes[0].point:bookmaker.markets[0].outcomes[1].point}
+                    favoredTeam={isFirstTeamFavoredOrEvenSpread(bookmaker)? displayPrep(bookmaker.markets[0].outcomes[0].name, OddPrep(bookmaker.markets[0].outcomes[0].point), OddPrep(bookmaker.markets[0].outcomes[0].price)) : displayPrep(bookmaker.markets[0].outcomes[1].name, OddPrep(bookmaker.markets[0].outcomes[1].point), OddPrep(bookmaker.markets[0].outcomes[1].price))}
+                    underdog={isFirstTeamFavoredOrEvenSpread(bookmaker)? displayPrep(bookmaker.markets[0].outcomes[1].name, OddPrep(bookmaker.markets[0].outcomes[1].point), OddPrep(bookmaker.markets[0].outcomes[1].price)) : displayPrep(bookmaker.markets[0].outcomes[0].name, OddPrep(bookmaker.markets[0].outcomes[0].point), OddPrep(bookmaker.markets[0].outcomes[0].price))}
                     />
                     
                 ))}
@@ -85,8 +88,8 @@ const GameOverview = (game) => {
                     key={bookmaker.key}
                     bookmakerTitle={bookmaker.title}
                     bookmakerLink={bookmaker_links[bookmaker.key]}
-                    favoredTeam={isFirstTeamFavoredML(bookmaker) ? bookmaker.markets[0].outcomes[0].name +  ' ( ' + MLPrep(bookmaker.markets[0].outcomes[0].price) + ' )' : bookmaker.markets[0].outcomes[1].name +  ' ( ' + MLPrep(bookmaker.markets[0].outcomes[1].price) + ' )'}
-                    underdog={isFirstTeamFavoredML(bookmaker) ? bookmaker.markets[0].outcomes[1].name +  ' ( ' + MLPrep(bookmaker.markets[0].outcomes[1].price) + ' )' : bookmaker.markets[0].outcomes[0].name +  ' (' + MLPrep(bookmaker.markets[0].outcomes[0].price) + ' )'}
+                    favoredTeam={isFirstTeamFavoredML(bookmaker) ? displayPrep(bookmaker.markets[0].outcomes[0].name,'',OddPrep(bookmaker.markets[0].outcomes[0].price)) : displayPrep(bookmaker.markets[0].outcomes[1].name,'',OddPrep(bookmaker.markets[0].outcomes[1].price))}
+                    underdog={isFirstTeamFavoredML(bookmaker) ? displayPrep(bookmaker.markets[0].outcomes[1].name,'',OddPrep(bookmaker.markets[0].outcomes[1].price)) : displayPrep(bookmaker.markets[0].outcomes[0].name,'',OddPrep(bookmaker.markets[0].outcomes[0].price))}
                     />
                     
                 ))}
@@ -97,7 +100,8 @@ const GameOverview = (game) => {
                     key={bookmaker.key}
                     bookmakerTitle={bookmaker.title}
                     bookmakerLink={bookmaker_links[bookmaker.key]}
-                    over_under={bookmaker.markets[0].outcomes[0].point}
+                    over={displayPrep(bookmaker.markets[0].outcomes[0].name, bookmaker.markets[0].outcomes[0].point, bookmaker.markets[0].outcomes[0].price)}
+                    under={displayPrep(bookmaker.markets[0].outcomes[1].name, bookmaker.markets[0].outcomes[1].point, bookmaker.markets[0].outcomes[1].price)}
                     />
                     
                 ))}
@@ -162,7 +166,12 @@ function isFirstTeamFavoredML(bookmaker){
     return bookmaker.markets[0].outcomes[0].price<=bookmaker.markets[0].outcomes[1].price;
 }
 
-function MLPrep(ml){
+function displayPrep(teamName, line, odds){
+    if(line) return teamName + ' ' + line + ' ( ' + odds + ' )';
+    else return teamName + ' ( ' + odds + ' )';
+}
+
+function OddPrep(ml){
     if(ml < 0){
         return '' + ml;
     }
