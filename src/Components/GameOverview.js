@@ -66,9 +66,12 @@ const GameOverview = (game) => {
                 {game.curScore?<p className="game-text">{game.curScore[1].score} - {game.curScore[0].score}</p>:<p><br></br></p>}
             </div>
             <div className="odds-button-outer">
-                <button className="odds-button" onClick={() => OddButtonClick(setShowSpread, showSpread, setShowH2H, setShowTotal)}>{showSpread===true?<p className="odds-button-text">Spread</p>:<p className="odds-button-text">Spread</p>}</button>
-                <button className="odds-button" onClick={() => OddButtonClick(setShowH2H, showH2H, setShowSpread, setShowTotal)}>{showH2H===true?<p className="odds-button-text">Moneyline</p>:<p className="odds-button-text">Moneyline</p>}</button>
-                <button className="odds-button" onClick={() => OddButtonClick(setShowTotal, showTotal, setShowH2H, setShowSpread)}>{showTotal===true?<p className="odds-button-text">Total</p>:<p className="odds-button-text">Total</p>}</button>
+                {showSpread===true?<button className="odds-button-selected" onClick={() => OddButtonClick(setShowSpread, showSpread, setShowH2H, setShowTotal)}><p className="odds-button-text">Spread</p></button>:
+                    <button className="odds-button" onClick={() => OddButtonClick(setShowSpread, showSpread, setShowH2H, setShowTotal)}><p className="odds-button-text">Spread</p></button>}
+                {showH2H===true?<button className="odds-button-selected" onClick={() => OddButtonClick(setShowH2H, showH2H, setShowSpread, setShowTotal)}><p className="odds-button-text">Moneyline</p></button>:
+                    <button className="odds-button" onClick={() => OddButtonClick(setShowH2H, showH2H, setShowSpread, setShowTotal)}><p className="odds-button-text">Moneyline</p></button>}
+                {showTotal===true?<button className="odds-button-selected" onClick={() => OddButtonClick(setShowTotal, showTotal, setShowH2H, setShowSpread)}><p className="odds-button-text">Total</p></button>:
+                    <button className="odds-button" onClick={() => OddButtonClick(setShowTotal, showTotal, setShowH2H, setShowSpread)}><p className="odds-button-text">Total</p></button>}
             </div>
             {showSpread===true?<div>
                 {spreadList.map((bookmaker, index) => (
