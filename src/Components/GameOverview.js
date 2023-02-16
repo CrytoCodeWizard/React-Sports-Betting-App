@@ -74,40 +74,50 @@ const GameOverview = (game) => {
                     <button className="odds-button" onClick={() => OddButtonClick(setShowTotal, showTotal, setShowH2H, setShowSpread)}><p className="odds-button-text">Total</p></button>}
             </div>
             {showSpread===true?<div>
-                {spreadList.map((bookmaker, index) => (
+                {spreadList.length > 0 ? spreadList.map((bookmaker, index) => (
                     <SpreadDisplay
                     key={bookmaker.key}
                     bookmakerTitle={bookmaker.title}
                     bookmakerLink={bookmaker_links[bookmaker.key]}
-                    favoredTeam={isFirstTeamFavoredOrEvenSpread(bookmaker)? displayPrep(bookmaker.markets[0].outcomes[0].name, OddPrep(bookmaker.markets[0].outcomes[0].point), OddPrep(bookmaker.markets[0].outcomes[0].price)) : displayPrep(bookmaker.markets[0].outcomes[1].name, OddPrep(bookmaker.markets[0].outcomes[1].point), OddPrep(bookmaker.markets[0].outcomes[1].price))}
-                    underdog={isFirstTeamFavoredOrEvenSpread(bookmaker)? displayPrep(bookmaker.markets[0].outcomes[1].name, OddPrep(bookmaker.markets[0].outcomes[1].point), OddPrep(bookmaker.markets[0].outcomes[1].price)) : displayPrep(bookmaker.markets[0].outcomes[0].name, OddPrep(bookmaker.markets[0].outcomes[0].point), OddPrep(bookmaker.markets[0].outcomes[0].price))}
+                    favoredTeamName={isFirstTeamFavoredOrEvenSpread(bookmaker)? bookmaker.markets[0].outcomes[0].name : bookmaker.markets[0].outcomes[1].name}
+                    favoredTeamLine={isFirstTeamFavoredOrEvenSpread(bookmaker)? OddPrep(bookmaker.markets[0].outcomes[0].point) : OddPrep(bookmaker.markets[0].outcomes[1].point)}
+                    favoredTeamOdds={isFirstTeamFavoredOrEvenSpread(bookmaker)? OddPrep(bookmaker.markets[0].outcomes[0].price) : OddPrep(bookmaker.markets[0].outcomes[1].price)}
+                    underdogTeamName={isFirstTeamFavoredOrEvenSpread(bookmaker)? bookmaker.markets[0].outcomes[1].name : bookmaker.markets[0].outcomes[0].name}
+                    underdogTeamLine={isFirstTeamFavoredOrEvenSpread(bookmaker)? OddPrep(bookmaker.markets[0].outcomes[1].point) : OddPrep(bookmaker.markets[0].outcomes[0].point)}
+                    underdogTeamOdds={isFirstTeamFavoredOrEvenSpread(bookmaker)? OddPrep(bookmaker.markets[0].outcomes[1].price) : OddPrep(bookmaker.markets[0].outcomes[0].price)}
                     />
                     
-                ))}
+                )): <div className="current-odds-block"><p>No odds available</p></div>}
             </div>:<></>}
             {showH2H===true?<div>
-                {moneyLineList.map((bookmaker, index) => (
+                {moneyLineList.length > 0 ? moneyLineList.map((bookmaker, index) => (
                     <H2HDisplay
                     key={bookmaker.key}
                     bookmakerTitle={bookmaker.title}
                     bookmakerLink={bookmaker_links[bookmaker.key]}
-                    favoredTeam={isFirstTeamFavoredML(bookmaker) ? displayPrep(bookmaker.markets[0].outcomes[0].name,'',OddPrep(bookmaker.markets[0].outcomes[0].price)) : displayPrep(bookmaker.markets[0].outcomes[1].name,'',OddPrep(bookmaker.markets[0].outcomes[1].price))}
-                    underdog={isFirstTeamFavoredML(bookmaker) ? displayPrep(bookmaker.markets[0].outcomes[1].name,'',OddPrep(bookmaker.markets[0].outcomes[1].price)) : displayPrep(bookmaker.markets[0].outcomes[0].name,'',OddPrep(bookmaker.markets[0].outcomes[0].price))}
+                    favoredTeamName={isFirstTeamFavoredML(bookmaker) ? bookmaker.markets[0].outcomes[0].name : bookmaker.markets[0].outcomes[1].name}
+                    favoredTeamOdds={isFirstTeamFavoredML(bookmaker) ? OddPrep(bookmaker.markets[0].outcomes[0].price) : OddPrep(bookmaker.markets[0].outcomes[1].price)}
+                    underdogTeamName={isFirstTeamFavoredML(bookmaker) ? bookmaker.markets[0].outcomes[1].name : bookmaker.markets[0].outcomes[0].name}
+                    underdogTeamOdds={isFirstTeamFavoredML(bookmaker) ? OddPrep(bookmaker.markets[0].outcomes[1].price) : OddPrep(bookmaker.markets[0].outcomes[0].price)}
                     />
                     
-                ))}
+                )) : <div className="current-odds-block"><p>No odds available</p></div>}
             </div>:<></>}
             {showTotal===true?<div>
-                {totalsList.map((bookmaker, index) => (
+                {totalsList.length > 0 ? totalsList.map((bookmaker, index) => (
                     <TotalsDisplay
                     key={bookmaker.key}
                     bookmakerTitle={bookmaker.title}
                     bookmakerLink={bookmaker_links[bookmaker.key]}
-                    over={displayPrep(bookmaker.markets[0].outcomes[0].name, bookmaker.markets[0].outcomes[0].point, bookmaker.markets[0].outcomes[0].price)}
-                    under={displayPrep(bookmaker.markets[0].outcomes[1].name, bookmaker.markets[0].outcomes[1].point, bookmaker.markets[0].outcomes[1].price)}
+                    overLabel={bookmaker.markets[0].outcomes[0].name}
+                    overLine={bookmaker.markets[0].outcomes[0].point}
+                    overOdds={bookmaker.markets[0].outcomes[0].price}
+                    underLabel={bookmaker.markets[0].outcomes[1].name}
+                    underLine={bookmaker.markets[0].outcomes[1].point}
+                    underOdds={bookmaker.markets[0].outcomes[1].price}
                     />
                     
-                ))}
+                )) : <div className="current-odds-block"><p>No odds available</p></div>}
             </div>:<></>}
             
         </div>
@@ -169,17 +179,12 @@ function isFirstTeamFavoredML(bookmaker){
     return bookmaker.markets[0].outcomes[0].price<=bookmaker.markets[0].outcomes[1].price;
 }
 
-function displayPrep(teamName, line, odds){
-    if(line) return teamName + ' ' + line + ' ( ' + odds + ' )';
-    else return teamName + ' ( ' + odds + ' )';
-}
-
-function OddPrep(ml){
-    if(ml < 0){
-        return '' + ml;
+function OddPrep(val){
+    if(val < 0){
+        return '' + val;
     }
     else{
-        return '+' + ml;
+        return '+' + val;
     }
 }
 
