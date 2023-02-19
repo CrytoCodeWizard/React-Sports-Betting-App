@@ -50,7 +50,7 @@ function App() {
       <div className="app-container">
         <div className="game-container">
           <div className="all-container">
-            {games.map((game) => (
+            {games.length > 0 ? games.map((game) => (
               game.bookmakers?
               <GameOverview
                 key={game.id}
@@ -61,7 +61,7 @@ function App() {
                 sportName={game.sport_title}
                 curScore={game.scores}
               />:<></>
-            ))}
+            )): <p className="no-upcoming-message">No Upcoming Games</p>}
           </div>
         </div>
       </div>

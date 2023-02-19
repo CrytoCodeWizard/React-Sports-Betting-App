@@ -106,6 +106,15 @@ html
   border-radius: 0.938rem;
 }
 
+.no-upcoming-message{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10rem;
+  font-size: 2rem;
+  text-shadow: 0 0 1rem #4a4343;
+}
+
 .odds-button {
   appearance: none;
   background-color: transparent;
