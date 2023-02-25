@@ -43,6 +43,34 @@ a:visited {
   100% { text-shadow: 0rem 0 0.938rem red; }
 }
 
+
+.bookmaker-container {
+  width: 100%;
+}
+
+.bookmaker-container::before {
+  content: '\A';
+  white-space: pre;
+}
+
+.bookmaker-child-name {
+  width: 30%;
+  float: left;
+  text-align: right;
+  top: 50%;
+  transform: translateY(50%);
+}  
+
+.bookmaker-child-content {
+  width: 70%;
+  float: left;
+  text-align: center;
+}  
+
+.bookmakers-container{
+  width: 95%;
+}
+
 .column-image {
   width: 14rem;
   height: 14rem;
@@ -54,10 +82,6 @@ a:visited {
   justify-content: space-between;
 }
 
-.current-odds-block::before {
-  content: '\A';
-  white-space: pre;
-}
 
 .game-container {
   display: flex;
@@ -69,6 +93,12 @@ a:visited {
 .game-text {
   font-family: monospace;
   font-size: 1rem;
+}
+
+hr {
+  width: 100%;
+  height: 1rem;
+  transform: translateY(150%);
 }
 
 html
@@ -140,6 +170,7 @@ html
   -webkit-user-select: none;
   touch-action: manipulation;
   will-change: transform;
+  width: 30%;
 }
 
 .odds-button:hover {
@@ -152,6 +183,7 @@ html
 .odds-button-outer {
   display: flex;
   justify-content: space-between;
+  width: 70%;
 }
 
 .odds-button-selected {
@@ -179,6 +211,7 @@ html
   -webkit-user-select: none;
   touch-action: manipulation;
   will-change: transform;
+  width: 30%;
 }
 
 .odds-button-selected:hover {

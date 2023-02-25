@@ -73,7 +73,7 @@ const GameOverview = (game) => {
                 {showTotal===true?<button className="odds-button-selected" onClick={() => OddButtonClick(setShowTotal, showTotal, setShowH2H, setShowSpread)}><p className="odds-button-text">Total</p></button>:
                     <button className="odds-button" onClick={() => OddButtonClick(setShowTotal, showTotal, setShowH2H, setShowSpread)}><p className="odds-button-text">Total</p></button>}
             </div>
-            {showSpread===true?<div>
+            {showSpread===true?<div className="bookmakers-container">
                 {spreadList.length > 0 ? spreadList.map((bookmaker, index) => (
                     <SpreadDisplay
                     key={bookmaker.key}
@@ -87,9 +87,9 @@ const GameOverview = (game) => {
                     underdogTeamOdds={isFirstTeamFavoredOrEvenSpread(bookmaker)? OddPrep(bookmaker.markets[0].outcomes[1].price) : OddPrep(bookmaker.markets[0].outcomes[0].price)}
                     />
                     
-                )): <div className="current-odds-block"><p>No odds available</p></div>}
+                )): <div className="bookmaker-container"><p>No odds available</p></div>}
             </div>:<></>}
-            {showH2H===true?<div>
+            {showH2H===true?<div className="bookmakers-container">
                 {moneyLineList.length > 0 ? moneyLineList.map((bookmaker, index) => (
                     <H2HDisplay
                     key={bookmaker.key}
@@ -101,9 +101,9 @@ const GameOverview = (game) => {
                     underdogTeamOdds={isFirstTeamFavoredML(bookmaker) ? OddPrep(bookmaker.markets[0].outcomes[1].price) : OddPrep(bookmaker.markets[0].outcomes[0].price)}
                     />
                     
-                )) : <div className="current-odds-block"><p>No odds available</p></div>}
+                )) : <div className="bookmaker-container"><p>No odds available</p></div>}
             </div>:<></>}
-            {showTotal===true?<div>
+            {showTotal===true?<div className="bookmakers-container">
                 {totalsList.length > 0 ? totalsList.map((bookmaker, index) => (
                     <TotalsDisplay
                     key={bookmaker.key}
@@ -117,7 +117,7 @@ const GameOverview = (game) => {
                     underOdds={bookmaker.markets[0].outcomes[1].price}
                     />
                     
-                )) : <div className="current-odds-block"><p>No odds available</p></div>}
+                )) : <div className="bookmaker-container"><p>No odds available</p></div>}
             </div>:<></>}
             
         </div>
