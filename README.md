@@ -1,4 +1,4 @@
-# Upcoming/Live Sports Odds App
+# Live Sports Odds App
 
 React App (Javascript, HTML, CSS) that allows the user to view various upcoming/live professional sports games and the live betting odds from established bookmakers (DraftKings, Fanduel, William Hill, etc) in the US, filtered by states they operate in. The purpose of the app is for the user to monitor the live odds of a match they're interested in to possibly place a wager with a bookmaker that's offering favorable odds (as long as that bookmaker is legally operating in their state/country). Currently supports NFL & NBA games.
 
