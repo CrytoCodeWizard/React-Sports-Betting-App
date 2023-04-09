@@ -2,11 +2,14 @@ import React, { useState } from 'react'
 import SpreadDisplay from "./SpreadDisplay";
 import H2HDisplay from "./H2HDisplay";
 import TotalsDisplay from "./TotalsDisplay";
+import PlayerPropDisplay from "./PlayerPropDisplay";
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 const GameOverview = (game) => {
     const [showSpread,setShowSpread] = useState(false);
     const [showH2H,setShowH2H] = useState(false);
     const [showTotal,setShowTotal] = useState(false);
+    const [showPlayerProps, setShowPlayerProps] = useState(false);
     const today = new Date();
     const gameStart = new Date(game.startTime);
     const stringifiedGameStart = gameStart.toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'});
@@ -21,8 +24,6 @@ const GameOverview = (game) => {
             else if(market.key === 'totals'){totalsList.push(manipJSON(bookmaker, market));}
         }
     }
-    
-    console.log(totalsList);
 
 
     const bookmaker_links={ 
@@ -57,8 +58,8 @@ const GameOverview = (game) => {
     return (
         <div className="thumb-container">
             <div className="column-images">
-                <img className="column-image" src={"./" + game.sportName + "TeamImages/" + game.awayTeam + ".jpg"} alt={game.awayTeam} />
-                <img className="column-image" src={"./" + game.sportName + "TeamImages/" + game.homeTeam + ".jpg"} alt={game.homeTeam} />
+                <img className="column-image" src={"./" + game.sport + "_TeamImages/" + game.awayTeam + ".jpg"} alt={game.awayTeam} />
+                <img className="column-image" src={"./" + game.sport + "_TeamImages/" + game.homeTeam + ".jpg"} alt={game.homeTeam} />
             </div>
             <p className="game-text">{game.awayTeam} @ {game.homeTeam}</p>
             {today>=gameStart?<p className="live"><b>LIVE</b></p>:<p className="game-text">{stringifiedGameStart}</p>}
@@ -66,12 +67,16 @@ const GameOverview = (game) => {
                 {game.curScore?<p className="game-text">{game.curScore[1].score} - {game.curScore[0].score}</p>:<p><br></br></p>}
             </div>
             <div className="odds-button-outer">
-                {showSpread===true?<button className="odds-button-selected" onClick={() => OddButtonClick(setShowSpread, showSpread, setShowH2H, setShowTotal)}><p className="odds-button-text">Spread</p></button>:
-                    <button className="odds-button" onClick={() => OddButtonClick(setShowSpread, showSpread, setShowH2H, setShowTotal)}><p className="odds-button-text">Spread</p></button>}
-                {showH2H===true?<button className="odds-button-selected" onClick={() => OddButtonClick(setShowH2H, showH2H, setShowSpread, setShowTotal)}><p className="odds-button-text">Moneyline</p></button>:
-                    <button className="odds-button" onClick={() => OddButtonClick(setShowH2H, showH2H, setShowSpread, setShowTotal)}><p className="odds-button-text">Moneyline</p></button>}
-                {showTotal===true?<button className="odds-button-selected" onClick={() => OddButtonClick(setShowTotal, showTotal, setShowH2H, setShowSpread)}><p className="odds-button-text">Total</p></button>:
-                    <button className="odds-button" onClick={() => OddButtonClick(setShowTotal, showTotal, setShowH2H, setShowSpread)}><p className="odds-button-text">Total</p></button>}
+                <ButtonGroup size="lg" className="mb-2">
+                    {showSpread===true?<button className="odds-button-selected" onClick={() => OddButtonClick(setShowSpread, showSpread, setShowH2H, setShowTotal, setShowPlayerProps)}><p className="odds-button-text">Spread</p></button>:
+                        <button className="odds-button" onClick={() => OddButtonClick(setShowSpread, showSpread, setShowH2H, setShowTotal, setShowPlayerProps)}><p className="odds-button-text">Spread</p></button>}
+                    {showH2H===true?<button className="odds-button-selected" onClick={() => OddButtonClick(setShowH2H, showH2H, setShowSpread, setShowTotal, setShowPlayerProps)}><p className="odds-button-text">Moneyline</p></button>:
+                        <button className="odds-button" onClick={() => OddButtonClick(setShowH2H, showH2H, setShowSpread, setShowTotal, setShowPlayerProps)}><p className="odds-button-text">Moneyline</p></button>}
+                    {showTotal===true?<button className="odds-button-selected" onClick={() => OddButtonClick(setShowTotal, showTotal, setShowH2H, setShowSpread, setShowPlayerProps)}><p className="odds-button-text">Total</p></button>:
+                        <button className="odds-button" onClick={() => OddButtonClick(setShowTotal, showTotal, setShowH2H, setShowSpread, setShowPlayerProps)}><p className="odds-button-text">Total</p></button>}
+                    {showPlayerProps===true?<button className="odds-button-selected" onClick={() => OddButtonClick(setShowPlayerProps, showPlayerProps, setShowH2H, setShowSpread, setShowTotal)}><p className="odds-button-text">Player Props</p></button>:
+                        <button className="odds-button" onClick={() => OddButtonClick(setShowPlayerProps, showPlayerProps, setShowH2H, setShowSpread, setShowTotal)}><p className="odds-button-text">Player Props</p></button>}
+                </ButtonGroup>
             </div>
             {showSpread===true?<div className="bookmakers-container">
                 {spreadList.length > 0 ? spreadList.map((bookmaker, index) => (
@@ -119,15 +124,24 @@ const GameOverview = (game) => {
                     
                 )) : <div className="bookmaker-container"><p>No odds available</p></div>}
             </div>:<></>}
+            {showPlayerProps===true?<div className="bookmakers-container">
+                <PlayerPropDisplay
+                    game_id={game.game_id}
+                    sport={game.sport}
+                    bookies={game.bookie_list}
+                ></PlayerPropDisplay>
+                </div>:<></>
+            }
             
         </div>
     )
 }
 
-function OddButtonClick(setButtonClicked, buttonClickedStatus, setToFalseA, setToFalseB){
+function OddButtonClick(setButtonClicked, buttonClickedStatus, ...setToFalse){
     setButtonClicked(!buttonClickedStatus);
-    setToFalseA(false);
-    setToFalseB(false);
+    for(const func of setToFalse){
+        func(false);
+    }
 }
 
 function manipJSON(bookmaker, market){

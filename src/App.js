@@ -40,10 +40,14 @@ function App() {
     <div>
       <div className="title-heading">Shop the Line</div>
         <nav className="navbar navbar-light navbar-custom justify-content-center">    
-          {sport === 'americanfootball_nfl'?<button className="active navbar-text-custom nav-button-selected" onClick={() => setSport('americanfootball_nfl')}>NFL</button>:
+          {sport === 'americanfootball_nfl'?<button className="active navbar-text-custom nav-button-selected">NFL</button>:
           <button className="active navbar-text-custom nav-button" onClick={() => setSport('americanfootball_nfl')}>NFL</button>}
-          {sport === 'basketball_nba'?<button className="active navbar-text-custom nav-button-selected" onClick={() => setSport('basketball_nba')}>NBA</button>:
+          {sport === 'basketball_nba'?<button className="active navbar-text-custom nav-button-selected">NBA</button>:
           <button className="active navbar-text-custom nav-button" onClick={() => setSport('basketball_nba')}>NBA</button>}
+          {sport === 'baseball_mlb'?<button className="active navbar-text-custom nav-button-selected">MLB</button>:
+          <button className="active navbar-text-custom nav-button" onClick={() => setSport('baseball_mlb')}>MLB</button>}
+          {sport === 'icehockey_nhl'?<button className="active navbar-text-custom nav-button-selected">NHL</button>:
+          <button className="active navbar-text-custom nav-button" onClick={() => setSport('icehockey_nhl')}>NHL</button>}
         </nav>
         <div className="state-dropdown"><Select options={state_bookmakers} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
                                                                                       })} defaultValue={state_bookmakers[window.localStorage.getItem('usState')] || ""} onChange={(values) => stateSelect(values)} /></div>
@@ -54,11 +58,13 @@ function App() {
               game.bookmakers?
               <GameOverview
                 key={game.id}
+                game_id={game.id}
+                bookie_list={bookies}
                 homeTeam={game.home_team}
                 awayTeam={game.away_team}
                 bookmakers={bookies.size > 0?game.bookmakers.filter((bk) => bookies.has(bk.key)):game.bookmakers}
                 startTime={game.commence_time}
-                sportName={game.sport_title}
+                sport={game.sport_key}
                 curScore={game.scores}
               />:<></>
             )): <p className="no-upcoming-message">No Upcoming Games</p>}

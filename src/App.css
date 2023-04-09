@@ -124,6 +124,7 @@ html
 .navbar-text-custom {
   font-family: monospace;
   border: none;
+  margin-right: .9rem;
 }
 
 .nav-button:hover {
