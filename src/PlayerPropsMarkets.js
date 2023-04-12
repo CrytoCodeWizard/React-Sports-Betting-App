@@ -16,3 +16,57 @@ export const player_prop_markets = [
       label: "icehockey_nhl"
     }
 ]
+
+export const player_prop_choices = {
+  //football
+  "player_pass_tds":"Pass Touchdowns",
+  "player_pass_yds":"Pass Yards",
+  "player_pass_completions":"Pass Completions",
+  "player_pass_attempts":"Pass Attempts",
+  "player_pass_interceptions":"Pass Interceptions",
+  "player_pass_longest_completion":"Pass Longest Completion",
+  "player_rush_yds":"Rush Yards",
+  "player_rush_attempts":"Rush Attempts",
+  "player_rush_longest":"Longest Rush",
+  "player_receptions":"Receptions",
+  "player_reception_yds":"Reception Yards",
+  "player_reception_longest":"Longest Reception",
+  //basketball
+  "player_points":"Points", //also covers hockey
+  "player_rebounds":"Rebounds",
+  "player_assists":"Assists", //also covers hockey
+  "player_threes":"Threes",
+  "player_double_double":"Double Double",
+  "player_blocks":"Blocks",
+  "player_steals":"Steals",
+  "player_turnovers":"Turnovers",
+  "player_points_rebounds_assists":"Points + Rebounds + Assists",
+  "player_points_rebounds":"Points + Rebounds",
+  "player_points_assists":"Points + Assists",
+  "player_rebounds_assists":"Rebounds + Assists",
+  //baseball
+  "batter_home_runs":"Batter Home Runs",
+  "batter_hits":"Batter Hits",
+  "batter_total_bases":"Batter Total Bases",
+  "batter_rbis":"Batter RBIs",
+  "batter_runs_scored":"Batter Runs Scored",
+  "batter_hits_runs_rbis":"Batter Hits + Runs + RBIs",
+  "batter_singles":"Batter Singles",
+  "batter_doubles":"Batter Doubles",
+  "batter_triples":"Batter Triples",
+  "batter_walks":"Batter Walks",
+  "batter_strikeouts":"Batter Strikeouts",
+  "batter_stolen_bases":"Batter Stolen Bases",
+  "pitcher_strikeouts":"Pitcher Strikeouts",
+  "pitcher_record_a_win":"Pitcher to Record a Win",
+  "pitcher_hits_allowed":"Pitcher Hits Allowed",
+  "pitcher_walks":"Pitcher Walks",
+  "pitcher_earned_runs":"Pitcher Earned Runs",
+  "pitcher_outs":"Pitcher Outs",
+  //hockey
+  "player_power_play_points":"Power Play Points",
+  "player_blocked_shots":"Blocked Shots",
+  "player_shots_on_goal":"Shots on Goal"
+}
+
+

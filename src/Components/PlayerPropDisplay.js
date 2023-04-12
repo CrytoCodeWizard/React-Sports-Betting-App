@@ -1,10 +1,12 @@
 import React,{ useEffect, useState } from "react";
-import { player_prop_markets } from "./../PlayerPropsMarkets.js";
+import { player_prop_markets, player_prop_choices } from "./../PlayerPropsMarkets.js";
+import Select from "react-select";
 
 const PlayerPropDisplay = (event) => {
 
     const [data, setData] = useState([]);
-
+    const propChoices = [];
+    const [playerChoices, setPlayerChoices] = useState([]);
     const specMarketsForSport = player_prop_markets.filter(sport => sport["label"] === event.sport)[0]["markets"];
 
     /*
@@ -39,6 +41,7 @@ const PlayerPropDisplay = (event) => {
                 for(const market of bookmaker.markets){
                     let categoryIndex;
                     if(!individual_props.find(ip => ip.prop === market.key)){
+                        propChoices.push({value:market.key,label:player_prop_choices[market.key]});
                         categoryIndex = individual_props.push({prop:market.key,players:[]}) - 1;
 
                     }else{
@@ -79,18 +82,27 @@ const PlayerPropDisplay = (event) => {
         }
         
         
-        //console.log("GAME DATA: ", data.bookmakers[0]);
+       
 
     }
+
+    function propSelect(values){
+        let ind = individual_props.map(ip => ip.prop).indexOf(values.value);
+        let choices = [];
+        for(const players of individual_props[ind].players){
+            choices.push({value:players.player,label:players.player})
+        }
+        setPlayerChoices(choices);
+    }
     
-   
-    console.log(individual_props);
-
-   
-
-
     return (
         <div>
+            <div className="state-dropdown">
+                <Select options={propChoices} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
+                                                                                        })} defaultValue={""} onChange={(values) => propSelect(values)} />
+                <Select options={playerChoices} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
+                                                                                        })} defaultValue={""} onChange={""} />
+            </div>
             {event.game_id} : {event.sport}
         </div>
         
