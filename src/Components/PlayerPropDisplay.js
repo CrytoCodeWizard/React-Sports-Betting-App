@@ -7,6 +7,8 @@ const PlayerPropDisplay = (event) => {
     const [data, setData] = useState([]);
     const propChoices = [];
     const [playerChoices, setPlayerChoices] = useState([]);
+    const [player, setPlayer] = useState("");
+    const [prop, setProp] = useState("");
     const specMarketsForSport = player_prop_markets.filter(sport => sport["label"] === event.sport)[0]["markets"];
 
     /*
@@ -87,6 +89,8 @@ const PlayerPropDisplay = (event) => {
     }
 
     function propSelect(values){
+        setPlayer("");
+        setProp(values.value);
         let ind = individual_props.map(ip => ip.prop).indexOf(values.value);
         let choices = [];
         for(const players of individual_props[ind].players){
@@ -94,16 +98,16 @@ const PlayerPropDisplay = (event) => {
         }
         setPlayerChoices(choices);
     }
-    
+
     return (
         <div>
             <div className="state-dropdown">
                 <Select options={propChoices} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
                                                                                         })} defaultValue={""} onChange={(values) => propSelect(values)} />
-                <Select options={playerChoices} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
-                                                                                        })} defaultValue={""} onChange={""} />
+                <Select key={`my_unique_select_key__${prop}`} options={playerChoices} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
+                                                                                        })} defaultValue={""} onChange={(p) => setPlayer(p.value)} />
             </div>
-            {event.game_id} : {event.sport}
+            {prop} : {player}
         </div>
         
     )
