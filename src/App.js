@@ -22,7 +22,7 @@ function App() {
     })
         .then((response) => response.json())))
         .then(([odds, scores]) => {
-          var res = scores.map(x => Object.assign(x, odds.find(y => y.id === x.id)));
+          let res = scores.map(x => Object.assign(x, odds.find(y => y.id === x.id)));
           setGames(res);
         })
         .catch((err) => {

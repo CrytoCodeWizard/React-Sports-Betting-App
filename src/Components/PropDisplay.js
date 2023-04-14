@@ -1,6 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-const SpreadDisplay = (bookmaker) => {
+const PropDisplay = (bookmaker) => {
+
     return (
         <div>
             <div className="bookmaker-container">
@@ -8,15 +9,15 @@ const SpreadDisplay = (bookmaker) => {
                     <a href={bookmaker.bookmakerLink} target="_blank" rel="noopener noreferrer">{bookmaker.bookmakerTitle}:</a>
                 </div>
                 <div className="bookmaker-child-content">
-                    {bookmaker.favoredTeamName} {bookmaker.favoredTeamLine} ({bookmaker.favoredTeamOdds})<br />
-                    {bookmaker.underdogTeamName} {bookmaker.underdogTeamLine} ({bookmaker.underdogTeamOdds})
+                    {bookmaker.descriptOfPriceALabel} {bookmaker.aPoint} ({bookmaker.aPrice})<br />
+                    {bookmaker.descriptOfPriceBLabel} {bookmaker.bPoint} ({bookmaker.bPrice})
                 </div>
             </div>
             <hr/>
         </div>
-        
+
     )
     
 }
 
-export default SpreadDisplay
+export default PropDisplay

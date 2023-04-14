@@ -115,3 +115,28 @@ export const state_bookmakers = [
       label: "Wyoming"
     }
 ]
+
+export const bookmaker_links={ 
+  "barstool":"https://www.barstoolsportsbook.com/",
+  "betonlineag":"https://www.betonline.ag/",
+  "betfair":"https://www.betfair.com/",
+  "betmgm":"https://sports.ny.betmgm.com/en/sports",
+  "betrivers":"https://betrivers.com/?page=landing#home",
+  "betus":"https://www.betus.com.pa/sportsbook/",
+  "bovada":"https://www.bovada.lv/",
+  "circasports":"https://co.circasports.com/sports",
+  "draftkings":"https://www.draftkings.com/",
+  "fanduel":"https://sportsbook.fanduel.com/",
+  "foxbet":"https://www.foxbet.com/",
+  "gtbets":"https://www.gtbets.ag/",
+  "intertops":"https://sports.everygame.eu/",
+  "lowvig":"https://sportsbook.lowvig.ag/",
+  "mybookieag":"https://www.mybookie.ag/sportsbook/",
+  "pointsbetus":"https://pointsbet.com/",
+  "sugarhouse":"https://www.playsugarhouse.com/",
+  "superbook":"https://co.superbook.com/sports",
+  "twinspires":"https://www.twinspires.com/",
+  "unibet_us":"https://unibet.com/",
+  "williamhill_us":"https://www.williamhill.com/us/",
+  "wynnbet":"https://www.wynnbet.com/"
+}
