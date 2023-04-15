@@ -52,18 +52,21 @@ const PlayerPropDisplay = (event) => {
 
                         if(!individual_props.get(market.key).get(player_line.description).has(bookmaker.key)){
                             if(player_line.name === 'Over' || player_line.name === 'Yes'){
-                                individual_props.get(market.key).get(player_line.description).set(bookmaker.key, {overOrYes: player_line.name, underOrNo:'', title: bookmaker.title, point: player_line.point, overPrice: player_line.price, underPrice: ''});
+                                individual_props.get(market.key).get(player_line.description).set(bookmaker.key, {labelA: player_line.name, labelB:'', title: bookmaker.title, pointA: player_line.point, pointB:'', priceA: player_line.price, priceB: ''});
                             }else{
-                                individual_props.get(market.key).get(player_line.description).set(bookmaker.key, {underOrNo: player_line.name, overOrYes:'', title: bookmaker.title, point: player_line.point, overPrice: '', underPrice: player_line.price});
+                                individual_props.get(market.key).get(player_line.description).set(bookmaker.key, {labelB: player_line.name, labelA:'', title: bookmaker.title, pointA:'', pointB:player_line.point, priceA: '', priceB: player_line.price});
                             }
                         }
                         else{
+                            let line = individual_props.get(market.key).get(player_line.description).get(bookmaker.key);
                             if(player_line.name === 'Over' || player_line.name === 'Yes'){
-                                individual_props.get(market.key).get(player_line.description).get(bookmaker.key).overPrice = player_line.price;
-                                individual_props.get(market.key).get(player_line.description).get(bookmaker.key).overOrYes = player_line.name;
+                                line.priceA = player_line.price;
+                                line.labelA = player_line.name;
+                                line.pointA = player_line.point;
                             }else{
-                                individual_props.get(market.key).get(player_line.description).get(bookmaker.key).underPrice = player_line.price;
-                                individual_props.get(market.key).get(player_line.description).get(bookmaker.key).underOrNo = player_line.name;
+                                line.priceB = player_line.price;
+                                line.labelB = player_line.name;
+                                line.pointB = player_line.point;
                             }
                         }
                     }
@@ -72,8 +75,6 @@ const PlayerPropDisplay = (event) => {
                 }
             }
         }
-        console.log(prop);
-        console.log(player);
 
         if(!individual_props.has(prop.value)){
             setProp("");
@@ -104,12 +105,12 @@ const PlayerPropDisplay = (event) => {
                         bookmaker={bookmaker.bookmaker}
                         bookmakerLink={bookmaker_links[bookmaker.bookmaker]}
                         bookmakerTitle={bookmaker.line.title}
-                        descriptOfPriceALabel={bookmaker.line.overOrYes}
-                        aPrice={bookmaker.line.overPrice > 0 ? '+' + bookmaker.line.overPrice : bookmaker.line.overPrice}
-                        aPoint={bookmaker.line.point}
-                        descriptOfPriceBLabel={bookmaker.line.underOrNo}
-                        bPrice={bookmaker.line.underPrice > 0 ? '+' + bookmaker.line.underPrice : bookmaker.line.underPrice}
-                        bPoint={bookmaker.line.point}
+                        descriptOfPriceALabel={bookmaker.line.labelA}
+                        aPrice={bookmaker.line.priceA > 0 ? '+' + bookmaker.line.priceA : bookmaker.line.priceA}
+                        aPoint={bookmaker.line.pointA}
+                        descriptOfPriceBLabel={bookmaker.line.labelB}
+                        bPrice={bookmaker.line.priceB > 0 ? '+' + bookmaker.line.priceB : bookmaker.line.priceB}
+                        bPoint={bookmaker.line.pointB}
                     
                     />
                 ))}</div>:<></>}
@@ -119,13 +120,15 @@ const PlayerPropDisplay = (event) => {
     )
 
     function propSelect(value){
-        setPlayer("");
-        setProp(value);
-        let choices = [];
-        for(const key of individualProps.get(value.value).keys()){
-            choices.push({value:key,label:key});
+        if(value !== prop){
+            setPlayer("");
+            setProp(value);
+            let choices = [];
+            for(const key of individualProps.get(value.value).keys()){
+                choices.push({value:key,label:key});
+            }
+            setPlayerChoices(choices.sort(propSort));
         }
-        setPlayerChoices(choices.sort(propSort));
         
     }
     
@@ -137,12 +140,12 @@ function propSort(a, b){
 }
 
 function compareBookies(a,b){
-    let aPoint = a.line.point, bPoint = b.line.point;
+    let aPoint = Math.abs(a.line.pointA) + Math.abs(a.line.pointB), bPoint = Math.abs(b.line.pointA) + Math.abs(b.line.pointB);
     if(aPoint < bPoint){
         return -1;
     }
     else if(aPoint === bPoint){
-        let aPrice = Math.abs(a.line.overPrice - a.line.underPrice), bPrice = Math.abs(b.line.overPrice - b.line.underPrice);
+        let aPrice = Math.abs(a.line.priceA - a.line.priceB), bPrice = Math.abs(b.line.priceA - b.line.priceB);
         if(aPrice < bPrice){
             return -1;
         }
