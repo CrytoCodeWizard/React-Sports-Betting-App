@@ -56,7 +56,7 @@ const TeamPropDisplay = (game) => {
                     })} defaultValue={''} onChange={(choice) => propSelect(choice)} value={prop || ''}/>
             </div>
             <div>
-                {data.has(prop.value)?<div className="bookmakers-container">
+                {data.has(prop.value) && data.get(prop.value).size > 0?<div className="bookmakers-container">
                 {Array.from(data.get(prop.value), ([bookmaker, line]) => ({ bookmaker, line })).sort(compareBookies).map((bookmaker, index) => (
                     <PropDisplay
                         key={bookmaker.bookmaker}
@@ -71,7 +71,7 @@ const TeamPropDisplay = (game) => {
                         bPoint={bookmaker.line.pointB}
                     
                     />
-                ))}</div>:<></>}
+                ))}</div>:<p>No odds available</p>}
             </div>
 
             

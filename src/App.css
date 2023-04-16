@@ -150,7 +150,7 @@ html
   appearance: none;
   background-color: transparent;
   border: 0.063rem solid #1A1A1A;
-  border-radius: 2rem;
+  border-radius: 0.5rem;
   box-sizing: border-box;
   color: #3B3B3B;
   cursor: pointer;
@@ -183,7 +183,7 @@ html
 
 .odds-button-outer {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   width: 70%;
 }
 
@@ -191,7 +191,7 @@ html
   appearance: none;
   background-color: #1A1A1A;
   border: 0.063rem solid #1A1A1A;
-  border-radius: 2rem;
+  border-radius: 0.5rem;
   box-sizing: border-box;
   color: #fff;
   cursor: pointer;
