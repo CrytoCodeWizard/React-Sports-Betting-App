@@ -134,10 +134,16 @@ const PlayerPropDisplay = (event) => {
             setProp(choice);
             window.localStorage.setItem('player_prop_' + event.game_id, choice.value);
             let choices = [];
+            let foundPlayer = false;
             for(const key of individualProps.get(choice.value).keys()){
+                console.log("key ", key);
+                console.log("plauer ", player);
+                if(key === player.value){
+                    foundPlayer = true;
+                }
                 choices.push({value:key,label:key});
             }
-            setPlayer(choices[0]);
+            if(!foundPlayer) setPlayer(choices[0]);
             window.localStorage.setItem('player_prop_player_' + event.game_id, choices[0].value);
             setPlayerChoices(choices.sort(propSort));
         }

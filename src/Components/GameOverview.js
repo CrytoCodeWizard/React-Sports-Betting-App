@@ -13,7 +13,7 @@ const GameOverview = (game) => {
         <div className="thumb-container">
             <div className="column-images">
                 <img className="column-image" src={"./" + game.sport + "_TeamImages/" + game.awayTeam + ".jpg"} alt={game.awayTeam} />
-                <img className="column-image" src={"./" + game.sport + "_TeamImages/" + game.homeTeam + ".jpg"} alt={game.homeTeam} />
+                <img className="column-image column-image-home" src={"./" + game.sport + "_TeamImages/" + game.homeTeam + ".jpg"} alt={game.homeTeam} />
             </div>
             <p className="game-text">{game.awayTeam} @ {game.homeTeam}</p>
             {today>=gameStart?<p className="live"><b>LIVE</b></p>:<p className="game-text">{stringifiedGameStart}</p>}

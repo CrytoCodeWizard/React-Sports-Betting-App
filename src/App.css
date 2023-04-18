@@ -73,7 +73,11 @@ a:visited {
 
 .column-image {
   width: 14rem;
-  height: 14rem;
+  height: 10rem;
+}
+
+.column-image-home {
+  transform: rotateY(180deg);
 }
 
 .column-images {
