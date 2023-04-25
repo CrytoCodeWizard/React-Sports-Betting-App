@@ -1,19 +1,21 @@
 import React, { useState } from 'react'
 import PlayerPropDisplay from "./PlayerPropDisplay";
 import TeamPropDisplay from './TeamPropDisplay';
+import Hawks from './../Images/basketball_nba_TeamImages/Atlanta Hawks.jpg';
 
 const GameOverview = (game) => {
     const [showTeamProps,setShowTeamProps] = useState(false);
     const [showPlayerProps, setShowPlayerProps] = useState(false);
     const today = new Date();
     const gameStart = new Date(game.startTime);
+    const images = importAll(require.context('./../Images/', true, /\.(png|jpe?g|svg)$/));
     const stringifiedGameStart = gameStart.toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'});
 
     return (
         <div className="thumb-container">
             <div className="column-images">
-                <img className="column-image" src={"./" + game.sport + "_TeamImages/" + game.awayTeam + ".jpg"} alt={game.awayTeam} />
-                <img className="column-image column-image-home" src={"./" + game.sport + "_TeamImages/" + game.homeTeam + ".jpg"} alt={game.homeTeam} />
+                <img className="column-image" src={images[game.sport + "_TeamImages/" + game.awayTeam + ".jpg"]} alt={game.awayTeam} />
+                <img className="column-image column-image-home" src={images[game.sport + "_TeamImages/" + game.homeTeam + ".jpg"]} alt={game.homeTeam} />
             </div>
             <p className="game-text">{game.awayTeam} @ {game.homeTeam}</p>
             {today>=gameStart?<p className="live"><b>LIVE</b></p>:<p className="game-text">{stringifiedGameStart}</p>}
@@ -50,6 +52,12 @@ const GameOverview = (game) => {
             
         </div>
     )
+}
+
+function importAll(r) {
+    let images = {};
+    r.keys().map(item => { images[item.replace('./', '')] = r(item); });
+    return images;
 }
 
 function OddButtonClick(setButtonClicked, buttonClickedStatus, ...setToFalse){

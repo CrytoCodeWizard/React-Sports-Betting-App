@@ -6,6 +6,7 @@ import { bookmaker_links } from "../Bookmakers.js";
 import football_data from './../SampleData/americanfootball_nfl_player_props.json';
 import basketball_data from './../SampleData/basketball_nba_player_props.json';
 import baseball_data from './../SampleData/baseball_mlb_player_props.json';
+import hockey_data from './../SampleData/hockey_nhl_player_props.json';
 
 const PlayerPropDisplay = (event) => {
 
@@ -19,21 +20,20 @@ const PlayerPropDisplay = (event) => {
     
     useEffect(() => {
         /*
-        const urls = ['https://api.the-odds-api.com/v4/sports/' + event.sport + '/events/' + event.game_id + '/odds?regions=us&oddsFormat=american&markets=' + specMarketsForSport +'&dateFormat=iso&apiKey=aa3f46ee1d1c10e731dbd155079bc050'];
-        Promise.all(urls.map(url => fetch(url, {
-        method: 'GET',
-        headers: {
-            'apiKey': 'aa3f46ee1d1c10e731dbd155079bc050',
-        }
+        const url = 'https://api.the-odds-api.com/v4/sports/' + event.sport + '/events/' + event.game_id + '/odds?regions=us&oddsFormat=american&markets=player_points&dateFormat=iso&apiKey=aa3f46ee1d1c10e731dbd155079bc050';
+        fetch(url, {
+        method: 'GET'
         })
-            .then((response) => response.json())))
-            .then(([odds]) => {
+            .then((response) => response.json())
+            .then((odds) => {
                 */
+                
                 let odds;
                 if(event.sport === 'americanfootball_nfl') odds = football_data;
                 else if(event.sport === 'baseball_mlb') odds = baseball_data;
                 else if(event.sport === 'basketball_nba') odds = basketball_data;
-                else odds = football_data;
+                else odds = hockey_data;
+                
                 let individual_props = new Map();
                 let prop_choices = [];
                 for(const bookmaker of odds.bookmakers){
@@ -90,12 +90,15 @@ const PlayerPropDisplay = (event) => {
                 }
                 setPropChoices(prop_choices.sort(propSort));
                 setIndividualProps(individual_props);
-                /*
+              /*  
             })
+            
             .catch((err) => {
             console.log(err.message);
             });
             */
+            
+            
         
     }, [event.bookies]);
 
