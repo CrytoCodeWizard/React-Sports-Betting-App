@@ -139,8 +139,6 @@ const PlayerPropDisplay = (event) => {
             let choices = [];
             let foundPlayer = false;
             for(const key of individualProps.get(choice.value).keys()){
-                console.log("key ", key);
-                console.log("plauer ", player);
                 if(key === player.value){
                     foundPlayer = true;
                 }
@@ -159,6 +157,7 @@ const PlayerPropDisplay = (event) => {
             window.localStorage.setItem('player_prop_player_' + event.game_id, choice.value);
         }
     }
+    
     
 }
 
