@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import PlayerPropDisplay from "./PlayerPropDisplay";
 import TeamPropDisplay from './TeamPropDisplay';
-import Hawks from './../Images/basketball_nba_TeamImages/Atlanta Hawks.jpg';
 
 const GameOverview = (game) => {
     const [showTeamProps,setShowTeamProps] = useState(false);
