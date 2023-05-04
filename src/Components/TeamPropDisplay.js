@@ -10,11 +10,14 @@ const TeamPropDisplay = (game) => {
     const [propChoices, setPropChoices] = useState([]);
     const [data, setData] = useState(new Map());
     const [prop, setProp] = useState(window.localStorage.getItem('team_prop_' + game.game_id)?{value:window.localStorage.getItem('team_prop_' + game.game_id),label:team_prop_choices[window.localStorage.getItem('team_prop_' + game.game_id)]} : {value:'h2h', label:team_prop_choices['h2h']});
-    
+    const [sortChoices, setSortChoices] = useState([]);
+    const [sorter, setSorter] = useState(window.localStorage.getItem('player_prop_sorter_' + game.game_id)? {value:window.localStorage.getItem('player_prop_sorter_' + game.game_id),label:window.localStorage.getItem('player_prop_sorter_' + game.game_id)} : "");
+
     useEffect(() => {
 
-        let team_props = new Map()
+        let team_props = new Map();
         let prop_choices = [];
+        
         for (const bookmaker of game.bookmakers){
             for (const market of bookmaker.markets){
                 if(!team_props.has(market.key)){
@@ -33,17 +36,39 @@ const TeamPropDisplay = (game) => {
                 }
             }
         }
-
         
+
+        propSelect(prop, team_props);
         setPropChoices(prop_choices);
         setData(team_props);
 
     }, [game.bookies]);
 
-    function propSelect(choice){
-        if(choice !== prop){
-            setProp(choice);
-            window.localStorage.setItem('team_prop_' + game.game_id, choice.value);
+    function propSelect(propChoice, prop_map){
+
+        if(prop_map.has(propChoice.value)){
+            setProp(propChoice);
+            window.localStorage.setItem('team_prop_' + game.game_id, propChoice.value);
+            console.log(data);
+            let sortingChoices = [];
+            let labelRetrieve = prop_map.get(propChoice.value).values().next().value;
+            sortingChoices.push({value:labelRetrieve.labelA,label:labelRetrieve.labelA});
+            sortingChoices.push({value:labelRetrieve.labelB,label:labelRetrieve.labelB});
+            setSortChoices(sortingChoices);
+            if(sorter.label !== labelRetrieve.labelA && sorter.label !== labelRetrieve.labelB){
+                sorterSelect(sortingChoices[0]);
+            }
+        }
+        else{
+            setProp("");
+        }
+        
+    }
+
+    function sorterSelect(sorterChoice){
+        if(sorterChoice.label !== sorter.label){
+            setSorter(sorterChoice);
+            window.localStorage.setItem('player_prop_sorter_' + game.game_id, sorterChoice.value);
         }
     }
    
@@ -52,12 +77,12 @@ const TeamPropDisplay = (game) => {
         <div>
 
             <div className="state-dropdown">
-            <Select options={propChoices} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
-                    })} defaultValue={''} onChange={(choice) => propSelect(choice)} value={prop || ''}/>
-            </div>
+                <Select options={propChoices} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
+                        })} onChange={(propChoice) => propSelect(propChoice, data)} value={prop || ''}/>
+                </div>
             <div>
                 {data.has(prop.value) && data.get(prop.value).size > 0?<div className="bookmakers-container">
-                {Array.from(data.get(prop.value), ([bookmaker, line]) => ({ bookmaker, line })).sort(compareBookies).map((bookmaker, index) => (
+                {Array.from(data.get(prop.value), ([bookmaker, line]) => ({ bookmaker, line })).sort(propSortByLabel).map((bookmaker, index) => (
                     <PropDisplay
                         key={bookmaker.bookmaker}
                         bookmaker={bookmaker.bookmaker}
@@ -65,41 +90,47 @@ const TeamPropDisplay = (game) => {
                         bookmakerTitle={bookmaker.line.title}
                         descriptOfPriceALabel={bookmaker.line.labelA}
                         aPrice={bookmaker.line.priceA > 0 ? '+' + bookmaker.line.priceA : bookmaker.line.priceA}
-                        aPoint={bookmaker.line.pointA}
+                        aPoint={prop.value === "spreads" && bookmaker.line.pointA > 0 ? '+' + bookmaker.line.pointA : bookmaker.line.pointA}
                         descriptOfPriceBLabel={bookmaker.line.labelB}
                         bPrice={bookmaker.line.priceB > 0 ? '+' + bookmaker.line.priceB : bookmaker.line.priceB}
-                        bPoint={bookmaker.line.pointB}
+                        bPoint={prop.value === "spreads" && bookmaker.line.pointB > 0 ? '+' + bookmaker.line.pointB : bookmaker.line.pointB}
                     
                     />
-                ))}</div>:<p>No odds available</p>}
+                ))}<div className="state-dropdown">
+                <Select key={`sorter_for_${prop}`} options={sortChoices} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
+                                                                                        })} onChange={(sorterChoice) => sorterSelect(sorterChoice)} value={sorter || ''} isDisabled={prop ? false : true}/>
+            </div></div>:<p>No odds available</p>}
             </div>
-
+            
+                
             
             
         </div>
         
     )
-    
-}
 
-function compareBookies(a,b){
-    let aPoint = Math.abs(a.line.pointA) + Math.abs(a.line.pointB), bPoint = Math.abs(b.line.pointA) + Math.abs(b.line.pointB);
-    if(aPoint < bPoint){
-        return -1;
-    }
-    else if(aPoint === bPoint){
-        let aPrice = Math.abs(a.line.priceA - a.line.priceB), bPrice = Math.abs(b.line.priceA - b.line.priceB);
-        if(aPrice < bPrice){
-            return -1;
+    function propSortByLabel(a, b){
+        if(sorter.label === a.line.labelA){
+            if(a.line.pointA < b.line.pointA) return -1;
+            else if(a.line.pointA === b.line.pointA){
+                if(a.line.priceA > b.line.priceA) return -1;
+                else if(a.line.priceA === b.line.priceA){
+                    if(a.line.title < b.line.title) return -1;
+                }
+            }
         }
-        else if(aPrice === bPrice){
-            let aTitle = a.line.title, bTitle = b.line.title;
-            if(aTitle < bTitle) return -1;
-            else return 1;
+        else{
+            if(a.line.pointB < b.line.pointB) return -1;
+            else if(a.line.pointB === b.line.pointB){
+                if(a.line.priceB > b.line.priceB) return -1;
+                else if(a.line.priceB === b.line.priceB){
+                    if(a.line.title < b.line.title) return -1;
+                }
+            }
         }
         return 1;
-    }  
-    return 1;
+    }
+    
 }
 
 export default TeamPropDisplay

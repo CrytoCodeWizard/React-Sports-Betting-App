@@ -16,7 +16,7 @@ const PlayerPropDisplay = (event) => {
     const [sortChoices, setSortChoices] = useState([]);
     const [player, setPlayer] = useState(window.localStorage.getItem('player_prop_player_' + event.game_id)? {value:window.localStorage.getItem('player_prop_player_' + event.game_id),label:window.localStorage.getItem('player_prop_player_' + event.game_id)} : "");
     const [prop, setProp] = useState(window.localStorage.getItem('player_prop_' + event.game_id)? {value:window.localStorage.getItem('player_prop_' + event.game_id),label:player_prop_choices[window.localStorage.getItem('player_prop_' + event.game_id)]} : "");
-    const [sorter, setSorter] = useState("");
+    const [sorter, setSorter] = useState(window.localStorage.getItem('player_prop_sorter_' + event.game_id)? {value:window.localStorage.getItem('player_prop_sorter_' + event.game_id),label:window.localStorage.getItem('player_prop_sorter_' + event.game_id)} : "");
     const specMarketsForSport = player_prop_markets.filter(sport => sport["label"] === event.sport)[0]["markets"];
 
     
@@ -75,7 +75,6 @@ const PlayerPropDisplay = (event) => {
                         }
                     }
                 }
-                console.log(individual_props);
         
                 
                 if(!individual_props.has(prop.value)){
@@ -106,17 +105,13 @@ const PlayerPropDisplay = (event) => {
         <div>
             <div className="state-dropdown">
                 <Select key={`prop_for_${event.bookies}`} options={propChoices} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
-                                                                                        })} defaultValue={propChoices.includes(prop) ? prop : ""} onChange={(propChoice) => propSelect(propChoice, individualProps)} value={prop || ''} placeholder="Prop..."/>
+                                                                                        })} onChange={(propChoice) => propSelect(propChoice, individualProps)} value={prop || ''} placeholder="Prop..."/>
                 <Select key={`players_for_${prop}`} options={playerChoices} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
-                                                                                        })} defaultValue={playerChoices.includes(player) ? player : ""} onChange={(playerChoice) => playerSelect(playerChoice)} value={player || ''} isDisabled={prop ? false : true}/>
-            </div>
-            <div className="state-dropdown">
-                <Select key={`sorter_for_${prop}`} options={sortChoices} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
-                                                                                        })} defaultValue={sortChoices.includes(sorter) ? sorter : ""} onChange={(sorterChoice) => sorterSelect(sorterChoice)} value={sorter || ''} isDisabled={prop && player ? false : true}/>
+                                                                                        })} onChange={(playerChoice) => playerSelect(playerChoice)} value={player || ''} isDisabled={prop ? false : true} placeholder="Player..."/>
             </div>
             <div>
                 {individualProps.has(prop.value) && individualProps.get(prop.value).has(player.value) && individualProps.get(prop.value).get(player.value).size > 0?<div className="bookmakers-container">
-                {Array.from(individualProps.get(prop.value).get(player.value), ([bookmaker, line]) => ({ bookmaker, line })).sort(compareBookies).map((bookmaker, index) => (
+                {Array.from(individualProps.get(prop.value).get(player.value), ([bookmaker, line]) => ({ bookmaker, line })).sort(propSortByLabel).map((bookmaker, index) => (
                     <PropDisplay
                         key={bookmaker.bookmaker}
                         bookmaker={bookmaker.bookmaker}
@@ -131,6 +126,11 @@ const PlayerPropDisplay = (event) => {
                     
                     />
                 ))}</div>:<></>}
+                {prop && player ?
+                <div className="state-dropdown">
+                    <Select key={`sorter_for_${prop}`} options={sortChoices} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
+                                                                                            })} onChange={(sorterChoice) => sorterSelect(sorterChoice)} value={sorter || ''} isDisabled={prop && player ? false : true}/>
+                </div>:<></>}
             </div>
         </div>
         
@@ -138,26 +138,31 @@ const PlayerPropDisplay = (event) => {
 
     function propSelect(propChoice, propMap){
 
-        setProp(propChoice);
-        window.localStorage.setItem('player_prop_' + event.game_id, propChoice.value);
-        let playerChoices = [];
-        let foundPlayer = false;
-        for(const key of propMap.get(propChoice.value).keys()){
-            if(key === player.value){
-                foundPlayer = true;
+        if(propMap.has(propChoice.value)){
+            setProp(propChoice);
+            window.localStorage.setItem('player_prop_' + event.game_id, propChoice.value);
+            let playerChoices = [];
+            let foundPlayer = false;
+            for(const key of propMap.get(propChoice.value).keys()){
+                if(key === player.value){
+                    foundPlayer = true;
+                }
+                playerChoices.push({value:key,label:key});
             }
-            playerChoices.push({value:key,label:key});
-        }
-        setPlayerChoices(playerChoices.sort(propSort));
-        playerSelect(foundPlayer ? player : playerChoices[0]);
+            setPlayerChoices(playerChoices.sort(propSort));
+            playerSelect(foundPlayer ? player : playerChoices[0]);
 
-        let sortingChoices = [];
-        let labelRetrieve = propMap.get(propChoice.value).values().next().value.values().next().value;
-        sortingChoices.push({value:'labelA',label:labelRetrieve.labelA});
-        sortingChoices.push({value:'labelB',label:labelRetrieve.labelB});
-        setSortChoices(sortingChoices);
-        if(sorter.label !== labelRetrieve.labelA && sorter.label !== labelRetrieve.labelB){
-            sorterSelect(sortingChoices[0]);
+            let sortingChoices = [];
+            let labelRetrieve = propMap.get(propChoice.value).values().next().value.values().next().value;
+            sortingChoices.push({value:labelRetrieve.labelA,label:labelRetrieve.labelA});
+            sortingChoices.push({value:labelRetrieve.labelB,label:labelRetrieve.labelB});
+            setSortChoices(sortingChoices);
+            if(sorter.label !== labelRetrieve.labelA && sorter.label !== labelRetrieve.labelB){
+                sorterSelect(sortingChoices[0]);
+            }
+        }
+        else{
+            setProp("");
         }
         
     }
@@ -175,33 +180,35 @@ const PlayerPropDisplay = (event) => {
             window.localStorage.setItem('player_prop_sorter_' + event.game_id, sorterChoice.value);
         }
     }
-    
-    
-}
 
-function propSort(a, b){
-    if(a.label < b.label) return -1;
-    else return 1;
-}
-
-function compareBookies(a,b){
-    let aPoint = Math.abs(a.line.pointA) + Math.abs(a.line.pointB), bPoint = Math.abs(b.line.pointA) + Math.abs(b.line.pointB);
-    if(aPoint < bPoint){
-        return -1;
-    }
-    else if(aPoint === bPoint){
-        let aPrice = Math.abs(a.line.priceA - a.line.priceB), bPrice = Math.abs(b.line.priceA - b.line.priceB);
-        if(aPrice < bPrice){
-            return -1;
+    function propSortByLabel(a, b){
+        if(sorter.label === a.line.labelA){
+            if(a.line.pointA < b.line.pointA) return -1;
+            else if(a.line.pointA === b.line.pointA){
+                if(a.line.priceA > b.line.priceA) return -1;
+                else if(a.line.priceA === b.line.priceA){
+                    if(a.line.title < b.line.title) return -1;
+                }
+            }
         }
-        else if(aPrice === bPrice){
-            let aTitle = a.line.title, bTitle = b.line.title;
-            if(aTitle < bTitle) return -1;
-            else return 1;
+        else{
+            if(a.line.pointB < b.line.pointB) return -1;
+            else if(a.line.pointB === b.line.pointB){
+                if(a.line.priceB > b.line.priceB) return -1;
+                else if(a.line.priceB === b.line.priceB){
+                    if(a.line.title < b.line.title) return -1;
+                }
+            }
         }
         return 1;
-    }  
-    return 1;
+    }
+
+    function propSort(a, b){
+        if(a.label < b.label) return -1;
+        else return 1;
+    }
+    
+    
 }
 
 export default PlayerPropDisplay
