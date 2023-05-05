@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import PlayerPropDisplay from "./PlayerPropDisplay";
 import TeamPropDisplay from './TeamPropDisplay';
+import { DataProvider } from './DataContext';
 
 const GameOverview = (game) => {
     const [showTeamProps,setShowTeamProps] = useState(false);
     const [showPlayerProps, setShowPlayerProps] = useState(false);
+    const [playerPropsClicked, setPlayerPropsClicked] = useState(false);
     const today = new Date();
     const gameStart = new Date(game.startTime);
     const images = importAll(require.context('./../Images/', true, /\.(png|jpe?g|svg)$/));
@@ -40,30 +42,38 @@ const GameOverview = (game) => {
                 ></TeamPropDisplay>
                 </div>:<></>
             }
-            {showPlayerProps===true?<div className="bookmakers-container">
-                <PlayerPropDisplay
-                    game_id={game.game_id}
-                    sport={game.sport}
-                    bookies={game.bookie_list}
-                ></PlayerPropDisplay>
-                </div>:<></>
+            {playerPropsClicked ? <DataProvider game_id={game.game_id} sport={game.sport} showChild={showPlayerProps}>
+                <div className="bookmakers-container">
+                    <PlayerPropDisplay
+                        game_id={game.game_id}
+                        sport={game.sport}
+                        bookies={game.bookie_list}
+                    ></PlayerPropDisplay>
+                    </div>
+                </DataProvider> : <></>
             }
             
         </div>
     )
+
+    function OddButtonClick(setButtonClicked, buttonClickedStatus, ...setToFalse){
+       
+        if(playerPropsClicked === false && buttonClickedStatus === showPlayerProps){
+            setPlayerPropsClicked(true);
+        }
+        setButtonClicked(!buttonClickedStatus);
+        for(const func of setToFalse){
+            func(false);
+        }
+    }
+
+
 }
 
 function importAll(r) {
     let images = {};
     r.keys().map(item => { images[item.replace('./', '')] = r(item); });
     return images;
-}
-
-function OddButtonClick(setButtonClicked, buttonClickedStatus, ...setToFalse){
-    setButtonClicked(!buttonClickedStatus);
-    for(const func of setToFalse){
-        func(false);
-    }
 }
 
 export default GameOverview

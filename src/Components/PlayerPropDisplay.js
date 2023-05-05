@@ -3,10 +3,7 @@ import { player_prop_markets, player_prop_choices } from "./../PlayerPropsMarket
 import Select from "react-select";
 import PropDisplay from "./PropDisplay.js";
 import { bookmaker_links } from "../Bookmakers.js";
-import football_data from './../SampleData/americanfootball_nfl_player_props.json';
-import basketball_data from './../SampleData/basketball_nba_player_props.json';
-import baseball_data from './../SampleData/baseball_mlb_player_props.json';
-import hockey_data from './../SampleData/hockey_nhl_player_props.json';
+import { useData } from './DataContext.js';
 
 const PlayerPropDisplay = (event) => {
 
@@ -18,88 +15,46 @@ const PlayerPropDisplay = (event) => {
     const [prop, setProp] = useState(window.localStorage.getItem('player_prop_' + event.game_id)? {value:window.localStorage.getItem('player_prop_' + event.game_id),label:player_prop_choices[window.localStorage.getItem('player_prop_' + event.game_id)]} : "");
     const [sorter, setSorter] = useState(window.localStorage.getItem('player_prop_sorter_' + event.game_id)? {value:window.localStorage.getItem('player_prop_sorter_' + event.game_id),label:window.localStorage.getItem('player_prop_sorter_' + event.game_id)} : "");
     const specMarketsForSport = player_prop_markets.filter(sport => sport["label"] === event.sport)[0]["markets"];
-
+    const { data } = useData();
     
     useEffect(() => {
-        /*
-        const url = 'https://api.the-odds-api.com/v4/sports/' + event.sport + '/events/' + event.game_id + '/odds?regions=us&oddsFormat=american&markets=player_points&dateFormat=iso&apiKey=aa3f46ee1d1c10e731dbd155079bc050';
-        fetch(url, {
-        method: 'GET'
-        })
-            .then((response) => response.json())
-            .then((odds) => {
-                */
-                
-                let odds;
-                if(event.sport === 'americanfootball_nfl') odds = football_data;
-                else if(event.sport === 'baseball_mlb') odds = baseball_data;
-                else if(event.sport === 'basketball_nba') odds = basketball_data;
-                else odds = hockey_data;
-                
-                let individual_props = new Map();
-                let prop_choices = [];
-                for(const bookmaker of odds.bookmakers){
-                    if(event.bookies.has(bookmaker.key)){
-                        for(const market of bookmaker.markets){
-                            if(!individual_props.has(market.key)){
-                                prop_choices.push({value:market.key,label:player_prop_choices[market.key]});
-                                individual_props.set(market.key, new Map());
-                            }
-                            for(const player_line of market.outcomes){
-                                if(!individual_props.get(market.key).has(player_line.description)){
-                                    individual_props.get(market.key).set(player_line.description, new Map());
-                                }
         
-                                if(!individual_props.get(market.key).get(player_line.description).has(bookmaker.key)){
-                                    if(player_line.name === 'Over' || player_line.name === 'Yes'){
-                                        individual_props.get(market.key).get(player_line.description).set(bookmaker.key, {labelA: player_line.name, labelB:'', title: bookmaker.title, pointA: player_line.point, pointB:'', priceA: player_line.price, priceB: ''});
-                                    }else{
-                                        individual_props.get(market.key).get(player_line.description).set(bookmaker.key, {labelB: player_line.name, labelA:'', title: bookmaker.title, pointA:'', pointB:player_line.point, priceA: '', priceB: player_line.price});
-                                    }
-                                }
-                                else{
-                                    let line = individual_props.get(market.key).get(player_line.description).get(bookmaker.key);
-                                    if(player_line.name === 'Over' || player_line.name === 'Yes'){
-                                        line.priceA = player_line.price;
-                                        line.labelA = player_line.name;
-                                        line.pointA = player_line.point;
-                                    }else{
-                                        line.priceB = player_line.price;
-                                        line.labelB = player_line.name;
-                                        line.pointB = player_line.point;
-                                    }
-                                }
+        let filteredMap = new Map();
+        let playerPropChoices = [];
+        if(data){
+            console.log(data);
+            for(const propKey of data.keys()){
+                for(const playerKey of data.get(propKey).keys()){
+                    for(const book of data.get(propKey).get(playerKey).keys()){
+                        if(event.bookies.has(book)){
+                            if(!filteredMap.has(propKey)){
+                                filteredMap.set(propKey, new Map());
+                                playerPropChoices.push({value:propKey,label:player_prop_choices[propKey]});
                             }
-                            
-                            
+                            if(!filteredMap.get(propKey).has(playerKey)){
+                                filteredMap.get(propKey).set(playerKey, new Map());
+                            }
+                            filteredMap.get(propKey).get(playerKey).set(book, data.get(propKey).get(playerKey).get(book));
                         }
                     }
+                    
                 }
+            }
+            if(filteredMap.has(prop.value)){
+                propSelect(prop, filteredMap);
+            }
+        }
         
-                
-                if(!individual_props.has(prop.value)){
-                    setProp("");
-                    setPlayer("");
-                    setSorter("");
-                    setPlayerChoices([]);
-                    setSortChoices([]);
-                }
-                else{
-                    propSelect(prop, individual_props);
-                }
-                setPropChoices(prop_choices.sort(propSort));
-                setIndividualProps(individual_props);
-              /*  
-            })
-            
-            .catch((err) => {
-            console.log(err.message);
-            });
-            */
-            
-            
         
-    }, [event.bookies]);
+        setPropChoices(playerPropChoices.sort(propSort));
+        setIndividualProps(filteredMap);
+
+    }, [event.bookies, data]);
+
+
+    if (!data) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div>

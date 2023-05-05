@@ -29,7 +29,7 @@ function App() {
           console.log(err.message);
         });
         window.localStorage.setItem('sport', sport);
-    }, [sport, bookies]);
+    }, [sport]);
   
   function stateSelect(values){
     setBookies(values["bookmakers"]);
