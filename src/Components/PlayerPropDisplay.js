@@ -1,5 +1,5 @@
 import React,{ useEffect, useState } from "react";
-import { player_prop_markets, player_prop_choices } from "./../PlayerPropsMarkets.js";
+import { player_prop_choices } from "./../PlayerPropsMarkets.js";
 import Select from "react-select";
 import PropDisplay from "./PropDisplay.js";
 import { bookmaker_links } from "../Bookmakers.js";
@@ -14,7 +14,6 @@ const PlayerPropDisplay = (event) => {
     const [player, setPlayer] = useState(window.localStorage.getItem('player_prop_player_' + event.game_id)? {value:window.localStorage.getItem('player_prop_player_' + event.game_id),label:window.localStorage.getItem('player_prop_player_' + event.game_id)} : "");
     const [prop, setProp] = useState(window.localStorage.getItem('player_prop_' + event.game_id)? {value:window.localStorage.getItem('player_prop_' + event.game_id),label:player_prop_choices[window.localStorage.getItem('player_prop_' + event.game_id)]} : "");
     const [sorter, setSorter] = useState(window.localStorage.getItem('player_prop_sorter_' + event.game_id)? {value:window.localStorage.getItem('player_prop_sorter_' + event.game_id),label:window.localStorage.getItem('player_prop_sorter_' + event.game_id)} : "");
-    const specMarketsForSport = player_prop_markets.filter(sport => sport["label"] === event.sport)[0]["markets"];
     const { data } = useData();
     
     useEffect(() => {
@@ -22,7 +21,6 @@ const PlayerPropDisplay = (event) => {
         let filteredMap = new Map();
         let playerPropChoices = [];
         if(data){
-            console.log(data);
             for(const propKey of data.keys()){
                 for(const playerKey of data.get(propKey).keys()){
                     for(const book of data.get(propKey).get(playerKey).keys()){
@@ -48,7 +46,7 @@ const PlayerPropDisplay = (event) => {
         
         setPropChoices(playerPropChoices.sort(propSort));
         setIndividualProps(filteredMap);
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [event.bookies, data]);
 
 

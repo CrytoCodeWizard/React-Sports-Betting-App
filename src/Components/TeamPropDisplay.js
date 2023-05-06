@@ -17,6 +17,7 @@ const TeamPropDisplay = (game) => {
 
         let team_props = new Map();
         let prop_choices = [];
+     
         
         for (const bookmaker of game.bookmakers){
             for (const market of bookmaker.markets){
@@ -24,32 +25,33 @@ const TeamPropDisplay = (game) => {
                     prop_choices.push({value:market.key,label:team_prop_choices[market.key]});
                     team_props.set(market.key, new Map());
                 }
-                else{
-                    team_props.get(market.key).set(bookmaker.key, {
-                        title: bookmaker.title,
-                        labelA: market.outcomes[0].name,
-                        priceA: market.outcomes[0].price,
-                        pointA: market.outcomes[0].point ? market.outcomes[0].point : "",
-                        labelB: market.outcomes[1].name,
-                        priceB: market.outcomes[1].price,
-                        pointB: market.outcomes[1].point ? market.outcomes[1].point : ""});
-                }
+                
+                team_props.get(market.key).set(bookmaker.key, {
+                    title: bookmaker.title,
+                    labelA: market.outcomes[0].name,
+                    priceA: market.outcomes[0].price,
+                    pointA: market.outcomes[0].point ? market.outcomes[0].point : "",
+                    labelB: market.outcomes[1].name,
+                    priceB: market.outcomes[1].price,
+                    pointB: market.outcomes[1].point ? market.outcomes[1].point : ""});
+                
             }
         }
+        
         
 
         propSelect(prop, team_props);
         setPropChoices(prop_choices);
         setData(team_props);
-
-    }, [game.bookies]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [game.bookies, game.bookmakers]);
 
     function propSelect(propChoice, prop_map){
 
         if(prop_map.has(propChoice.value)){
             setProp(propChoice);
             window.localStorage.setItem('team_prop_' + game.game_id, propChoice.value);
-            console.log(data);
+            //console.log(data);
             let sortingChoices = [];
             let labelRetrieve = prop_map.get(propChoice.value).values().next().value;
             sortingChoices.push({value:labelRetrieve.labelA,label:labelRetrieve.labelA});
