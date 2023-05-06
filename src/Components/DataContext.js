@@ -3,7 +3,7 @@ import football_data from './../SampleData/americanfootball_nfl_player_props.jso
 import basketball_data from './../SampleData/basketball_nba_player_props.json';
 import baseball_data from './../SampleData/baseball_mlb_player_props.json';
 import hockey_data from './../SampleData/hockey_nhl_player_props.json';
-import { player_prop_markets, player_prop_choices } from "./../PlayerPropsMarkets.js";
+//import { player_prop_markets } from "./../PlayerPropsMarkets.js";
 
 const DataContext = createContext();
 
@@ -13,6 +13,7 @@ export function useData() {
 
 export const DataProvider = (event) => {
   const [data, setData] = useState(new Map());
+  //const specMarketsForSport = player_prop_markets.filter(sport => sport["label"] === event.sport)[0]["markets"];
  
   useEffect(() => {
 
@@ -66,7 +67,6 @@ export const DataProvider = (event) => {
             }
         }
         setData(individual_props);
-        console.log("HELL YEA: ", data);
         /*  
             })
             
