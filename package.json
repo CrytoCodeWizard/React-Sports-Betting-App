@@ -13,6 +13,8 @@
     "react-bootstrap": "^2.7.0",
     "react-dom": "^18.2.0",
     "react-dropdown-select": "^4.9.3",
+    "react-native": "^0.71.7",
+    "react-native-web": "^0.19.4",
     "react-scripts": "^5.0.1",
     "react-select": "^5.7.0",
     "reactstrap": "^9.1.5",

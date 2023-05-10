@@ -65,7 +65,28 @@ a:visited {
   width: 70%;
   float: left;
   text-align: center;
-}  
+}
+
+.bookmaker-child-first {
+  border: none;
+  height: 4px;
+  /* Set the hr color */
+ 
+  background-color: black;  
+}
+
+.bookmaker-child-end-of-block {
+  border: none;
+  height: 4px;
+  margin-top: 4rem;
+  /* Set the hr color */
+ 
+  background-color: black;  
+}
+
+.bookmaker-child-sep {
+  margin-top: 4rem;
+}
 
 .bookmakers-container{
   width: 95%;
@@ -233,6 +254,14 @@ html
 
 .prop-text {
   display: inline;
+}
+
+.prop-text-best {
+  color: green;
+}
+
+.prop-text-worst {
+  color: red;
 }
 
 .state-dropdown {

@@ -12,6 +12,7 @@ const TeamPropDisplay = (game) => {
     const [prop, setProp] = useState(window.localStorage.getItem('team_prop_' + game.game_id)?{value:window.localStorage.getItem('team_prop_' + game.game_id),label:team_prop_choices[window.localStorage.getItem('team_prop_' + game.game_id)]} : {value:'h2h', label:team_prop_choices['h2h']});
     const [sortChoices, setSortChoices] = useState([]);
     const [sorter, setSorter] = useState(window.localStorage.getItem('player_prop_sorter_' + game.game_id)? {value:window.localStorage.getItem('player_prop_sorter_' + game.game_id),label:window.localStorage.getItem('player_prop_sorter_' + game.game_id)} : "");
+    let lastPoint = 0.0;
 
     useEffect(() => {
 
@@ -84,8 +85,13 @@ const TeamPropDisplay = (game) => {
                 </div>
             <div>
                 {data.has(prop.value) && data.get(prop.value).size > 0?<div className="bookmakers-container">
-                {Array.from(data.get(prop.value), ([bookmaker, line]) => ({ bookmaker, line })).sort(propSortByLabel).map((bookmaker, index) => (
-                    <PropDisplay
+                {Array.from(data.get(prop.value), ([bookmaker, line]) => ({ bookmaker, line })).sort(propSortByLabel).map((bookmaker, index) => {
+                    let endOfPointBucket = false;
+                    if(bookmaker.line.pointA !== lastPoint || index === 0){
+                        endOfPointBucket = true;
+                        lastPoint = bookmaker.line.pointA;
+                    }
+                    return (<PropDisplay
                         key={bookmaker.bookmaker}
                         bookmaker={bookmaker.bookmaker}
                         bookmakerLink={bookmaker_links[bookmaker.bookmaker]}
@@ -96,9 +102,12 @@ const TeamPropDisplay = (game) => {
                         descriptOfPriceBLabel={bookmaker.line.labelB}
                         bPrice={bookmaker.line.priceB > 0 ? '+' + bookmaker.line.priceB : bookmaker.line.priceB}
                         bPoint={prop.value === "spreads" && bookmaker.line.pointB > 0 ? '+' + bookmaker.line.pointB : bookmaker.line.pointB}
+                        endOfBucket={endOfPointBucket}
+                        firstEntry={index === 0 ? true : false}
+                        sorter={sorter.label}
                     
-                    />
-                ))}<div className="state-dropdown">
+                    />)
+                })}<hr className="bookmaker-child-end-of-block"></hr><div className="state-dropdown">
                 <Select key={`sorter_for_${prop}`} options={sortChoices} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
                                                                                         })} onChange={(sorterChoice) => sorterSelect(sorterChoice)} value={sorter || ''} isDisabled={prop ? false : true}/>
             </div></div>:<p>No odds available</p>}

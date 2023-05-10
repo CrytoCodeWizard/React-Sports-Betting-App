@@ -14,6 +14,7 @@ const PlayerPropDisplay = (event) => {
     const [player, setPlayer] = useState(window.localStorage.getItem('player_prop_player_' + event.game_id)? {value:window.localStorage.getItem('player_prop_player_' + event.game_id),label:window.localStorage.getItem('player_prop_player_' + event.game_id)} : "");
     const [prop, setProp] = useState(window.localStorage.getItem('player_prop_' + event.game_id)? {value:window.localStorage.getItem('player_prop_' + event.game_id),label:player_prop_choices[window.localStorage.getItem('player_prop_' + event.game_id)]} : "");
     const [sorter, setSorter] = useState(window.localStorage.getItem('player_prop_sorter_' + event.game_id)? {value:window.localStorage.getItem('player_prop_sorter_' + event.game_id),label:window.localStorage.getItem('player_prop_sorter_' + event.game_id)} : "");
+    let lastPoint = 0.0;
     const { data } = useData();
     
     useEffect(() => {
@@ -64,8 +65,13 @@ const PlayerPropDisplay = (event) => {
             </div>
             <div>
                 {individualProps.has(prop.value) && individualProps.get(prop.value).has(player.value) && individualProps.get(prop.value).get(player.value).size > 0?<div className="bookmakers-container">
-                {Array.from(individualProps.get(prop.value).get(player.value), ([bookmaker, line]) => ({ bookmaker, line })).sort(propSortByLabel).map((bookmaker, index) => (
-                    <PropDisplay
+                {Array.from(individualProps.get(prop.value).get(player.value), ([bookmaker, line]) => ({ bookmaker, line })).sort(propSortByLabel).map((bookmaker, index) => {
+                    let endOfPointBucket = false;
+                    if(bookmaker.line.pointA !== lastPoint || index === 0){
+                        endOfPointBucket = true;
+                        lastPoint = bookmaker.line.pointA;
+                    }
+                    return (<PropDisplay
                         key={bookmaker.bookmaker}
                         bookmaker={bookmaker.bookmaker}
                         bookmakerLink={bookmaker_links[bookmaker.bookmaker]}
@@ -76,9 +82,12 @@ const PlayerPropDisplay = (event) => {
                         descriptOfPriceBLabel={bookmaker.line.labelB}
                         bPrice={bookmaker.line.priceB > 0 ? '+' + bookmaker.line.priceB : bookmaker.line.priceB}
                         bPoint={bookmaker.line.pointB}
+                        endOfBucket={endOfPointBucket}
+                        firstEntry={index === 0 ? true : false}
+                        sorter={sorter.label}
                     
-                    />
-                ))}</div>:<></>}
+                    />)
+                })}<hr className="bookmaker-child-end-of-block"></hr></div>:<></>}
                 {prop && player ?
                 <div className="state-dropdown">
                     <Select key={`sorter_for_${prop}`} options={sortChoices} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
