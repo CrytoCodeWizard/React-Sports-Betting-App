@@ -93,12 +93,22 @@ a:visited {
 }
 
 .column-image {
+  width: 9rem;
+  height: 9rem;
+}
+
+.column-image-container {
   width: 14rem;
   height: 10rem;
 }
 
 .column-image-home {
+  margin-right: 3rem;
   transform: rotateY(180deg);
+}
+
+.column-image-road {
+  margin-left: 3rem;
 }
 
 .column-images {

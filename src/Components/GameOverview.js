@@ -15,8 +15,8 @@ const GameOverview = (game) => {
     return (
         <div className="thumb-container">
             <div className="column-images">
-                <img className="column-image" src={images[game.sport + "_TeamImages/" + game.awayTeam + ".jpg"]} alt={game.awayTeam} />
-                <img className="column-image column-image-home" src={images[game.sport + "_TeamImages/" + game.homeTeam + ".jpg"]} alt={game.homeTeam} />
+                <div className="column-image-container"><img className="column-image column-image-road" src={images[game.sport + "_TeamImages/" + game.awayTeam + ".png"]} alt={game.awayTeam} /></div>
+                <div className="column-image-container"><img className="column-image column-image-home" src={images[game.sport + "_TeamImages/" + game.homeTeam + ".png"]} alt={game.homeTeam} /></div>
             </div>
             <p className="game-text">{game.awayTeam} @ {game.homeTeam}</p>
             {today>=gameStart?<p className="live"><b>LIVE</b></p>:<p className="game-text">{stringifiedGameStart}</p>}
