@@ -24,5 +24,3 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Credits
 
 This project utilizes [Live Sports API](https://rapidapi.com/theoddsapi/api/live-sports-odds) by [The Odds API](https://rapidapi.com/user/theoddsapi)
-
-Sketches for the teams by [CornDoggyLOL](https://corndoggydrawings.com/)
