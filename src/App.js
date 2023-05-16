@@ -3,7 +3,7 @@ import GameOverview from "./Components/GameOverview";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import Select from "react-select";
-import { state_bookmakers } from "./Bookmakers.js";
+import { state_bookmakers } from "./Resources.js";
 
 function App() {
   
@@ -50,7 +50,7 @@ function App() {
           <button className="active navbar-text-custom nav-button" onClick={() => setSport('icehockey_nhl')}>NHL</button>}
         </nav>
         <div className="state-dropdown"><Select options={state_bookmakers} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
-                                                                                      })} defaultValue={state_bookmakers[window.localStorage.getItem('usState')] || ""} onChange={(values) => stateSelect(values)} /></div>
+                                                                                      })} defaultValue={state_bookmakers[window.localStorage.getItem('usState')] || ""} onChange={(values) => stateSelect(values)} placeholder="State..."/></div>
       <div className="app-container">
         <div className="game-container">
           <div className="all-container">

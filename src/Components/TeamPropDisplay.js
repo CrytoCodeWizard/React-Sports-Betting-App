@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { bookmaker_links } from "./../Bookmakers.js";
-import {team_prop_choices} from "./../TeamPropsMarkets.js";
+import { bookmaker_links, team_prop_choices } from "./../Resources.js";
 import Select from "react-select";
 import PropDisplay from './PropDisplay';
 
@@ -122,6 +121,10 @@ const TeamPropDisplay = (game) => {
 
     function propSortByLabel(a, b){
         if(sorter.label === a.line.labelA){
+            if(!a.line.priceA || !b.line.priceA){
+                if(!a.line.priceA && b.line.priceA) return 1;
+                else if(!b.line.priceA && a.line.priceA) return -1;
+            }
             if(a.line.pointA < b.line.pointA) return -1;
             else if(a.line.pointA === b.line.pointA){
                 if(a.line.priceA > b.line.priceA) return -1;
@@ -131,6 +134,10 @@ const TeamPropDisplay = (game) => {
             }
         }
         else{
+            if(!a.line.priceB || !b.line.priceB){
+                if(!a.line.priceB && b.line.priceB) return 1;
+                else if(!b.line.priceB && a.line.priceB) return -1;
+            }
             if(a.line.pointB < b.line.pointB) return -1;
             else if(a.line.pointB === b.line.pointB){
                 if(a.line.priceB > b.line.priceB) return -1;

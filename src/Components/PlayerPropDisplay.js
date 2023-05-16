@@ -1,8 +1,7 @@
 import React,{ useEffect, useState } from "react";
-import { player_prop_choices } from "./../PlayerPropsMarkets.js";
 import Select from "react-select";
 import PropDisplay from "./PropDisplay.js";
-import { bookmaker_links } from "../Bookmakers.js";
+import { bookmaker_links, player_prop_choices } from "../Resources.js";
 import { useData } from './DataContext.js';
 
 const PlayerPropDisplay = (event) => {
@@ -145,6 +144,10 @@ const PlayerPropDisplay = (event) => {
 
     function propSortByLabel(a, b){
         if(sorter.label === a.line.labelA){
+            if(!a.line.priceA || !b.line.priceA){
+                if(!a.line.priceA && b.line.priceA) return 1;
+                else if(!b.line.priceA && a.line.priceA) return -1;
+            }
             if(a.line.pointA < b.line.pointA) return -1;
             else if(a.line.pointA === b.line.pointA){
                 if(a.line.priceA > b.line.priceA) return -1;
@@ -154,6 +157,10 @@ const PlayerPropDisplay = (event) => {
             }
         }
         else{
+            if(!a.line.priceB || !b.line.priceB){
+                if(!a.line.priceB && b.line.priceB) return 1;
+                else if(!b.line.priceB && a.line.priceB) return -1;
+            }
             if(a.line.pointB < b.line.pointB) return -1;
             else if(a.line.pointB === b.line.pointB){
                 if(a.line.priceB > b.line.priceB) return -1;
