@@ -8,6 +8,7 @@ import { state_bookmakers } from "./Resources.js";
 function App() {
   
   const [games, setGames] = useState([]);
+  const [filteredGames, setFilteredGames] = useState([]);
   const [sport, setSport] = useState(window.localStorage.getItem('sport') || 'americanfootball_nfl');
   const [bookies, setBookies] = useState(window.localStorage.getItem('usState')?state_bookmakers[window.localStorage.getItem('usState')]["bookmakers"]:new Set([])) ;
   
@@ -24,16 +25,23 @@ function App() {
         .then(([odds, scores]) => {
           let res = scores.map(x => Object.assign(x, odds.find(y => y.id === x.id)));
           setGames(res);
+          setFilteredGames(res);
         })
         .catch((err) => {
           console.log(err.message);
         });
         window.localStorage.setItem('sport', sport);
+        console.log(games);
     }, [sport]);
   
   function stateSelect(values){
     setBookies(values["bookmakers"]);
     window.localStorage.setItem('usState', values["value"]);
+  }
+
+  function filterGames(searchText){
+    let toUnder = searchText.toLowerCase();
+    setFilteredGames(games.filter((game) => game.away_team.toLowerCase().includes(toUnder) || game.home_team.toLowerCase().includes(toUnder)));
   }
 
   return (
@@ -51,10 +59,11 @@ function App() {
         </nav>
         <div className="state-dropdown"><Select options={state_bookmakers} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
                                                                                       })} defaultValue={state_bookmakers[window.localStorage.getItem('usState')] || ""} onChange={(values) => stateSelect(values)} placeholder="State..."/></div>
+        <div className="filter-teams"><input type="text" onInput={e => filterGames(e.target.value)}/></div>
       <div className="app-container">
         <div className="game-container">
           <div className="all-container">
-            {games.length > 0 ? games.map((game) => (
+            {filteredGames.length > 0 ? filteredGames.map((game) => (
               game.bookmakers?
               <GameOverview
                 key={game.id}
