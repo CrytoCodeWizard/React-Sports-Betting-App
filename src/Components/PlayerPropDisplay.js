@@ -64,7 +64,7 @@ const PlayerPropDisplay = (event) => {
             </div>
             <div>
                 {individualProps.has(prop.value) && individualProps.get(prop.value).has(player.value) && individualProps.get(prop.value).get(player.value).size > 0?<div className="bookmakers-container">
-                {Array.from(individualProps.get(prop.value).get(player.value), ([bookmaker, line]) => ({ bookmaker, line })).sort(propSortByLabel).map((bookmaker, index) => {
+                {Array.from(individualProps.get(prop.value).get(player.value), ([bookmaker, line]) => ({ bookmaker, line })).sort(event.sortFunction(sorter)).map((bookmaker, index) => {
                     let endOfPointBucket = false;
                     if(bookmaker.line.pointA !== lastPoint || index === 0){
                         endOfPointBucket = true;
@@ -140,36 +140,6 @@ const PlayerPropDisplay = (event) => {
             setSorter(sorterChoice);
             window.localStorage.setItem('player_prop_sorter_' + event.game_id, sorterChoice.value);
         }
-    }
-
-    function propSortByLabel(a, b){
-        if(sorter.label === a.line.labelA){
-            if(!a.line.priceA || !b.line.priceA){
-                if(!a.line.priceA && b.line.priceA) return 1;
-                else if(!b.line.priceA && a.line.priceA) return -1;
-            }
-            if(a.line.pointA < b.line.pointA) return -1;
-            else if(a.line.pointA === b.line.pointA){
-                if(a.line.priceA > b.line.priceA) return -1;
-                else if(a.line.priceA === b.line.priceA){
-                    if(a.line.title < b.line.title) return -1;
-                }
-            }
-        }
-        else{
-            if(!a.line.priceB || !b.line.priceB){
-                if(!a.line.priceB && b.line.priceB) return 1;
-                else if(!b.line.priceB && a.line.priceB) return -1;
-            }
-            if(a.line.pointB < b.line.pointB) return -1;
-            else if(a.line.pointB === b.line.pointB){
-                if(a.line.priceB > b.line.priceB) return -1;
-                else if(a.line.priceB === b.line.priceB){
-                    if(a.line.title < b.line.title) return -1;
-                }
-            }
-        }
-        return 1;
     }
 
     function propSort(a, b){

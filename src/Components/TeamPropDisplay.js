@@ -51,7 +51,6 @@ const TeamPropDisplay = (game) => {
         if(prop_map.has(propChoice.value)){
             setProp(propChoice);
             window.localStorage.setItem('team_prop_' + game.game_id, propChoice.value);
-            //console.log(data);
             let sortingChoices = [];
             let labelRetrieve = prop_map.get(propChoice.value).values().next().value;
             sortingChoices.push({value:labelRetrieve.labelA,label:labelRetrieve.labelA});
@@ -84,7 +83,7 @@ const TeamPropDisplay = (game) => {
                 </div>
             <div>
                 {data.has(prop.value) && data.get(prop.value).size > 0?<div className="bookmakers-container">
-                {Array.from(data.get(prop.value), ([bookmaker, line]) => ({ bookmaker, line })).sort(propSortByLabel).map((bookmaker, index) => {
+                {Array.from(data.get(prop.value), ([bookmaker, line]) => ({ bookmaker, line })).sort(game.sortFunction(sorter)).map((bookmaker, index) => {
                     let endOfPointBucket = false;
                     if(bookmaker.line.pointA !== lastPoint || index === 0){
                         endOfPointBucket = true;
@@ -118,36 +117,6 @@ const TeamPropDisplay = (game) => {
         </div>
         
     )
-
-    function propSortByLabel(a, b){
-        if(sorter.label === a.line.labelA){
-            if(!a.line.priceA || !b.line.priceA){
-                if(!a.line.priceA && b.line.priceA) return 1;
-                else if(!b.line.priceA && a.line.priceA) return -1;
-            }
-            if(a.line.pointA < b.line.pointA) return -1;
-            else if(a.line.pointA === b.line.pointA){
-                if(a.line.priceA > b.line.priceA) return -1;
-                else if(a.line.priceA === b.line.priceA){
-                    if(a.line.title < b.line.title) return -1;
-                }
-            }
-        }
-        else{
-            if(!a.line.priceB || !b.line.priceB){
-                if(!a.line.priceB && b.line.priceB) return 1;
-                else if(!b.line.priceB && a.line.priceB) return -1;
-            }
-            if(a.line.pointB < b.line.pointB) return -1;
-            else if(a.line.pointB === b.line.pointB){
-                if(a.line.priceB > b.line.priceB) return -1;
-                else if(a.line.priceB === b.line.priceB){
-                    if(a.line.title < b.line.title) return -1;
-                }
-            }
-        }
-        return 1;
-    }
     
 }
 

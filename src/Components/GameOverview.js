@@ -39,6 +39,7 @@ const GameOverview = (game) => {
                     bookmakers={game.bookmakers}
                     sport={game.sport}
                     bookies={game.bookie_list}
+                    sortFunction={propSortByLabel}
                 ></TeamPropDisplay>
                 </div>:<></>
             }
@@ -48,6 +49,7 @@ const GameOverview = (game) => {
                         game_id={game.game_id}
                         sport={game.sport}
                         bookies={game.bookie_list}
+                        sortFunction={propSortByLabel}
                     ></PlayerPropDisplay>
                     </div>
                 </DataProvider> : <></>
@@ -64,6 +66,38 @@ const GameOverview = (game) => {
         setButtonClicked(!buttonClickedStatus);
         for(const func of setToFalse){
             func(false);
+        }
+    }
+
+    function propSortByLabel(sorter){
+        return function(a,b) {
+            if(sorter.label === a.line.labelA){
+                if(!a.line.priceA || !b.line.priceA){
+                    if(!a.line.priceA && b.line.priceA) return 1;
+                    else if(!b.line.priceA && a.line.priceA) return -1;
+                }
+                if(a.line.pointA < b.line.pointA) return -1;
+                else if(a.line.pointA === b.line.pointA){
+                    if(a.line.priceA > b.line.priceA) return -1;
+                    else if(a.line.priceA === b.line.priceA){
+                        if(a.line.title < b.line.title) return -1;
+                    }
+                }
+            }
+            else{
+                if(!a.line.priceB || !b.line.priceB){
+                    if(!a.line.priceB && b.line.priceB) return 1;
+                    else if(!b.line.priceB && a.line.priceB) return -1;
+                }
+                if(a.line.pointB < b.line.pointB) return -1;
+                else if(a.line.pointB === b.line.pointB){
+                    if(a.line.priceB > b.line.priceB) return -1;
+                    else if(a.line.priceB === b.line.priceB){
+                        if(a.line.title < b.line.title) return -1;
+                    }
+                }
+            }
+            return 1;
         }
     }
 
