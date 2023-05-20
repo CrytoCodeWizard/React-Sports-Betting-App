@@ -38,16 +38,75 @@ const PlayerPropDisplay = (event) => {
                     
                 }
             }
-            if(filteredMap.has(prop.value)){
-                propSelect(prop, filteredMap);
-            }
         }
-        
-        
         setPropChoices(playerPropChoices.sort(propSort));
         setIndividualProps(filteredMap);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, [event.bookies, data]);
+
+    useEffect(() => {
+        if(individualProps.has(prop.value)){
+            let playerChoices = [];
+            for(const key of individualProps.get(prop.value).keys()){
+                playerChoices.push({value:key,label:key});
+            }
+            setPlayerChoices(playerChoices.sort(propSort));
+
+            let sortingChoices = [];
+            let labelRetrieve = individualProps.get(prop.value).values().next().value.values().next().value;
+            sortingChoices.push({value:labelRetrieve.labelA,label:labelRetrieve.labelA});
+            sortingChoices.push({value:labelRetrieve.labelB,label:labelRetrieve.labelB});
+            setSortChoices(sortingChoices);
+            if(sorter.label !== labelRetrieve.labelA && sorter.label !== labelRetrieve.labelB){
+                sorterSelect(sortingChoices[0]);
+            }
+        }
+        // eslint-disable-next-line
+    }, [individualProps, prop]);
+
+    useEffect(() => {
+        if(playerChoices.length > 0){
+            let foundPlayer = false;
+            for(const plyr of playerChoices){
+                if(plyr.value === player.value){
+                    foundPlayer = true;
+                    break;
+                }
+            }
+            if(!foundPlayer){
+                playerSelect(playerChoices[0]);
+            }
+        }
+        // eslint-disable-next-line
+    }, [playerChoices]);
+
+    function propSelect(propChoice){
+
+        if(propChoice.value !== prop.value){
+            setProp(propChoice);
+            window.localStorage.setItem('player_prop_' + event.game_id, propChoice.value);
+        }
+        
+    }
+
+    function playerSelect(playerChoice){
+        if(playerChoice.value !== player.value){
+            setPlayer(playerChoice);
+            window.localStorage.setItem('player_prop_player_' + event.game_id, playerChoice.value);
+        }
+    }
+
+    function sorterSelect(sorterChoice){
+        if(sorterChoice.label !== sorter.label){
+            setSorter(sorterChoice);
+            window.localStorage.setItem('player_prop_sorter_' + event.game_id, sorterChoice.value);
+        }
+    }
+
+    function propSort(a, b){
+        if(a.label < b.label) return -1;
+        else return 1;
+    }
 
 
     if (!data) {
@@ -96,56 +155,6 @@ const PlayerPropDisplay = (event) => {
         </div>
         
     )
-
-    function propSelect(propChoice, propMap){
-
-        if(propMap.has(propChoice.value)){
-            setProp(propChoice);
-            window.localStorage.setItem('player_prop_' + event.game_id, propChoice.value);
-            let playerChoices = [];
-            let foundPlayer = false;
-            for(const key of propMap.get(propChoice.value).keys()){
-                if(key === player.value){
-                    foundPlayer = true;
-                }
-                playerChoices.push({value:key,label:key});
-            }
-            setPlayerChoices(playerChoices.sort(propSort));
-            playerSelect(foundPlayer ? player : playerChoices[0]);
-
-            let sortingChoices = [];
-            let labelRetrieve = propMap.get(propChoice.value).values().next().value.values().next().value;
-            sortingChoices.push({value:labelRetrieve.labelA,label:labelRetrieve.labelA});
-            sortingChoices.push({value:labelRetrieve.labelB,label:labelRetrieve.labelB});
-            setSortChoices(sortingChoices);
-            if(sorter.label !== labelRetrieve.labelA && sorter.label !== labelRetrieve.labelB){
-                sorterSelect(sortingChoices[0]);
-            }
-        }
-        else{
-            setProp("");
-        }
-        
-    }
-
-    function playerSelect(playerChoice){
-        if(playerChoice.value !== player.value){
-            setPlayer(playerChoice);
-            window.localStorage.setItem('player_prop_player_' + event.game_id, playerChoice.value);
-        }
-    }
-
-    function sorterSelect(sorterChoice){
-        if(sorterChoice.label !== sorter.label){
-            setSorter(sorterChoice);
-            window.localStorage.setItem('player_prop_sorter_' + event.game_id, sorterChoice.value);
-        }
-    }
-
-    function propSort(a, b){
-        if(a.label < b.label) return -1;
-        else return 1;
-    }
     
     
 }
