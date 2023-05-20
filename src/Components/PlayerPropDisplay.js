@@ -57,11 +57,8 @@ const PlayerPropDisplay = (event) => {
             sortingChoices.push({value:labelRetrieve.labelA,label:labelRetrieve.labelA});
             sortingChoices.push({value:labelRetrieve.labelB,label:labelRetrieve.labelB});
             setSortChoices(sortingChoices);
-            if(sorter.label !== labelRetrieve.labelA && sorter.label !== labelRetrieve.labelB){
-                sorterSelect(sortingChoices[0]);
-            }
         }
-        // eslint-disable-next-line
+      
     }, [individualProps, prop]);
 
     useEffect(() => {
@@ -74,11 +71,22 @@ const PlayerPropDisplay = (event) => {
                 }
             }
             if(!foundPlayer){
-                playerSelect(playerChoices[0]);
+                setPlayer(playerChoices[0]);
+                window.localStorage.setItem('player_prop_player_' + event.game_id, playerChoices[0].value);
             }
         }
         // eslint-disable-next-line
-    }, [playerChoices]);
+    }, [playerChoices, event]);
+
+    useEffect(() => {
+        if(sortChoices.length > 0){
+            if(sorter.label !== sortChoices[0].label && sorter.label !== sortChoices[1].label){
+                setSorter(sortChoices[0]);
+                window.localStorage.setItem('player_prop_sorter_' + event.game_id, sortChoices[0].value);
+            }
+        }
+        // eslint-disable-next-line
+    }, [sortChoices, event]);
 
     function propSelect(propChoice){
 
@@ -97,6 +105,7 @@ const PlayerPropDisplay = (event) => {
     }
 
     function sorterSelect(sorterChoice){
+        console.log("GOAT");
         if(sorterChoice.label !== sorter.label){
             setSorter(sorterChoice);
             window.localStorage.setItem('player_prop_sorter_' + event.game_id, sorterChoice.value);
@@ -117,7 +126,7 @@ const PlayerPropDisplay = (event) => {
         <div>
             <div className="state-dropdown">
                 <Select key={`prop_for_${event.bookies}`} options={propChoices} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
-                                                                                        })} onChange={(propChoice) => propSelect(propChoice, individualProps)} value={prop || ''} placeholder="Prop..."/>
+                                                                                        })} onChange={(propChoice) => propSelect(propChoice)} value={prop || ''} placeholder="Prop..."/>
                 <Select key={`players_for_${prop}`} options={playerChoices} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
                                                                                         })} onChange={(playerChoice) => playerSelect(playerChoice)} value={player || ''} isDisabled={prop ? false : true} placeholder="Player..."/>
             </div>
