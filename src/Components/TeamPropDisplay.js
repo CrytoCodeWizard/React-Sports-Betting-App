@@ -37,31 +37,37 @@ const TeamPropDisplay = (game) => {
                 
             }
         }
-        
-        
-
-        propSelect(prop, team_props);
         setPropChoices(prop_choices);
         setData(team_props);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+    
     }, [game.bookies, game.bookmakers]);
 
-    function propSelect(propChoice, prop_map){
-
-        if(prop_map.has(propChoice.value)){
-            setProp(propChoice);
-            window.localStorage.setItem('team_prop_' + game.game_id, propChoice.value);
+    useEffect(() => {
+        if(data.has(prop.value)){
             let sortingChoices = [];
-            let labelRetrieve = prop_map.get(propChoice.value).values().next().value;
+            let labelRetrieve = data.get(prop.value).values().next().value;
             sortingChoices.push({value:labelRetrieve.labelA,label:labelRetrieve.labelA});
             sortingChoices.push({value:labelRetrieve.labelB,label:labelRetrieve.labelB});
             setSortChoices(sortingChoices);
-            if(sorter.label !== labelRetrieve.labelA && sorter.label !== labelRetrieve.labelB){
-                sorterSelect(sortingChoices[0]);
+        }
+
+    }, [prop, data]);
+
+    useEffect(() => {
+        if(sortChoices.length > 0){
+            if(sorter.label !== sortChoices[0].label && sorter.label !== sortChoices[1].label){
+                setSorter(sortChoices[0]);
             }
         }
-        else{
-            setProp("");
+        // eslint-disable-next-line
+    }, [sortChoices]);
+
+
+    function propSelect(propChoice){
+
+        if(propChoice.value !== prop.value){
+            setProp(propChoice);
+            window.localStorage.setItem('team_prop_' + game.game_id, propChoice.value);
         }
         
     }
@@ -79,7 +85,7 @@ const TeamPropDisplay = (game) => {
 
             <div className="state-dropdown">
                 <Select options={propChoices} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
-                        })} onChange={(propChoice) => propSelect(propChoice, data)} value={prop || ''}/>
+                        })} onChange={(propChoice) => propSelect(propChoice)} value={prop || ''}/>
                 </div>
             <div>
                 {data.has(prop.value) && data.get(prop.value).size > 0?<div className="bookmakers-container">

@@ -10,6 +10,7 @@ function App() {
   const [games, setGames] = useState([]);
   const [filteredGames, setFilteredGames] = useState([]);
   const [sport, setSport] = useState(window.localStorage.getItem('sport') || 'americanfootball_nfl');
+  const [filterText, setFilterText] = useState(window.localStorage.getItem('filter_text_' + sport) ? window.localStorage.getItem('filter_text_' + sport) : '');
   const [bookies, setBookies] = useState(window.localStorage.getItem('usState')?state_bookmakers[window.localStorage.getItem('usState')]["bookmakers"]:new Set([])) ;
   
   useEffect(() => {
@@ -25,13 +26,16 @@ function App() {
         .then(([odds, scores]) => {
           let res = scores.map(x => Object.assign(x, odds.find(y => y.id === x.id)));
           setGames(res);
-          setFilteredGames(res);
         })
         .catch((err) => {
           console.log(err.message);
         });
         window.localStorage.setItem('sport', sport);
     }, [sport]);
+
+    useEffect(() => {
+      setFilteredGames(games.filter((game) => game.away_team.toLowerCase().includes(filterText.toLowerCase()) || game.home_team.toLowerCase().includes(filterText.toLowerCase())));
+    }, [games, filterText]);
   
   function stateSelect(values){
     setBookies(values["bookmakers"]);
@@ -39,8 +43,14 @@ function App() {
   }
 
   function filterGames(searchText){
-    let toUnder = searchText.toLowerCase();
-    setFilteredGames(games.filter((game) => game.away_team.toLowerCase().includes(toUnder) || game.home_team.toLowerCase().includes(toUnder)));
+    setFilterText(searchText);
+    window.localStorage.setItem('filter_text_' + sport, searchText);
+  }
+
+  function sportChange(sportChoice){
+    setSport(sportChoice);
+    window.localStorage.setItem('filter_text_' + sport, '');
+    setFilterText('');
   }
 
   return (
@@ -48,17 +58,17 @@ function App() {
       <div className="title-heading">Shop the Line</div>
         <nav className="navbar navbar-light navbar-custom justify-content-center">    
           {sport === 'americanfootball_nfl'?<button className="active navbar-text-custom nav-button-selected">NFL</button>:
-          <button className="active navbar-text-custom nav-button" onClick={() => setSport('americanfootball_nfl')}>NFL</button>}
+          <button className="active navbar-text-custom nav-button" onClick={() => sportChange('americanfootball_nfl')}>NFL</button>}
           {sport === 'basketball_nba'?<button className="active navbar-text-custom nav-button-selected">NBA</button>:
-          <button className="active navbar-text-custom nav-button" onClick={() => setSport('basketball_nba')}>NBA</button>}
+          <button className="active navbar-text-custom nav-button" onClick={() => sportChange('basketball_nba')}>NBA</button>}
           {sport === 'baseball_mlb'?<button className="active navbar-text-custom nav-button-selected">MLB</button>:
-          <button className="active navbar-text-custom nav-button" onClick={() => setSport('baseball_mlb')}>MLB</button>}
+          <button className="active navbar-text-custom nav-button" onClick={() => sportChange('baseball_mlb')}>MLB</button>}
           {sport === 'icehockey_nhl'?<button className="active navbar-text-custom nav-button-selected">NHL</button>:
-          <button className="active navbar-text-custom nav-button" onClick={() => setSport('icehockey_nhl')}>NHL</button>}
+          <button className="active navbar-text-custom nav-button" onClick={() => sportChange('icehockey_nhl')}>NHL</button>}
         </nav>
         <div className="state-dropdown"><Select options={state_bookmakers} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
                                                                                       })} defaultValue={state_bookmakers[window.localStorage.getItem('usState')] || ""} onChange={(values) => stateSelect(values)} placeholder="State..."/></div>
-        <div className="filter-teams"><input type="text" onInput={e => filterGames(e.target.value)}/></div>
+        <div className="filter-teams"><input type="text" onInput={e => filterGames(e.target.value)} value={filterText}/></div>
       <div className="app-container">
         <div className="game-container">
           <div className="all-container">
