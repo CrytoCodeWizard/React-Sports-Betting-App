@@ -31,7 +31,6 @@ function App() {
           console.log(err.message);
         });
         window.localStorage.setItem('sport', sport);
-        console.log(games);
     }, [sport]);
   
   function stateSelect(values){

@@ -4,9 +4,9 @@ import TeamPropDisplay from './TeamPropDisplay';
 import { DataProvider } from './DataContext';
 
 const GameOverview = (game) => {
-    const [showTeamProps,setShowTeamProps] = useState(false);
-    const [showPlayerProps, setShowPlayerProps] = useState(false);
-    const [playerPropsClicked, setPlayerPropsClicked] = useState(false);
+    const [showTeamProps,setShowTeamProps] = useState(window.localStorage.getItem('team_prop_clicked_' + game.game_id) === 'true' ? true : false);
+    const [showPlayerProps, setShowPlayerProps] = useState(window.localStorage.getItem('player_prop_clicked_' + game.game_id) === 'true' ? true : false);
+    const [playerPropsClicked, setPlayerPropsClicked] = useState(window.localStorage.getItem('player_prop_clicked_' + game.game_id) === 'true' ? true : false);;
     const today = new Date();
     const gameStart = new Date(game.startTime);
     const images = importAll(require.context('./../Images/', true, /\.(png|jpe?g|svg)$/));
@@ -66,6 +66,15 @@ const GameOverview = (game) => {
         setButtonClicked(!buttonClickedStatus);
         for(const func of setToFalse){
             func(false);
+        }
+
+        if(setButtonClicked === setShowPlayerProps){
+            window.localStorage.setItem('player_prop_clicked_' + game.game_id, !buttonClickedStatus);
+            window.localStorage.setItem('team_prop_clicked_' + game.game_id, false);
+        }
+        else if(setButtonClicked === setShowTeamProps){
+            window.localStorage.setItem('team_prop_clicked_' + game.game_id, !buttonClickedStatus);
+            window.localStorage.setItem('player_prop_clicked_' + game.game_id, false);
         }
     }
 

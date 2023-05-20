@@ -10,7 +10,7 @@ const TeamPropDisplay = (game) => {
     const [data, setData] = useState(new Map());
     const [prop, setProp] = useState(window.localStorage.getItem('team_prop_' + game.game_id)?{value:window.localStorage.getItem('team_prop_' + game.game_id),label:team_prop_choices[window.localStorage.getItem('team_prop_' + game.game_id)]} : {value:'h2h', label:team_prop_choices['h2h']});
     const [sortChoices, setSortChoices] = useState([]);
-    const [sorter, setSorter] = useState(window.localStorage.getItem('player_prop_sorter_' + game.game_id)? {value:window.localStorage.getItem('player_prop_sorter_' + game.game_id),label:window.localStorage.getItem('player_prop_sorter_' + game.game_id)} : "");
+    const [sorter, setSorter] = useState(window.localStorage.getItem('team_prop_sorter_' + game.game_id)? {value:window.localStorage.getItem('team_prop_sorter_' + game.game_id),label:window.localStorage.getItem('team_prop_sorter_' + game.game_id)} : "");
     let lastPoint = 0.0;
 
     useEffect(() => {
@@ -69,7 +69,7 @@ const TeamPropDisplay = (game) => {
     function sorterSelect(sorterChoice){
         if(sorterChoice.label !== sorter.label){
             setSorter(sorterChoice);
-            window.localStorage.setItem('player_prop_sorter_' + game.game_id, sorterChoice.value);
+            window.localStorage.setItem('team_prop_sorter_' + game.game_id, sorterChoice.value);
         }
     }
    
