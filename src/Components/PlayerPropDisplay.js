@@ -105,7 +105,6 @@ const PlayerPropDisplay = (event) => {
     }
 
     function sorterSelect(sorterChoice){
-        console.log("GOAT");
         if(sorterChoice.label !== sorter.label){
             setSorter(sorterChoice);
             window.localStorage.setItem('player_prop_sorter_' + event.game_id, sorterChoice.value);
