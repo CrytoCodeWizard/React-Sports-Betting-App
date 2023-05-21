@@ -14,13 +14,10 @@ function App() {
   const [bookies, setBookies] = useState(window.localStorage.getItem('usState')?state_bookmakers[window.localStorage.getItem('usState')]["bookmakers"]:new Set([])) ;
   
   useEffect(() => {
-    const urls = ['https://odds.p.rapidapi.com/v4/sports/' + sport + '/odds?regions=us&oddsFormat=american&markets=spreads,h2h,totals&dateFormat=iso', 'https://odds.p.rapidapi.com/v4/sports/' + sport + '/scores'];
+    const urls = ['https://api.the-odds-api.com/v4/sports/' + sport + '/odds?regions=us&oddsFormat=american&markets=spreads,h2h,totals&dateFormat=iso&apiKey=' + process.env.REACT_APP_API_KEY_SPORT_ODDS,
+     'https://api.the-odds-api.com/v4/sports/' + sport + '/scores/?apiKey=' + process.env.REACT_APP_API_KEY_SPORT_ODDS];
     Promise.all(urls.map(url => fetch(url, {
       method: 'GET',
-      headers: {
-        'X-RapidAPI-Key': process.env.REACT_APP_API_KEY_SPORT_ODDS,
-        'X-RapidAPI-Host': 'odds.p.rapidapi.com'
-      }
     })
         .then((response) => response.json())))
         .then(([odds, scores]) => {
