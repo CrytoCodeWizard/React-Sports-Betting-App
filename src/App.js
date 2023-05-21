@@ -66,9 +66,9 @@ function App() {
           {sport === 'icehockey_nhl'?<button className="active navbar-text-custom nav-button-selected">NHL</button>:
           <button className="active navbar-text-custom nav-button" onClick={() => sportChange('icehockey_nhl')}>NHL</button>}
         </nav>
-        <div className="state-dropdown"><Select options={state_bookmakers} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
+        <div className="header-container"><div className="field-in-header"><Select options={state_bookmakers} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
                                                                                       })} defaultValue={state_bookmakers[window.localStorage.getItem('usState')] || ""} onChange={(values) => stateSelect(values)} placeholder="State..."/></div>
-        <div className="filter-teams"><input type="text" onInput={e => filterGames(e.target.value)} value={filterText}/></div>
+                                                                                      <div className="field-in-header"><input type="text" onInput={e => filterGames(e.target.value)} value={filterText} placeholder="Search..."/></div></div>
       <div className="app-container">
         <div className="game-container">
           <div className="all-container">

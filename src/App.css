@@ -117,10 +117,18 @@ a:visited {
   justify-content: space-between;
 }
 
-.filter-teams {
+.field-in-header {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding:  1rem;
+  margin-left: 1.2rem;
+  text-align: center;
+}
+
+.filter-teams {
+  margin-left: 1rem;
 }
 
 .game-container {
@@ -133,6 +141,12 @@ a:visited {
 .game-text {
   font-family: monospace;
   font-size: 1rem;
+}
+
+.header-container {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
 }
 
 hr {
@@ -164,7 +178,7 @@ html
 .navbar-text-custom {
   font-family: monospace;
   border: none;
-  margin-right: .9rem;
+  margin-right: 0.9rem;
 }
 
 .nav-button:hover {
