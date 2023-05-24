@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PlayerPropDisplay from "./PlayerPropDisplay";
 import TeamPropDisplay from './TeamPropDisplay';
 import { DataProvider } from './DataContext';
+import {team_codes} from '../Resources.js';
 
 const GameOverview = (game) => {
     const [showTeamProps,setShowTeamProps] = useState(window.localStorage.getItem('team_prop_clicked_' + game.game_id) === 'true' ? true : false);
@@ -18,10 +19,10 @@ const GameOverview = (game) => {
                 <div className="column-image-container"><img className="column-image column-image-road" src={images[game.sport + "_TeamImages/" + game.awayTeam + ".png"]} alt={game.awayTeam} /></div>
                 <div className="column-image-container"><img className="column-image column-image-home" src={images[game.sport + "_TeamImages/" + game.homeTeam + ".png"]} alt={game.homeTeam} /></div>
             </div>
-            <p className="game-text">{game.awayTeam} @ {game.homeTeam}</p>
+            <p className="game-text">{team_codes[game.awayTeam]} @ {team_codes[game.homeTeam]}</p>
             {today>=gameStart?<p className="live"><b>LIVE</b></p>:<p className="game-text">{stringifiedGameStart}</p>}
             <div>
-                {game.curScore?<p className="game-text">{game.curScore[1].score} - {game.curScore[0].score}</p>:<p><br></br></p>}
+                {game.curScore?<p className="game-text">{game.curScore[1].score} - {game.curScore[0].score}</p>:<></>}
             </div>
             <div className="odds-button-outer">
                 

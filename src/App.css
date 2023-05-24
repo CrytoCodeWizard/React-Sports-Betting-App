@@ -93,13 +93,13 @@ a:visited {
 }
 
 .column-image {
-  width: 9rem;
-  height: 9rem;
+  width: 6rem;
+  height: 6rem;
 }
 
 .column-image-container {
-  width: 14rem;
-  height: 10rem;
+  width: 9rem;
+  height: 6rem;
 }
 
 .column-image-home {
@@ -123,12 +123,7 @@ a:visited {
   align-items: center;
   justify-content: center;
   padding:  1rem;
-  margin-left: 1.2rem;
   text-align: center;
-}
-
-.filter-teams {
-  margin-left: 1rem;
 }
 
 .game-container {
@@ -144,8 +139,6 @@ a:visited {
 }
 
 .header-container {
-  display: flex;
-  justify-content: center;
   padding: 1rem;
 }
 
@@ -179,6 +172,11 @@ html
   font-family: monospace;
   border: none;
   margin-right: 0.9rem;
+}
+
+.navbar-text-custom-last {
+  font-family: monospace;
+  border: none;
 }
 
 .nav-button:hover {
@@ -225,7 +223,7 @@ html
   -webkit-user-select: none;
   touch-action: manipulation;
   will-change: transform;
-  width: 30%;
+  width: 40%;
 }
 
 .odds-button:hover {
@@ -266,7 +264,7 @@ html
   -webkit-user-select: none;
   touch-action: manipulation;
   will-change: transform;
-  width: 30%;
+  width: 40%;
 }
 
 .odds-button-selected:hover {

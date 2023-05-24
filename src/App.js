@@ -3,7 +3,7 @@ import GameOverview from "./Components/GameOverview";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import Select from "react-select";
-import { state_bookmakers } from "./Resources.js";
+import { state_bookmakers, team_codes } from "./Resources.js";
 
 function App() {
   
@@ -31,7 +31,8 @@ function App() {
     }, [sport]);
 
     useEffect(() => {
-      setFilteredGames(games.filter((game) => game.away_team.toLowerCase().includes(filterText.toLowerCase()) || game.home_team.toLowerCase().includes(filterText.toLowerCase())));
+      setFilteredGames(games.filter((game) => game.away_team.toLowerCase().includes(filterText.toLowerCase()) || game.home_team.toLowerCase().includes(filterText.toLowerCase()) || team_codes[game.away_team].toLowerCase().includes(filterText.toLowerCase())
+      || team_codes[game.home_team].toLowerCase().includes(filterText.toLowerCase())));
     }, [games, filterText]);
   
   function stateSelect(values){
@@ -60,8 +61,8 @@ function App() {
           <button className="active navbar-text-custom nav-button" onClick={() => sportChange('basketball_nba')}>NBA</button>}
           {sport === 'baseball_mlb'?<button className="active navbar-text-custom nav-button-selected">MLB</button>:
           <button className="active navbar-text-custom nav-button" onClick={() => sportChange('baseball_mlb')}>MLB</button>}
-          {sport === 'icehockey_nhl'?<button className="active navbar-text-custom nav-button-selected">NHL</button>:
-          <button className="active navbar-text-custom nav-button" onClick={() => sportChange('icehockey_nhl')}>NHL</button>}
+          {sport === 'icehockey_nhl'?<button className="active navbar-text-custom-last nav-button-selected">NHL</button>:
+          <button className="active navbar-text-custom-last nav-button" onClick={() => sportChange('icehockey_nhl')}>NHL</button>}
         </nav>
         <div className="header-container"><div className="field-in-header"><Select options={state_bookmakers} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
                                                                                       })} defaultValue={state_bookmakers[window.localStorage.getItem('usState')] || ""} onChange={(values) => stateSelect(values)} placeholder="State..."/></div>
