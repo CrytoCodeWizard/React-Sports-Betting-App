@@ -226,13 +226,6 @@ html
   width: 40%;
 }
 
-.odds-button:hover {
-  color: #fff;
-  background-color: #1A1A1A;
-  box-shadow: rgba(0, 0, 0, 0.25) 0 0.5rem 0.938rem;
-  transform: translateY(-0.125rem);
-}
-
 .odds-button-outer {
   display: flex;
   justify-content: center;
@@ -267,12 +260,6 @@ html
   width: 40%;
 }
 
-.odds-button-selected:hover {
-  color: #fff;
-  background-color: #1A1A1A;
-  box-shadow: rgba(0, 0, 0, 0.25) 0 0.5rem 0.938rem;
-  transform: translateY(-0.125rem);
-}
 
 .odds-button-text {
   margin: auto;

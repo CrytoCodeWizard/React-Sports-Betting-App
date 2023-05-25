@@ -4,6 +4,8 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import Select from "react-select";
 import { state_bookmakers, team_codes } from "./Resources.js";
+import 'input-clear-icon/input-clear-icon.regular.css';
+import 'input-clear-icon/input-clear-icon.js';
 
 function App() {
   
@@ -36,8 +38,14 @@ function App() {
     }, [games, filterText]);
   
   function stateSelect(values){
-    setBookies(values["bookmakers"]);
-    window.localStorage.setItem('usState', values["value"]);
+    if(!values) {
+      setBookies(new Set([]));
+      localStorage.removeItem('usState');
+    }
+    else{
+      setBookies(values.bookmakers);
+      window.localStorage.setItem('usState', values.value);
+    }
   }
 
   function filterGames(searchText){
@@ -66,7 +74,7 @@ function App() {
         </nav>
         <div className="header-container"><div className="field-in-header"><Select options={state_bookmakers} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
                                                                                       })} defaultValue={state_bookmakers[window.localStorage.getItem('usState')] || ""} onChange={(values) => stateSelect(values)} placeholder="State..."/></div>
-                                                                                      <div className="field-in-header"><input type="text" onInput={e => filterGames(e.target.value)} value={filterText} placeholder="Search..."/></div></div>
+                                                                                      <div className="field-in-header"><input data-input-clear-icon-class="my-clear-icon" type="text" onInput={e => filterGames(e.target.value)} value={filterText} placeholder="Search..."/></div></div>
       <div className="app-container">
         <div className="game-container">
           <div className="all-container">

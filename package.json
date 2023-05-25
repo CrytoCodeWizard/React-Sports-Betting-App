@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.2.1",
     "bootstrap": "^5.2.3",
+    "input-clear-icon": "^0.2.1",
     "mdb-react-ui-kit": "^5.0.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.0",
