@@ -29,6 +29,7 @@ a:visited {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-bottom: 7rem;
 }
 
 @keyframes blink {
@@ -43,11 +44,13 @@ a:visited {
   100% { text-shadow: 0rem 0 0.938rem red; }
 }
 
+body {  min-width:19.063rem; }
+
 
 .bookmaker-container {
   width: 100%;
   display:inline-block;
-  height: 4px;
+  height: 0.25rem;
 }
 
 .bookmaker-child-name {
@@ -69,12 +72,12 @@ a:visited {
 
 .bookmaker-child-end-of-block {
   border: none;
-  height: 4px;
+  height: 0.25rem;
   background-color: black;  
 }
 
 .bookmaker-child-sep {
-  height: 4px;
+  height: 0.25rem;
 }
 
 .bookmakers-container{
@@ -107,12 +110,9 @@ a:visited {
 }
 
 .field-in-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding:  1rem;
+  float: left;
   text-align: center;
+  width: 50%;
 }
 
 footer {
@@ -137,8 +137,13 @@ footer {
   font-size: 1rem;
 }
 
-.header-container {
-  padding: 1rem;
+.header-container { 
+  margin: auto;
+  width: 100%;
+  max-width: 24.375rem;
+  min-width: 17.5rem;
+  height: 5rem;
+  padding: 1.5rem;
 }
 
 hr {
@@ -282,6 +287,11 @@ html
   padding: 1rem;
 }
 
+.search-bar {
+  transform: translateY(15%);
+  width: 90%;
+}
+
 .thumb-container {
   display: flex;
   flex-direction: column;
@@ -291,7 +301,7 @@ html
   margin: 0.3rem;
   border: 0.063rem solid #110c0c;
   border-radius: 2rem;
-  min-width: 160px;
+  min-width: 10rem;
   text-align: center;
   box-shadow: 0 0.188rem 0.938rem rgba(0, 0, 0, 0.089);
 }
