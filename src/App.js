@@ -1,5 +1,6 @@
 import React,{ useEffect, useState } from "react";
 import GameOverview from "./Components/GameOverview";
+import Footer from "./Components/Footer";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import Select from "react-select";
@@ -95,6 +96,7 @@ function App() {
           </div>
         </div>
       </div>
+      <Footer></Footer>
     </div>
   );
 }

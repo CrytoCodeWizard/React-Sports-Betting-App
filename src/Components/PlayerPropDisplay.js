@@ -141,7 +141,6 @@ const PlayerPropDisplay = (event) => {
                         key={bookmaker.bookmaker}
                         bookmaker={bookmaker.bookmaker}
                         bookmakerLink={bookmaker_links[bookmaker.bookmaker]}
-                        bookmakerTitle={bookmaker.line.title}
                         descriptOfPriceALabel={bookmaker.line.labelA}
                         aPrice={bookmaker.line.priceA > 0 ? '+' + bookmaker.line.priceA : bookmaker.line.priceA}
                         aPoint={bookmaker.line.pointA}

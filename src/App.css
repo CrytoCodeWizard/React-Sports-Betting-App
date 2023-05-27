@@ -1,5 +1,5 @@
 a:active {
-  color: rgb(7, 10, 211);
+  color: rgb(61, 62, 159);
   text-decoration: none;
 }
 
@@ -8,12 +8,12 @@ a:hover {
 }
 
 a:link{
-  color: rgb(7, 10, 211);
+  color: rgb(61, 62, 159);
   text-decoration: none;
 }
 
 a:visited {
-  color: rgb(7, 10, 211);
+  color: rgb(61, 62, 159);
   text-decoration: none;
 }
 
@@ -46,46 +46,35 @@ a:visited {
 
 .bookmaker-container {
   width: 100%;
-}
-
-.bookmaker-container::before {
-  content: '\A';
-  white-space: pre;
+  display:inline-block;
+  height: 4px;
 }
 
 .bookmaker-child-name {
-  width: 30%;
+  width: 40%;
+  font-family: monospace;
   float: left;
-  text-align: right;
+  text-align: center;
   top: 50%;
   transform: translateY(50%);
 }  
 
 .bookmaker-child-content {
-  width: 70%;
+  width: 60%;
+  font-family: monospace;
   float: left;
   text-align: center;
-}
-
-.bookmaker-child-first {
-  border: none;
-  height: 4px;
-  /* Set the hr color */
- 
-  background-color: black;  
+  
 }
 
 .bookmaker-child-end-of-block {
   border: none;
   height: 4px;
-  margin-top: 4rem;
-  /* Set the hr color */
- 
   background-color: black;  
 }
 
 .bookmaker-child-sep {
-  margin-top: 4rem;
+  height: 4px;
 }
 
 .bookmakers-container{
@@ -123,6 +112,16 @@ a:visited {
   align-items: center;
   justify-content: center;
   padding:  1rem;
+  text-align: center;
+}
+
+footer {
+  position: fixed;
+  background-color: rgb(207, 205, 205);
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: .5rem;
   text-align: center;
 }
 
@@ -165,7 +164,6 @@ html
 
 .navbar-custom {
   background-color: rgb(241, 238, 238);
-  
 }
 
 .navbar-text-custom {

@@ -218,6 +218,31 @@ export const bookmaker_links={
   "wynnbet":"https://www.wynnbet.com/"
 }
 
+export const bookmaker_names={ 
+    "barstool":"Barstool",
+    "betonlineag":"BetOnline.ag",
+    "betfair":"Betfair",
+    "betmgm":"BetMGM",
+    "betrivers":"BetRivers",
+    "betus":"BetUS",
+    "bovada":"Bovada",
+    "circasports":"CircaSports",
+    "draftkings":"DraftKings",
+    "fanduel":"FanDuel",
+    "foxbet":"FOX Bet",
+    "gtbets":"https://www.gtbets.ag/",
+    "intertops":"https://sports.everygame.eu/",
+    "lowvig":"LowVig.ag",
+    "mybookieag":"MyBookie.ag",
+    "pointsbetus":"PointsBet",
+    "sugarhouse":"SugarHouse",
+    "superbook":"Superbook",
+    "twinspires":"Twinspires",
+    "unibet_us":"Unibet",
+    "williamhill_us":"Caesars",
+    "wynnbet":"WynnBET"
+}
+
 export const team_codes={
     "Over":"O",
     "Under":"U",

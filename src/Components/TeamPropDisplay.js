@@ -27,7 +27,6 @@ const TeamPropDisplay = (game) => {
                 }
                 
                 team_props.get(market.key).set(bookmaker.key, {
-                    title: bookmaker.title,
                     labelA: market.outcomes[0].name,
                     priceA: market.outcomes[0].price,
                     pointA: market.outcomes[0].point ? market.outcomes[0].point : "",
@@ -99,7 +98,6 @@ const TeamPropDisplay = (game) => {
                         key={bookmaker.bookmaker}
                         bookmaker={bookmaker.bookmaker}
                         bookmakerLink={bookmaker_links[bookmaker.bookmaker]}
-                        bookmakerTitle={bookmaker.line.title}
                         descriptOfPriceALabel={bookmaker.line.labelA}
                         aPrice={bookmaker.line.priceA > 0 ? '+' + bookmaker.line.priceA : bookmaker.line.priceA}
                         aPoint={prop.value === "spreads" && bookmaker.line.pointA > 0 ? '+' + bookmaker.line.pointA : bookmaker.line.pointA}
