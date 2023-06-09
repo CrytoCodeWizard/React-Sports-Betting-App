@@ -75,123 +75,31 @@ export const team_prop_choices={
     "h2h":"Moneyline"
   }
 
-  export const state_bookmakers = [
-    { 
-      bookmakers: new Set(["barstool", "betmgm", "betrivers", "draftkings", "fanduel", "superbook", "twinspires", "unibet_us", "williamhill_us", "wynnbet"]),
-      value: 0,
-      label: "Arizona"
-    },
-    {
-      bookmakers: new Set(["barstool", "betmgm", "betrivers", "circasports", "draftkings", "fanduel", "foxbet", "pointsbetus", "superbook", "williamhill_us", "wynnbet"]),
-      value: 1,
-      label: "Colorado"
-    },
-    {
-      bookmakers: new Set(["betrivers", "draftkings", "fanduel"]),
-      value: 2,
-      label: "Connecticut"
-    },
-    {
-      bookmakers: new Set(["barstool", "betmgm", "betrivers", "draftkings", "fanduel", "pointsbetus", "williamhill_us"]),
-      value: 3,
-      label: "Illinois"
-    },
-    {
-      bookmakers: new Set(["barstool", "betmgm", "betrivers", "draftkings", "fanduel", "pointsbetus", "unibet_us", "williamhill_us", "wynnbet"]),
-      value: 4,
-      label: "Indiana"
-    },
-    {
-      bookmakers: new Set(["barstool", "betmgm", "betrivers", "circasports", "draftkings", "fanduel", "pointsbetus", "superbook", "unibet_us", "williamhill_us"]),
-      value: 5,
-      label: "Iowa"
-    },
-    {
-      bookmakers: new Set(["barstool", "betmgm", "draftkings", "fanduel", "pointsbetus", "williamhill_us"]),
-      value: 6,
-      label: "Kansas"
-    },
-    {
-      bookmakers: new Set(["barstool", "betmgm", "betrivers", "draftkings", "fanduel", "pointsbetus", "williamhill_us", "wynnbet"]),
-      value: 7,
-      label: "Lousiana"
-    },
-    {
-      bookmakers: new Set(["barstool", "betmgm", "betrivers", "draftkings", "fanduel", "pointsbetus", "williamhill_us"]),
-      value: 8,
-      label: "Maryland"
-    },
-    {
-      bookmakers: new Set(["barstool", "betmgm", "betrivers", "draftkings", "fanduel", "foxbet", "pointsbetus", "williamhill_us", "wynnbet"]),
-      value: 9,
-      label: "Michigan"
-    },
-    {
-      bookmakers: new Set(["betmgm"]),
-      value: 10,
-      label: "Mississippi"
-    },
-    {
-      bookmakers: new Set(["circasports", "superbook", "williamhill_us"]),
-      value: 11,
-      label: "Nevada"
-    },
-    {
-      bookmakers: new Set(["draftkings"]),
-      value: 12,
-      label: "New Hampshire"
-    },
-    {
-      bookmakers: new Set(["barstool", "betfair", "betmgm", "betrivers", "draftkings", "fanduel", "foxbet", "pointsbetus", "superbook", "unibet_us", "williamhill_us", "wynnbet"]),
-      value: 13,
-      label: "New Jersey"
-    },
-    {
-      bookmakers: new Set(["betmgm", "betrivers", "draftkings", "fanduel", "pointsbetus", "williamhill_us", "wynnbet"]),
-      value: 14,
-      label: "New York"
-    },
-    {
-      bookmakers: new Set(["betmgm", "betrivers", "draftkings", "fanduel", "pointsbetus"]),
-      value: 15,
-      label: "Ohio"
-    },
-    {
-      bookmakers: new Set(["draftkings"]),
-      value: 16,
-      label: "Oregon"
-    },
-    {
-      bookmakers: new Set(["barstool", "betmgm", "betrivers", "draftkings", "fanduel", "foxbet", "pointsbetus", "twinspires", "unibet_us", "williamhill_us"]),
-      value: 17,
-      label: "Pennsylvania"
-    },
-    {
-      bookmakers: new Set(["barstool", "betmgm", "draftkings", "fanduel", "superbook", "williamhill_us", "wynnbet"]),
-      value: 18,
-      label: "Tennessee"
-    },
-    {
-      bookmakers: new Set(["barstool", "betmgm", "betrivers", "draftkings", "fanduel", "pointsbetus", "unibet_us", "williamhill_us", "wynnbet"]),
-      value: 19,
-      label: "Virginia"
-    },
-    {
-      bookmakers: new Set(["betmgm", "williamhill_us"]),
-      value: 20,
-      label: "Washington DC"
-    },
-    {
-      bookmakers: new Set(["barstool", "betmgm", "betrivers", "draftkings", "fanduel", "pointsbetus", "williamhill_us"]),
-      value: 21,
-      label: "West Virginia"
-    },
-    {
-      bookmakers: new Set(["betmgm", "draftkings", "fanduel", "williamhill_us"]),
-      value: 22,
-      label: "Wyoming"
-    }
-]
+  export const state_bookmakers = {
+    "Arizona": new Set(["barstool", "betmgm", "betrivers", "draftkings", "fanduel", "superbook", "twinspires", "unibet_us", "williamhill_us", "wynnbet"]),
+    "Colorado": new Set(["barstool", "betmgm", "betrivers", "circasports", "draftkings", "fanduel", "foxbet", "pointsbetus", "superbook", "williamhill_us", "wynnbet"]),
+    "Connecticut": new Set(["betrivers", "draftkings", "fanduel"]),
+    "Illinois": new Set(["barstool", "betmgm", "betrivers", "draftkings", "fanduel", "pointsbetus", "williamhill_us"]),
+    "Indiana": new Set(["barstool", "betmgm", "betrivers", "draftkings", "fanduel", "pointsbetus", "unibet_us", "williamhill_us", "wynnbet"]),
+    "Iowa": new Set(["barstool", "betmgm", "betrivers", "circasports", "draftkings", "fanduel", "pointsbetus", "superbook", "unibet_us", "williamhill_us"]),
+    "Kansas": new Set(["barstool", "betmgm", "draftkings", "fanduel", "pointsbetus", "williamhill_us"]),
+    "Lousiana": new Set(["barstool", "betmgm", "betrivers", "draftkings", "fanduel", "pointsbetus", "williamhill_us", "wynnbet"]),
+    "Maryland": new Set(["barstool", "betmgm", "betrivers", "draftkings", "fanduel", "pointsbetus", "williamhill_us"]),
+    "Michigan": new Set(["barstool", "betmgm", "betrivers", "draftkings", "fanduel", "foxbet", "pointsbetus", "williamhill_us", "wynnbet"]),
+    "Mississippi": new Set(["betmgm"]),
+    "Nevada": new Set(["circasports", "superbook", "williamhill_us"]),
+    "New Hampshire": new Set(["draftkings"]),
+    "New Jersey": new Set(["barstool", "betfair", "betmgm", "betrivers", "draftkings", "fanduel", "foxbet", "pointsbetus", "superbook", "unibet_us", "williamhill_us", "wynnbet"]),
+    "New York": new Set(["betmgm", "betrivers", "draftkings", "fanduel", "pointsbetus", "williamhill_us", "wynnbet"]),
+    "Ohio": new Set(["betmgm", "betrivers", "draftkings", "fanduel", "pointsbetus"]),
+    "Oregon": new Set(["draftkings"]),
+    "Pennsylvania": new Set(["barstool", "betmgm", "betrivers", "draftkings", "fanduel", "foxbet", "pointsbetus", "twinspires", "unibet_us", "williamhill_us"]),
+    "Tennessee": new Set(["barstool", "betmgm", "draftkings", "fanduel", "superbook", "williamhill_us", "wynnbet"]),
+    "Virginia": new Set(["barstool", "betmgm", "betrivers", "draftkings", "fanduel", "pointsbetus", "unibet_us", "williamhill_us", "wynnbet"]),
+    "Washington DC": new Set(["betmgm", "williamhill_us"]),
+    "West Virginia": new Set(["barstool", "betmgm", "betrivers", "draftkings", "fanduel", "pointsbetus", "williamhill_us"]),
+    "Wyoming": new Set(["betmgm", "draftkings", "fanduel", "williamhill_us"])
+  };
 
 export const bookmaker_links={ 
   "barstool":"https://www.barstoolsportsbook.com/",

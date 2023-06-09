@@ -86,7 +86,7 @@ const GameOverview = (game) => {
                     if(!a.line.priceA && b.line.priceA) return 1;
                     else if(!b.line.priceA && a.line.priceA) return -1;
                 }
-                if(a.line.pointA < b.line.pointA) return -1;
+                if(Math.abs(a.line.pointA) < Math.abs(b.line.pointA)) return -1;
                 else if(a.line.pointA === b.line.pointA){
                     if(a.line.priceA > b.line.priceA) return -1;
                     else if(a.line.priceA === b.line.priceA){
@@ -99,7 +99,7 @@ const GameOverview = (game) => {
                     if(!a.line.priceB && b.line.priceB) return 1;
                     else if(!b.line.priceB && a.line.priceB) return -1;
                 }
-                if(a.line.pointB < b.line.pointB) return -1;
+                if(Math.abs(a.line.pointB) < Math.abs(b.line.pointB)) return -1;
                 else if(a.line.pointB === b.line.pointB){
                     if(a.line.priceB > b.line.priceB) return -1;
                     else if(a.line.priceB === b.line.priceB){

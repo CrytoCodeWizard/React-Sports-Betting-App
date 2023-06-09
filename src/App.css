@@ -21,6 +21,7 @@ a:visited {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  min-width: 20rem;
   justify-content: center;
 }
 
@@ -44,7 +45,7 @@ a:visited {
   100% { text-shadow: 0rem 0 0.938rem red; }
 }
 
-body {  min-width:19.063rem; }
+
 
 
 .bookmaker-container {
@@ -109,11 +110,6 @@ body {  min-width:19.063rem; }
   justify-content: space-between;
 }
 
-.field-in-header {
-  float: left;
-  text-align: center;
-  width: 50%;
-}
 
 footer {
   position: fixed;
@@ -167,36 +163,12 @@ html
   animation: blink 2.0s linear infinite;
 }
 
-.navbar-custom {
-  background-color: rgb(241, 238, 238);
-}
-
-.navbar-text-custom {
-  font-family: monospace;
-  border: none;
-  margin-right: 0.9rem;
-}
-
-.navbar-text-custom-last {
-  font-family: monospace;
-  border: none;
-}
-
-.nav-button:hover {
-  background-color: rgb(207, 205, 205);
-  border-radius: 0.938rem;
-}
-
-.nav-button-selected{
-  background-color: rgb(207, 205, 205);
-  border-radius: 0.938rem;
-}
-
 .no-upcoming-message{
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10rem;
+  text-align: center;
+  padding: 5rem;
   font-size: 2rem;
   text-shadow: 0 0 1rem #4a4343;
 }
@@ -281,17 +253,6 @@ html
   color: red;
 }
 
-.state-dropdown {
-  display: flex;
-  justify-content: center;
-  padding: 1rem;
-}
-
-.search-bar {
-  transform: translateY(15%);
-  width: 90%;
-}
-
 .thumb-container {
   display: flex;
   flex-direction: column;
@@ -304,10 +265,4 @@ html
   min-width: 10rem;
   text-align: center;
   box-shadow: 0 0.188rem 0.938rem rgba(0, 0, 0, 0.089);
-}
-
-.title-heading {
-  font-size: 3.125rem;
-  text-align: center;
-  margin-bottom: 1rem;
 }

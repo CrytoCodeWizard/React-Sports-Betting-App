@@ -1,21 +1,41 @@
-import React,{ useEffect, useState } from "react";
+import React,{ useEffect, useState, useMemo } from "react";
 import GameOverview from "./Components/GameOverview";
 import Footer from "./Components/Footer";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import Select from "react-select";
 import { state_bookmakers, team_codes } from "./Resources.js";
-import 'input-clear-icon/input-clear-icon.regular.css';
-import 'input-clear-icon/input-clear-icon.js';
+import { 
+  Collapse,
+  Input,
+  Navbar,
+  Typography,
+  IconButton,
+  Select,
+  Option,
+} from "@material-tailwind/react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 function App() {
   
   const [games, setGames] = useState([]);
   const [filteredGames, setFilteredGames] = useState([]);
   const [sport, setSport] = useState(window.localStorage.getItem('sport') || 'americanfootball_nfl');
-  const [filterText, setFilterText] = useState(window.localStorage.getItem('filter_text_' + sport) ? window.localStorage.getItem('filter_text_' + sport) : '');
-  const [bookies, setBookies] = useState(window.localStorage.getItem('usState')?state_bookmakers[window.localStorage.getItem('usState')]["bookmakers"]:new Set([])) ;
+  const [filterText, setFilterText] = useState(window.localStorage.getItem('filter_text_') ? window.localStorage.getItem('filter_text_') : '');
+  const [bookies, setBookies] = useState(window.localStorage.getItem('usState')?state_bookmakers[window.localStorage.getItem('usState')]:new Set([])) ;
+  const [stateName, setStateName] = useState(window.localStorage.getItem('usState') || "");
+  const [openNav, setOpenNav] = useState(false);
+ 
+  const handleWindowResize = () =>
+    window.innerWidth >= 960 && setOpenNav(false);
+
+  useEffect(() => {
+    window.addEventListener("resize", handleWindowResize);
   
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  }, []);
+ 
   useEffect(() => {
     const urls = ['https://api.the-odds-api.com/v4/sports/' + sport + '/odds?regions=us&oddsFormat=american&markets=spreads,h2h,totals&dateFormat=iso&apiKey=' + process.env.REACT_APP_API_KEY_SPORT_ODDS,
      'https://api.the-odds-api.com/v4/sports/' + sport + '/scores/?apiKey=' + process.env.REACT_APP_API_KEY_SPORT_ODDS];
@@ -41,41 +61,145 @@ function App() {
   function stateSelect(values){
     if(!values) {
       setBookies(new Set([]));
+      setStateName("");
       localStorage.removeItem('usState');
     }
     else{
-      setBookies(values.bookmakers);
-      window.localStorage.setItem('usState', values.value);
+      setBookies(state_bookmakers[values]);
+      setStateName(values);
+      window.localStorage.setItem('usState', values);
     }
+    
   }
 
-  function filterGames(searchText){
-    setFilterText(searchText);
-    window.localStorage.setItem('filter_text_' + sport, searchText);
+  function filterGames({ target }){
+    setFilterText(target.value);
+    window.localStorage.setItem('filter_text_', target.value);
   }
 
   function sportChange(sportChoice){
     setSport(sportChoice);
-    window.localStorage.setItem('filter_text_' + sport, '');
-    setFilterText('');
+    window.localStorage.setItem('sport', sportChoice);
   }
+
+  function NavList() {
+    let inactive = "flex items-center hover:text-blue-700 transition-colors";
+    let active = "flex items-center font-bold text-blue-700 transition-colors";
+
+    return (
+      <ul className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+        <Typography
+          as="li"
+          variant="small"
+          color="blue-gray"
+          className="p-1 font-medium"
+        >
+          {sport === 'basketball_nba' ?<button className={active}>NBA</button>:
+          <button className={inactive} onClick={() => sportChange('basketball_nba')}>NBA</button>}
+        </Typography>
+        <Typography
+          as="li"
+          variant="small"
+          color="blue-gray"
+          className="p-1 font-medium"
+        >
+          {sport === 'americanfootball_nfl' ?<button className={active}>NFL</button>:
+          <button className={inactive} onClick={() => sportChange('americanfootball_nfl')}>NFL</button>}
+        </Typography>
+        <Typography
+          as="li"
+          variant="small"
+          color="blue-gray"
+          className="p-1 font-medium"
+        >
+          {sport === 'icehockey_nhl' ?<button className={active}>NHL</button>:
+          <button className={inactive} onClick={() => sportChange('icehockey_nhl')}>NHL</button>}
+        </Typography>
+        <Typography
+          as="li"
+          variant="small"
+          color="blue-gray"
+          className="p-1 font-medium"
+        >
+          {sport === 'baseball_mlb' ?<button className={active}>MLB</button>:
+          <button className={inactive} onClick={() => sportChange('baseball_mlb')}>MLB</button>}
+        </Typography>
+      </ul>
+    );
+  }
+
+  const SelectInHeader = useMemo(() => {
+    return (
+      <Select key={stateName} variant="outlined" label="State" color="blue" value={stateName} onChange={(values) => stateSelect(values)} className="z-10" containerProps={{className: "min-w-[60px]",}}>
+                {Object.keys(state_bookmakers).map((state) => (
+                  <Option key={state} value={state} className="flex items-center gap-2">
+                    {state}
+                  </Option>
+                ))}
+              </Select>
+    );
+  }, [stateName]);
+
+  
+  const InputInHeader = useMemo(() => {
+    return (
+      <Input
+                type="search"
+                color="blue"
+                label="Team Search"
+                value={filterText}
+                onChange={filterGames}
+                className="pr-20"
+                containerProps={{
+                  className: "min-w-[60px]",
+                }}
+              />
+    );
+  }, [filterText]);
 
   return (
     <div>
-      <div className="title-heading">Shop the Line</div>
-        <nav className="navbar navbar-light navbar-custom justify-content-center">    
-          {sport === 'americanfootball_nfl'?<button className="active navbar-text-custom nav-button-selected">NFL</button>:
-          <button className="active navbar-text-custom nav-button" onClick={() => sportChange('americanfootball_nfl')}>NFL</button>}
-          {sport === 'basketball_nba'?<button className="active navbar-text-custom nav-button-selected">NBA</button>:
-          <button className="active navbar-text-custom nav-button" onClick={() => sportChange('basketball_nba')}>NBA</button>}
-          {sport === 'baseball_mlb'?<button className="active navbar-text-custom nav-button-selected">MLB</button>:
-          <button className="active navbar-text-custom nav-button" onClick={() => sportChange('baseball_mlb')}>MLB</button>}
-          {sport === 'icehockey_nhl'?<button className="active navbar-text-custom-last nav-button-selected">NHL</button>:
-          <button className="active navbar-text-custom-last nav-button" onClick={() => sportChange('icehockey_nhl')}>NHL</button>}
-        </nav>
-        <div className="header-container"><div className="field-in-header"><Select options={state_bookmakers} styles={{control: (baseStyles) => ({...baseStyles, width: '80%'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
-                                                                                      })} defaultValue={state_bookmakers[window.localStorage.getItem('usState')] || ""} onChange={(values) => stateSelect(values)} placeholder="State..."/></div>
-                                                                                      <div className="field-in-header"><input className="search-bar" data-input-clear-icon-class="my-clear-icon" type="text" onInput={e => filterGames(e.target.value)} value={filterText} placeholder="Search..."/></div></div>
+      <Navbar className="sticky inset-0 z-10 lg:px-8 lg:py-4 mx-auto max-w-screen-xl">
+        <div className="flex flex-wrap items-center justify-between text-blue-700">
+          <Typography
+            color="blue"
+            variant="h6"
+            className="mr-4 cursor-pointer text-inherit py-1.5"
+          >
+            Shop the Line
+          </Typography>
+          <div className="hidden lg:block">
+            <NavList />
+          </div>
+          <div className="hidden lg:block">
+            <div className="min-w-[450px] grid grid-cols-2 gap-2">
+              <div>{SelectInHeader}</div>
+              <div>{InputInHeader}</div>
+            </div>
+          </div>
+          <IconButton
+            variant="text"
+            className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
+            ripple={false}
+            onClick={() => setOpenNav(!openNav)}
+          >
+            {openNav ? (
+              <XMarkIcon className="h-6 w-6" strokeWidth={2} />
+            ) : (
+              <Bars3Icon className="h-6 w-6" strokeWidth={2} />
+            )}
+          </IconButton>
+        </div>
+        <Collapse open={openNav}>
+          <NavList />
+        </Collapse>
+        <div className="relative flex w-full gap-2 pt-3 
+         lg:hidden">
+            {SelectInHeader}
+            {InputInHeader}
+        </div>
+      </Navbar>
+
       <div className="app-container">
         <div className="game-container">
           <div className="all-container">

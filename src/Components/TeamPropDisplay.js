@@ -83,7 +83,7 @@ const TeamPropDisplay = (game) => {
         <div>
 
             <div className="state-dropdown">
-                <Select options={propChoices} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
+                <Select options={propChoices} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 5, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
                         })} onChange={(propChoice) => propSelect(propChoice)} value={prop || ''}/>
                 </div>
             <div>
@@ -110,7 +110,7 @@ const TeamPropDisplay = (game) => {
                     
                     />)
                 })}<hr className="bookmaker-child-end-of-block"></hr><div className="state-dropdown">
-                <Select key={`sorter_for_${prop}`} options={sortChoices} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 0, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
+                <Select key={`sorter_for_${prop}`} options={sortChoices} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 5, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
                                                                                         })} onChange={(sorterChoice) => sorterSelect(sorterChoice)} value={sorter || ''} isDisabled={prop ? false : true}/>
             </div></div>:<p>No odds available</p>}
             </div>
