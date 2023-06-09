@@ -19,28 +19,31 @@ function App() {
   
   const [games, setGames] = useState([]);
   const [filteredGames, setFilteredGames] = useState([]);
-  const [sport, setSport] = useState(window.localStorage.getItem('sport') || 'americanfootball_nfl');
-  const [filterText, setFilterText] = useState(window.localStorage.getItem('filter_text_') ? window.localStorage.getItem('filter_text_') : '');
-  const [bookies, setBookies] = useState(window.localStorage.getItem('usState')?state_bookmakers[window.localStorage.getItem('usState')]:new Set([])) ;
-  const [stateName, setStateName] = useState(window.localStorage.getItem('usState') || "");
+  const [sport, setSport] = useState(window.sessionStorage.getItem('sport') || 'americanfootball_nfl');
+  const [filterText, setFilterText] = useState(window.sessionStorage.getItem('filter_text_') ? window.sessionStorage.getItem('filter_text_') : '');
+  const [bookies, setBookies] = useState(window.sessionStorage.getItem('usState')?state_bookmakers[window.sessionStorage.getItem('usState')]:new Set([])) ;
+  const [stateName, setStateName] = useState(window.sessionStorage.getItem('usState') || "");
   const [openNav, setOpenNav] = useState(false);
  
   const handleWindowResize = () =>
     window.innerWidth >= 960 && setOpenNav(false);
-
+ 
   useEffect(() => {
     window.addEventListener("resize", handleWindowResize);
-  
+ 
     return () => {
       window.removeEventListener("resize", handleWindowResize);
     };
   }, []);
- 
+
   useEffect(() => {
-    const urls = ['https://api.the-odds-api.com/v4/sports/' + sport + '/odds?regions=us&oddsFormat=american&markets=spreads,h2h,totals&dateFormat=iso&apiKey=' + process.env.REACT_APP_API_KEY_SPORT_ODDS,
-     'https://api.the-odds-api.com/v4/sports/' + sport + '/scores/?apiKey=' + process.env.REACT_APP_API_KEY_SPORT_ODDS];
+    const urls = ['https://odds.p.rapidapi.com/v4/sports/' + sport + '/odds?regions=us&oddsFormat=american&markets=spreads,h2h,totals&dateFormat=iso', 'https://odds.p.rapidapi.com/v4/sports/' + sport + '/scores'];
     Promise.all(urls.map(url => fetch(url, {
       method: 'GET',
+      headers: {
+        'X-RapidAPI-Key': '82753b459emshe4de95d4eec7a58p1d0969jsn5f8bccf7b65d',
+        'X-RapidAPI-Host': 'odds.p.rapidapi.com'
+      }
     })
         .then((response) => response.json())))
         .then(([odds, scores]) => {
@@ -50,7 +53,7 @@ function App() {
         .catch((err) => {
           console.log(err.message);
         });
-        window.localStorage.setItem('sport', sport);
+        window.sessionStorage.setItem('sport', sport);
     }, [sport]);
 
     useEffect(() => {
@@ -62,24 +65,24 @@ function App() {
     if(!values) {
       setBookies(new Set([]));
       setStateName("");
-      localStorage.removeItem('usState');
+      sessionStorage.removeItem('usState');
     }
     else{
       setBookies(state_bookmakers[values]);
       setStateName(values);
-      window.localStorage.setItem('usState', values);
+      window.sessionStorage.setItem('usState', values);
     }
     
   }
 
   function filterGames({ target }){
     setFilterText(target.value);
-    window.localStorage.setItem('filter_text_', target.value);
+    window.sessionStorage.setItem('filter_text_', target.value);
   }
 
   function sportChange(sportChoice){
     setSport(sportChoice);
-    window.localStorage.setItem('sport', sportChoice);
+    window.sessionStorage.setItem('sport', sportChoice);
   }
 
   function NavList() {

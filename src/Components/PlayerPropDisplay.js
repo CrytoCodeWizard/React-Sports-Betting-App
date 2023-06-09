@@ -10,9 +10,9 @@ const PlayerPropDisplay = (event) => {
     const [propChoices, setPropChoices] = useState([]);
     const [playerChoices, setPlayerChoices] = useState([]);
     const [sortChoices, setSortChoices] = useState([]);
-    const [player, setPlayer] = useState(window.localStorage.getItem('player_prop_player_' + event.game_id)? {value:window.localStorage.getItem('player_prop_player_' + event.game_id),label:window.localStorage.getItem('player_prop_player_' + event.game_id)} : "");
-    const [prop, setProp] = useState(window.localStorage.getItem('player_prop_' + event.game_id)? {value:window.localStorage.getItem('player_prop_' + event.game_id),label:player_prop_choices[window.localStorage.getItem('player_prop_' + event.game_id)]} : "");
-    const [sorter, setSorter] = useState(window.localStorage.getItem('player_prop_sorter_' + event.game_id)? {value:window.localStorage.getItem('player_prop_sorter_' + event.game_id),label:window.localStorage.getItem('player_prop_sorter_' + event.game_id)} : "");
+    const [player, setPlayer] = useState(window.sessionStorage.getItem('player_prop_player_' + event.game_id)? {value:window.sessionStorage.getItem('player_prop_player_' + event.game_id),label:window.sessionStorage.getItem('player_prop_player_' + event.game_id)} : "");
+    const [prop, setProp] = useState(window.sessionStorage.getItem('player_prop_' + event.game_id)? {value:window.sessionStorage.getItem('player_prop_' + event.game_id),label:player_prop_choices[window.sessionStorage.getItem('player_prop_' + event.game_id)]} : "");
+    const [sorter, setSorter] = useState(window.sessionStorage.getItem('player_prop_sorter_' + event.game_id)? {value:window.sessionStorage.getItem('player_prop_sorter_' + event.game_id),label:window.sessionStorage.getItem('player_prop_sorter_' + event.game_id)} : "");
     let lastPoint = 0.0;
     const { data } = useData();
     
@@ -72,7 +72,7 @@ const PlayerPropDisplay = (event) => {
             }
             if(!foundPlayer){
                 setPlayer(playerChoices[0]);
-                window.localStorage.setItem('player_prop_player_' + event.game_id, playerChoices[0].value);
+                window.sessionStorage.setItem('player_prop_player_' + event.game_id, playerChoices[0].value);
             }
         }
         // eslint-disable-next-line
@@ -82,7 +82,7 @@ const PlayerPropDisplay = (event) => {
         if(sortChoices.length > 0){
             if(sorter.label !== sortChoices[0].label && sorter.label !== sortChoices[1].label){
                 setSorter(sortChoices[0]);
-                window.localStorage.setItem('player_prop_sorter_' + event.game_id, sortChoices[0].value);
+                window.sessionStorage.setItem('player_prop_sorter_' + event.game_id, sortChoices[0].value);
             }
         }
         // eslint-disable-next-line
@@ -92,7 +92,7 @@ const PlayerPropDisplay = (event) => {
 
         if(propChoice.value !== prop.value){
             setProp(propChoice);
-            window.localStorage.setItem('player_prop_' + event.game_id, propChoice.value);
+            window.sessionStorage.setItem('player_prop_' + event.game_id, propChoice.value);
         }
         
     }
@@ -100,14 +100,14 @@ const PlayerPropDisplay = (event) => {
     function playerSelect(playerChoice){
         if(playerChoice.value !== player.value){
             setPlayer(playerChoice);
-            window.localStorage.setItem('player_prop_player_' + event.game_id, playerChoice.value);
+            window.sessionStorage.setItem('player_prop_player_' + event.game_id, playerChoice.value);
         }
     }
 
     function sorterSelect(sorterChoice){
         if(sorterChoice.label !== sorter.label){
             setSorter(sorterChoice);
-            window.localStorage.setItem('player_prop_sorter_' + event.game_id, sorterChoice.value);
+            window.sessionStorage.setItem('player_prop_sorter_' + event.game_id, sorterChoice.value);
         }
     }
 

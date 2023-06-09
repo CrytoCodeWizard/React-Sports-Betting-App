@@ -5,9 +5,9 @@ import { DataProvider } from './DataContext';
 import {team_codes} from '../Resources.js';
 
 const GameOverview = (game) => {
-    const [showTeamProps,setShowTeamProps] = useState(window.localStorage.getItem('team_prop_clicked_' + game.game_id) === 'true' ? true : false);
-    const [showPlayerProps, setShowPlayerProps] = useState(window.localStorage.getItem('player_prop_clicked_' + game.game_id) === 'true' ? true : false);
-    const [playerPropsClicked, setPlayerPropsClicked] = useState(window.localStorage.getItem('player_prop_clicked_' + game.game_id) === 'true' ? true : false);;
+    const [showTeamProps,setShowTeamProps] = useState(window.sessionStorage.getItem('team_prop_clicked_' + game.game_id) === 'true' ? true : false);
+    const [showPlayerProps, setShowPlayerProps] = useState(window.sessionStorage.getItem('player_prop_clicked_' + game.game_id) === 'true' ? true : false);
+    const [playerPropsClicked, setPlayerPropsClicked] = useState(window.sessionStorage.getItem('player_prop_clicked_' + game.game_id) === 'true' ? true : false);;
     const today = new Date();
     const gameStart = new Date(game.startTime);
     const images = importAll(require.context('./../Images/', true, /\.(png|jpe?g|svg)$/));
@@ -70,12 +70,12 @@ const GameOverview = (game) => {
         }
 
         if(setButtonClicked === setShowPlayerProps){
-            window.localStorage.setItem('player_prop_clicked_' + game.game_id, !buttonClickedStatus);
-            window.localStorage.setItem('team_prop_clicked_' + game.game_id, false);
+            window.sessionStorage.setItem('player_prop_clicked_' + game.game_id, !buttonClickedStatus);
+            window.sessionStorage.setItem('team_prop_clicked_' + game.game_id, false);
         }
         else if(setButtonClicked === setShowTeamProps){
-            window.localStorage.setItem('team_prop_clicked_' + game.game_id, !buttonClickedStatus);
-            window.localStorage.setItem('player_prop_clicked_' + game.game_id, false);
+            window.sessionStorage.setItem('team_prop_clicked_' + game.game_id, !buttonClickedStatus);
+            window.sessionStorage.setItem('player_prop_clicked_' + game.game_id, false);
         }
     }
 

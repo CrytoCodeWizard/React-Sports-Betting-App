@@ -1,6 +1,9 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { player_prop_markets } from "../Resources.js";
-
+import football_data from './../SampleData/americanfootball_nfl_player_props.json';
+import basketball_data from './../SampleData/basketball_nba_player_props.json';
+import baseball_data from './../SampleData/baseball_mlb_player_props.json';
+import hockey_data from './../SampleData/hockey_nhl_player_props.json';
+//import { player_prop_markets } from "./../PlayerPropsMarkets.js";
 
 const DataContext = createContext();
 
@@ -10,24 +13,23 @@ export function useData() {
 
 export const DataProvider = (event) => {
   const [data, setData] = useState(new Map());
-  const specMarketsForSport = player_prop_markets.filter(sport => sport["label"] === event.sport)[0]["markets"];
+  //const specMarketsForSport = player_prop_markets.filter(sport => sport["label"] === event.sport)[0]["markets"];
  
   useEffect(() => {
 
-    
-        const url = 'https://api.the-odds-api.com/v4/sports/' + event.sport + '/events/' + event.game_id + '/odds?regions=us&oddsFormat=american&markets=' + specMarketsForSport + '&dateFormat=iso&apiKey=' + process.env.REACT_APP_API_KEY_SPORT_ODDS;
+    /*
+        const url = 'https://api.the-odds-api.com/v4/sports/' + event.sport + '/events/' + event.game_id + '/odds?regions=us&oddsFormat=american&markets=player_points&dateFormat=iso&apiKey=aa3f46ee1d1c10e731dbd155079bc050';
         fetch(url, {
         method: 'GET'
         })
             .then((response) => response.json())
             .then((odds) => {
-                
-        /*let odds;
+                */
+        let odds;
         if(event.sport === 'americanfootball_nfl') odds = football_data;
         else if(event.sport === 'baseball_mlb') odds = baseball_data;
         else if(event.sport === 'basketball_nba') odds = basketball_data;
         else odds = hockey_data;
-        */
         
         let individual_props = new Map();
         for(const bookmaker of odds.bookmakers){
@@ -65,15 +67,15 @@ export const DataProvider = (event) => {
             }
         }
         setData(individual_props);
-        
-        })
-        
-        .catch((err) => {
-        console.log(err.message);
-        });
+        /*  
+            })
             
+            .catch((err) => {
+            console.log(err.message);
+            });
+            */
 
-  }, [event.sport, event.game_id, specMarketsForSport]);
+  }, [event.sport]);
 
   return (
     <DataContext.Provider value={{ data }}>

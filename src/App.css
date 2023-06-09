@@ -253,6 +253,12 @@ html
   color: red;
 }
 
+.state-dropdown {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+
 .thumb-container {
   display: flex;
   flex-direction: column;
