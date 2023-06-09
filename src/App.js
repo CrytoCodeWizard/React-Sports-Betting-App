@@ -37,13 +37,10 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const urls = ['https://odds.p.rapidapi.com/v4/sports/' + sport + '/odds?regions=us&oddsFormat=american&markets=spreads,h2h,totals&dateFormat=iso', 'https://odds.p.rapidapi.com/v4/sports/' + sport + '/scores'];
+    const urls = ['https://api.the-odds-api.com/v4/sports/' + sport + '/odds?regions=us&oddsFormat=american&markets=spreads,h2h,totals&dateFormat=iso&apiKey=' + process.env.REACT_APP_API_KEY_SPORT_ODDS,
+     'https://api.the-odds-api.com/v4/sports/' + sport + '/scores/?apiKey=' + process.env.REACT_APP_API_KEY_SPORT_ODDS];
     Promise.all(urls.map(url => fetch(url, {
       method: 'GET',
-      headers: {
-        'X-RapidAPI-Key': '82753b459emshe4de95d4eec7a58p1d0969jsn5f8bccf7b65d',
-        'X-RapidAPI-Host': 'odds.p.rapidapi.com'
-      }
     })
         .then((response) => response.json())))
         .then(([odds, scores]) => {
