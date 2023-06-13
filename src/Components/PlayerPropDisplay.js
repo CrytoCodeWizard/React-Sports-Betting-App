@@ -1,8 +1,11 @@
-import React,{ useEffect, useState } from "react";
-import Select from "react-select";
+import React,{ useEffect, useState, useMemo, useCallback } from "react";
 import PropDisplay from "./PropDisplay.js";
 import { bookmaker_links, player_prop_choices } from "../Resources.js";
 import { useData } from './DataContext.js';
+import { 
+    Select,
+    Option
+  } from "@material-tailwind/react";
 
 const PlayerPropDisplay = (event) => {
 
@@ -10,9 +13,9 @@ const PlayerPropDisplay = (event) => {
     const [propChoices, setPropChoices] = useState([]);
     const [playerChoices, setPlayerChoices] = useState([]);
     const [sortChoices, setSortChoices] = useState([]);
-    const [player, setPlayer] = useState(window.sessionStorage.getItem('player_prop_player_' + event.game_id)? {value:window.sessionStorage.getItem('player_prop_player_' + event.game_id),label:window.sessionStorage.getItem('player_prop_player_' + event.game_id)} : "");
-    const [prop, setProp] = useState(window.sessionStorage.getItem('player_prop_' + event.game_id)? {value:window.sessionStorage.getItem('player_prop_' + event.game_id),label:player_prop_choices[window.sessionStorage.getItem('player_prop_' + event.game_id)]} : "");
-    const [sorter, setSorter] = useState(window.sessionStorage.getItem('player_prop_sorter_' + event.game_id)? {value:window.sessionStorage.getItem('player_prop_sorter_' + event.game_id),label:window.sessionStorage.getItem('player_prop_sorter_' + event.game_id)} : "");
+    const [player, setPlayer] = useState(window.sessionStorage.getItem('player_prop_player_' + event.game_id) || "");
+    const [prop, setProp] = useState(window.sessionStorage.getItem('player_prop_' + event.game_id) || "");
+    const [sorter, setSorter] = useState(window.sessionStorage.getItem('player_prop_sorter_' + event.game_id) || "");
     let lastPoint = 0.0;
     const { data } = useData();
     
@@ -27,7 +30,7 @@ const PlayerPropDisplay = (event) => {
                         if(event.bookies.has(book)){
                             if(!filteredMap.has(propKey)){
                                 filteredMap.set(propKey, new Map());
-                                playerPropChoices.push({value:propKey,label:player_prop_choices[propKey]});
+                                playerPropChoices.push(propKey);
                             }
                             if(!filteredMap.get(propKey).has(playerKey)){
                                 filteredMap.get(propKey).set(playerKey, new Map());
@@ -45,34 +48,50 @@ const PlayerPropDisplay = (event) => {
     }, [event.bookies, data]);
 
     useEffect(() => {
-        if(individualProps.has(prop.value)){
+        if(individualProps.has(prop)){
             let playerChoices = [];
-            for(const key of individualProps.get(prop.value).keys()){
-                playerChoices.push({value:key,label:key});
+            for(const key of individualProps.get(prop).keys()){
+                playerChoices.push(key);
             }
             setPlayerChoices(playerChoices.sort(propSort));
-
-            let sortingChoices = [];
-            let labelRetrieve = individualProps.get(prop.value).values().next().value.values().next().value;
-            sortingChoices.push({value:labelRetrieve.labelA,label:labelRetrieve.labelA});
-            sortingChoices.push({value:labelRetrieve.labelB,label:labelRetrieve.labelB});
-            setSortChoices(sortingChoices);
         }
       
     }, [individualProps, prop]);
 
     useEffect(() => {
+        if(individualProps.has(prop) && individualProps.get(prop).has(player)){
+            let sortingChoices = [];
+            let aAdded = false, bAdded = false;
+            let labelRetrieve = individualProps.get(prop).get(player).values();
+            for(const bookieVal of labelRetrieve){
+                if(!aAdded && bookieVal.labelA){
+                    aAdded = true;
+                    sortingChoices.push(bookieVal.labelA);
+                }
+                if(!bAdded && bookieVal.labelB){
+                    bAdded = true;
+                    sortingChoices.push(bookieVal.labelB);
+                }
+                
+            }
+            setSortChoices(sortingChoices);
+            
+        }
+      
+    }, [individualProps, prop, player]);
+
+    useEffect(() => {
         if(playerChoices.length > 0){
             let foundPlayer = false;
             for(const plyr of playerChoices){
-                if(plyr.value === player.value){
+                if(plyr === player){
                     foundPlayer = true;
                     break;
                 }
             }
             if(!foundPlayer){
                 setPlayer(playerChoices[0]);
-                window.sessionStorage.setItem('player_prop_player_' + event.game_id, playerChoices[0].value);
+                window.sessionStorage.setItem('player_prop_player_' + event.game_id, playerChoices[0]);
             }
         }
         // eslint-disable-next-line
@@ -80,42 +99,78 @@ const PlayerPropDisplay = (event) => {
 
     useEffect(() => {
         if(sortChoices.length > 0){
-            if(sorter.label !== sortChoices[0].label && sorter.label !== sortChoices[1].label){
+            if(sorter !== sortChoices[0] && sorter !== sortChoices[1]){
                 setSorter(sortChoices[0]);
-                window.sessionStorage.setItem('player_prop_sorter_' + event.game_id, sortChoices[0].value);
+                window.sessionStorage.setItem('player_prop_sorter_' + event.game_id, sortChoices[0]);
             }
         }
         // eslint-disable-next-line
     }, [sortChoices, event]);
 
-    function propSelect(propChoice){
+    const propSelect = useCallback((propChoice) => {
 
-        if(propChoice.value !== prop.value){
+        if(propChoice !== prop){
             setProp(propChoice);
-            window.sessionStorage.setItem('player_prop_' + event.game_id, propChoice.value);
+            window.sessionStorage.setItem('player_prop_' + event.game_id, propChoice);
         }
         
-    }
+    }, [event.game_id, prop])
 
-    function playerSelect(playerChoice){
-        if(playerChoice.value !== player.value){
+    const playerSelect = useCallback((playerChoice) => {
+        if(playerChoice !== player){
             setPlayer(playerChoice);
-            window.sessionStorage.setItem('player_prop_player_' + event.game_id, playerChoice.value);
+            window.sessionStorage.setItem('player_prop_player_' + event.game_id, playerChoice);
         }
-    }
+    }, [player, event.game_id]);
 
-    function sorterSelect(sorterChoice){
-        if(sorterChoice.label !== sorter.label){
+    const sorterSelect = useCallback((sorterChoice) => {
+        if(sorterChoice !== sorter){
             setSorter(sorterChoice);
-            window.sessionStorage.setItem('player_prop_sorter_' + event.game_id, sorterChoice.value);
+            window.sessionStorage.setItem('player_prop_sorter_' + event.game_id, sorterChoice);
         }
-    }
+    }, [sorter, event.game_id]);
 
     function propSort(a, b){
-        if(a.label < b.label) return -1;
+        if(a < b) return -1;
         else return 1;
     }
 
+
+    const propSelector = useMemo(() => {
+        return (
+            <Select key={"prop: " + prop + event.game_id} variant="outlined" label="Prop" color="blue" value={prop} onChange={(values) => propSelect(values)} className="z-10" containerProps={{className: "min-w-[60px]",}}>
+                    {propChoices.map((player_prop) => (
+                        <Option key={player_prop + event.game_id} value={player_prop} className="flex items-center gap-2">
+                        {player_prop_choices[player_prop]}
+                        </Option>
+                    ))}
+                    </Select>
+    );
+    }, [prop, propChoices, event.game_id, propSelect]);
+
+    const sortSelector = useMemo(() => {
+        return (
+            <Select key={"sorter: " + sorter + event.game_id} variant="outlined" label="Sort for" color="blue" value={sorter} onChange={(values) => sorterSelect(values)} className="z-10" containerProps={{className: "min-w-[60px]",}}>
+                    {sortChoices.map((label) => (
+                        <Option key={label + event.game_id} value={label} className="flex items-center gap-2">
+                        {label}
+                        </Option>
+                    ))}
+                    </Select>
+    );
+    }, [sorter, sortChoices, event.game_id, sorterSelect]);
+
+    const playerSelector = useMemo(() => {
+        return (
+            <Select key={"player: " + player + event.game_id} variant="outlined" label="Player" color="blue" value={player} onChange={(values) => playerSelect(values)} className="z-10" containerProps={{className: "min-w-[60px]",}}>
+                    {playerChoices.map((player_name) => (
+                        <Option key={player_name + event.game_id} value={player_name} className="flex items-center gap-2">
+                        {player_name}
+                        </Option>
+                    ))}
+                    </Select>
+    );
+    }, [player, playerChoices, event.game_id, playerSelect]);
 
     if (!data) {
         return <div>Loading...</div>;
@@ -123,15 +178,19 @@ const PlayerPropDisplay = (event) => {
 
     return (
         <div>
-            <div className="state-dropdown">
-                <Select key={`prop_for_${event.bookies}`} options={propChoices} styles={{control: (baseStyles) => ({...baseStyles, width: '8rem'}),}} theme={(theme) => ({...theme,borderRadius: 5, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
-                                                                                        })} onChange={(propChoice) => propSelect(propChoice)} value={prop || ''} placeholder="Prop..."/>
-                <Select key={`players_for_${prop}`} options={playerChoices} styles={{control: (baseStyles) => ({...baseStyles, width: '8rem'}),}} theme={(theme) => ({...theme,borderRadius: 5, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
-                                                                                        })} onChange={(playerChoice) => playerSelect(playerChoice)} value={player || ''} isDisabled={prop ? false : true} placeholder="Player..."/>
-            </div>
+            {propChoices.length > 0 ? 
             <div>
-                {individualProps.has(prop.value) && individualProps.get(prop.value).has(player.value) && individualProps.get(prop.value).get(player.value).size > 0?<div className="bookmakers-container">
-                {Array.from(individualProps.get(prop.value).get(player.value), ([bookmaker, line]) => ({ bookmaker, line })).sort(event.sortFunction(sorter)).map((bookmaker, index) => {
+                {propSelector}
+                <br></br>
+                {prop && playerChoices.length > 0 ? <div>{playerSelector}
+                <br></br>
+                {player && sortChoices.length > 0 ? <div>{sortSelector}</div>:<></>}
+                </div>:<></>}
+            </div>:<></>}
+            
+            <div>
+                {individualProps.has(prop) && individualProps.get(prop).has(player) && individualProps.get(prop).get(player).size > 0?<div className="bookmakers-container">
+                {Array.from(individualProps.get(prop).get(player), ([bookmaker, line]) => ({ bookmaker, line })).sort(event.sortFunction(sorter)).map((bookmaker, index) => {
                     let endOfPointBucket = false;
                     if(bookmaker.line.pointA !== lastPoint || index === 0){
                         endOfPointBucket = true;
@@ -149,15 +208,11 @@ const PlayerPropDisplay = (event) => {
                         bPoint={bookmaker.line.pointB}
                         endOfBucket={endOfPointBucket}
                         firstEntry={index === 0 ? true : false}
-                        sorter={sorter.label}
+                        sorter={sorter}
                     
                     />)
                 })}<hr className="bookmaker-child-end-of-block"></hr></div>:<></>}
-                {prop && player ?
-                <div className="state-dropdown">
-                    <Select key={`sorter_for_${prop}`} options={sortChoices} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 5, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
-                                                                                            })} onChange={(sorterChoice) => sorterSelect(sorterChoice)} value={sorter || ''} isDisabled={prop && player ? false : true}/>
-                </div>:<></>}
+                
             </div>
         </div>
         

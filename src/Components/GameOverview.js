@@ -4,6 +4,14 @@ import TeamPropDisplay from './TeamPropDisplay';
 import { DataProvider } from './DataContext';
 import {team_codes} from '../Resources.js';
 
+import {
+    Card,
+    CardBody,
+    Typography,
+    Button
+  } from "@material-tailwind/react";
+  
+
 const GameOverview = (game) => {
     const [showTeamProps,setShowTeamProps] = useState(window.sessionStorage.getItem('team_prop_clicked_' + game.game_id) === 'true' ? true : false);
     const [showPlayerProps, setShowPlayerProps] = useState(window.sessionStorage.getItem('player_prop_clicked_' + game.game_id) === 'true' ? true : false);
@@ -14,49 +22,59 @@ const GameOverview = (game) => {
     const stringifiedGameStart = gameStart.toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'});
 
     return (
-        <div className="thumb-container">
-            <div className="column-images">
-                <div className="column-image-container"><img className="column-image column-image-road" src={images[game.sport + "_TeamImages/" + game.awayTeam + ".png"]} alt={game.awayTeam} /></div>
-                <div className="column-image-container"><img className="column-image column-image-home" src={images[game.sport + "_TeamImages/" + game.homeTeam + ".png"]} alt={game.homeTeam} /></div>
-            </div>
-            <p className="game-text">{team_codes[game.awayTeam]} @ {team_codes[game.homeTeam]}</p>
-            {today>=gameStart?<p className="live"><b>LIVE</b></p>:<p className="game-text">{stringifiedGameStart}</p>}
-            <div>
-                {game.curScore?<p className="game-text">{game.curScore[1].score} - {game.curScore[0].score}</p>:<></>}
-            </div>
-            <div className="odds-button-outer">
                 
-                {showTeamProps===true?<button className="odds-button-selected" onClick={() => OddButtonClick(setShowTeamProps, showTeamProps, setShowPlayerProps)}><p className="odds-button-text">Team Props</p></button>:
-                    <button className="odds-button" onClick={() => OddButtonClick(setShowTeamProps, showTeamProps, setShowPlayerProps)}><p className="odds-button-text">Team Props</p></button>}
-                {showPlayerProps===true?<button className="odds-button-selected" onClick={() => OddButtonClick(setShowPlayerProps, showPlayerProps, setShowTeamProps)}><p className="odds-button-text">Player Props</p></button>:
-                    <button className="odds-button" onClick={() => OddButtonClick(setShowPlayerProps, showPlayerProps, setShowTeamProps)}><p className="odds-button-text">Player Props</p></button>}
-               
-            </div>
+            
+        <Card className="w-80" color="transparent" variant="gradient">
+            <CardBody className="text-center">
+                <div className="h-24 flex justify-center items-center">
+                    <img className="w-24 h-24" src={images[game.sport + "_TeamImages/" + game.awayTeam + ".png"]} alt={game.awayTeam} />
+                    <img className="w-24 h-24 transform -scale-x-100" src={images[game.sport + "_TeamImages/" + game.homeTeam + ".png"]} alt={game.homeTeam} />
+                </div>
+                <Typography variant="h4" color="blue-gray" className="mb-2">
+                {team_codes[game.awayTeam]} @ {team_codes[game.homeTeam]}
+                </Typography>
+                
+                <Typography  variant="h6" color="blue-gray" className="font-medium" textGradient>
+                {today>=gameStart?<p className="live">LIVE</p>:<p>{stringifiedGameStart}</p>}
+                {game.curScore?<p>{game.curScore[1].score} - {game.curScore[0].score}</p>:<></>}
+                </Typography>
+
+                <div className="h-24 w-48 mx-auto flex justify-center items-center">
+                    {showTeamProps===true?<Button variant="text" className="w-1/2 border-r-2 font-bold" color="blue" onClick={() => OddButtonClick(setShowTeamProps, showTeamProps, setShowPlayerProps)}>Team<br></br>Props</Button>
+                    :<Button variant="text" className="w-1/2 border-r-2" color="blue-gray" onClick={() => OddButtonClick(setShowTeamProps, showTeamProps, setShowPlayerProps)}>Team<br></br>Props</Button>}
+                    {showPlayerProps===true?<Button variant="text" className="w-1/2 border-l-2 font-bold" color="blue" onClick={() => OddButtonClick(setShowPlayerProps, showPlayerProps, setShowTeamProps)}>Player<br></br>Props</Button>
+                    :<Button variant="text" className="w-1/2 border-l-2" color="blue-gray" onClick={() => OddButtonClick(setShowPlayerProps, showPlayerProps, setShowTeamProps)}>Player<br></br>Props</Button>}
+                </div>
 
 
-            {showTeamProps===true?<div className="bookmakers-container">
-                <TeamPropDisplay
-                    game_id={game.game_id}
-                    bookmakers={game.bookmakers}
-                    sport={game.sport}
-                    bookies={game.bookie_list}
-                    sortFunction={propSortByLabel}
-                ></TeamPropDisplay>
-                </div>:<></>
-            }
-            {playerPropsClicked ? <DataProvider game_id={game.game_id} sport={game.sport} showChild={showPlayerProps}>
-                <div className="bookmakers-container">
-                    <PlayerPropDisplay
+                {showTeamProps===true?
+                    <TeamPropDisplay
                         game_id={game.game_id}
+                        bookmakers={game.bookmakers}
                         sport={game.sport}
                         bookies={game.bookie_list}
                         sortFunction={propSortByLabel}
-                    ></PlayerPropDisplay>
-                    </div>
-                </DataProvider> : <></>
-            }
+                    ></TeamPropDisplay>
+                    :<></>
+                }
+                {playerPropsClicked ? <DataProvider game_id={game.game_id} sport={game.sport} showChild={showPlayerProps}>
+                    <div className="bookmakers-container">
+                        <PlayerPropDisplay
+                            game_id={game.game_id}
+                            sport={game.sport}
+                            bookies={game.bookie_list}
+                            sortFunction={propSortByLabel}
+                        ></PlayerPropDisplay>
+                        </div>
+                    </DataProvider> : <></>
+                }
+
+
+            </CardBody>
+
             
-        </div>
+        </Card>
+        
     )
 
     function OddButtonClick(setButtonClicked, buttonClickedStatus, ...setToFalse){
@@ -81,7 +99,7 @@ const GameOverview = (game) => {
 
     function propSortByLabel(sorter){
         return function(a,b) {
-            if(sorter.label === a.line.labelA){
+            if(sorter === a.line.labelA){
                 if(!a.line.priceA || !b.line.priceA){
                     if(!a.line.priceA && b.line.priceA) return 1;
                     else if(!b.line.priceA && a.line.priceA) return -1;
@@ -110,6 +128,7 @@ const GameOverview = (game) => {
             return 1;
         }
     }
+
 
 
 }

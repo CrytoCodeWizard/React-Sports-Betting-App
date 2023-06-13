@@ -17,21 +17,7 @@ a:visited {
   text-decoration: none;
 }
 
-.all-container {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  min-width: 20rem;
-  justify-content: center;
-}
 
-.app-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 7rem;
-}
 
 @keyframes blink {
   0% { text-shadow: 0 0 0.938rem red; }
@@ -43,15 +29,6 @@ a:visited {
   0% { text-shadow: 0 0 0.938rem red; }
   50% { text-shadow: 0 0 0; }
   100% { text-shadow: 0rem 0 0.938rem red; }
-}
-
-
-
-
-.bookmaker-container {
-  width: 100%;
-  display:inline-block;
-  height: 0.25rem;
 }
 
 .bookmaker-child-name {
@@ -81,35 +58,6 @@ a:visited {
   height: 0.25rem;
 }
 
-.bookmakers-container{
-  width: 95%;
-}
-
-.column-image {
-  width: 6rem;
-  height: 6rem;
-}
-
-.column-image-container {
-  width: 9rem;
-  height: 6rem;
-}
-
-.column-image-home {
-  margin-right: 3rem;
-  transform: rotateY(180deg);
-}
-
-.column-image-road {
-  margin-left: 3rem;
-}
-
-.column-images {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
 
 footer {
   position: fixed;
@@ -119,27 +67,6 @@ footer {
   right: 0;
   padding: .5rem;
   text-align: center;
-}
-
-.game-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.game-text {
-  font-family: monospace;
-  font-size: 1rem;
-}
-
-.header-container { 
-  margin: auto;
-  width: 100%;
-  max-width: 24.375rem;
-  min-width: 17.5rem;
-  height: 5rem;
-  padding: 1.5rem;
 }
 
 hr {
@@ -155,7 +82,6 @@ html
 
 .live {
   color: rgb(126, 11, 11);
-  font-family: monospace;
   -webkit-animation: blink 2.0s linear infinite;
   -moz-animation: blink 2.0s linear infinite;
   -ms-animation: blink 2.0s linear infinite;
@@ -173,74 +99,6 @@ html
   text-shadow: 0 0 1rem #4a4343;
 }
 
-.odds-button {
-  appearance: none;
-  background-color: transparent;
-  border: 0.063rem solid #1A1A1A;
-  border-radius: 0.5rem;
-  box-sizing: border-box;
-  color: #3B3B3B;
-  cursor: pointer;
-  display: inline-block;
-  font-family: monospace;
-  font-size: 0.875rem;
-  font-weight: 600;
-  line-height: normal;
-  margin: 0;
-  min-height: 1.25rem;
-  min-width: 0;
-  outline: none;
-  padding: 0.375rem 0.75rem;
-  text-align: center;
-  text-decoration: none;
-  transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  will-change: transform;
-  width: 40%;
-}
-
-.odds-button-outer {
-  display: flex;
-  justify-content: center;
-  width: 70%;
-}
-
-.odds-button-selected {
-  appearance: none;
-  background-color: #1A1A1A;
-  border: 0.063rem solid #1A1A1A;
-  border-radius: 0.5rem;
-  box-sizing: border-box;
-  color: #fff;
-  cursor: pointer;
-  display: inline-block;
-  font-family: monospace;
-  font-size: 0.875rem;
-  font-weight: 600;
-  line-height: normal;
-  margin: 0;
-  min-height: 1.25rem;
-  min-width: 0;
-  outline: none;
-  padding: 0.375rem 0.75rem;
-  text-align: center;
-  text-decoration: none;
-  transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  will-change: transform;
-  width: 40%;
-}
-
-
-.odds-button-text {
-  margin: auto;
-  line-height: 1.25rem;
-}
-
 .prop-text {
   display: inline;
 }
@@ -251,24 +109,4 @@ html
 
 .prop-text-worst {
   color: red;
-}
-
-.state-dropdown {
-  display: flex;
-  justify-content: center;
-  padding: 1rem;
-}
-
-.thumb-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem 0.2rem;
-  margin: 0.3rem;
-  border: 0.063rem solid #110c0c;
-  border-radius: 2rem;
-  min-width: 10rem;
-  text-align: center;
-  box-shadow: 0 0.188rem 0.938rem rgba(0, 0, 0, 0.089);
 }

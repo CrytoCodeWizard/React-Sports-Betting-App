@@ -1,16 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useMemo, useCallback} from 'react';
 import { bookmaker_links, team_prop_choices } from "./../Resources.js";
-import Select from "react-select";
 import PropDisplay from './PropDisplay';
+import { 
+    Select,
+    Option
+  } from "@material-tailwind/react";
 
 
 const TeamPropDisplay = (game) => {
-
     const [propChoices, setPropChoices] = useState([]);
     const [data, setData] = useState(new Map());
-    const [prop, setProp] = useState(window.localStorage.getItem('team_prop_' + game.game_id)?{value:window.localStorage.getItem('team_prop_' + game.game_id),label:team_prop_choices[window.localStorage.getItem('team_prop_' + game.game_id)]} : {value:'h2h', label:team_prop_choices['h2h']});
+    const [prop, setProp] = useState(window.localStorage.getItem('team_prop_' + game.game_id) || 'h2h');
     const [sortChoices, setSortChoices] = useState([]);
-    const [sorter, setSorter] = useState(window.localStorage.getItem('team_prop_sorter_' + game.game_id)? {value:window.localStorage.getItem('team_prop_sorter_' + game.game_id),label:window.localStorage.getItem('team_prop_sorter_' + game.game_id)} : "");
+    const [sorter, setSorter] = useState(window.localStorage.getItem('team_prop_sorter_' + game.game_id) || "");
     let lastPoint = 0.0;
 
     useEffect(() => {
@@ -22,7 +24,7 @@ const TeamPropDisplay = (game) => {
         for (const bookmaker of game.bookmakers){
             for (const market of bookmaker.markets){
                 if(!team_props.has(market.key)){
-                    prop_choices.push({value:market.key,label:team_prop_choices[market.key]});
+                    prop_choices.push(market.key);
                     team_props.set(market.key, new Map());
                 }
                 
@@ -42,53 +44,73 @@ const TeamPropDisplay = (game) => {
     }, [game.bookies, game.bookmakers]);
 
     useEffect(() => {
-        if(data.has(prop.value)){
+        if(data.has(prop)){
             let sortingChoices = [];
-            let labelRetrieve = data.get(prop.value).values().next().value;
-            sortingChoices.push({value:labelRetrieve.labelA,label:labelRetrieve.labelA});
-            sortingChoices.push({value:labelRetrieve.labelB,label:labelRetrieve.labelB});
+            let labelRetrieve = data.get(prop).values().next().value;
+            if(labelRetrieve.labelA) sortingChoices.push(labelRetrieve.labelA);
+            if(labelRetrieve.labelB) sortingChoices.push(labelRetrieve.labelB);
             setSortChoices(sortingChoices);
-        }
 
-    }, [prop, data]);
-
-    useEffect(() => {
-        if(sortChoices.length > 0){
-            if(sorter.label !== sortChoices[0].label && sorter.label !== sortChoices[1].label){
-                setSorter(sortChoices[0]);
+            if(sortingChoices.length > 0){
+                if(sorter !== sortingChoices[0] && sorter !== sortingChoices[1]){
+                    setSorter(sortingChoices[0]);
+                }
             }
         }
-        // eslint-disable-next-line
-    }, [sortChoices]);
 
+    }, [prop, data, sorter]);
 
-    function propSelect(propChoice){
-
-        if(propChoice.value !== prop.value){
+    const propSelect = useCallback((propChoice) => {
+        if(propChoice !== prop){
             setProp(propChoice);
-            window.localStorage.setItem('team_prop_' + game.game_id, propChoice.value);
+            window.localStorage.setItem('team_prop_' + game.game_id, propChoice);
         }
-        
-    }
+    }, [game.game_id, prop]);
 
-    function sorterSelect(sorterChoice){
-        if(sorterChoice.label !== sorter.label){
+    const sorterSelect = useCallback((sorterChoice) => {
+        if(sorterChoice !== sorter){
             setSorter(sorterChoice);
-            window.localStorage.setItem('team_prop_sorter_' + game.game_id, sorterChoice.value);
+            window.localStorage.setItem('team_prop_sorter_' + game.game_id, sorterChoice);
         }
-    }
+    }, [sorter, game.game_id]);
+
+    const propSelector = useMemo(() => {
+        return (
+          <Select key={"prop: " + prop + game.game_id} variant="outlined" label="Prop" color="blue" value={prop} onChange={(values) => propSelect(values)} className="z-10" containerProps={{className: "min-w-[60px]",}}>
+                    {propChoices.map((team_prop) => (
+                      <Option key={team_prop} value={team_prop} className="flex items-center gap-2">
+                        {team_prop_choices[team_prop]}
+                      </Option>
+                    ))}
+                  </Select>
+        );
+      }, [prop, propChoices, propSelect, game.game_id]);
+
+      const sortSelector = useMemo(() => {
+        return (
+          <Select key={"sorter: " + sorter + game.game_id} variant="outlined" label="Sort for" color="blue" value={sorter} onChange={(values) => sorterSelect(values)} className="z-10" containerProps={{className: "min-w-[60px]",}}>
+                    {sortChoices.map((label) => (
+                      <Option key={label} value={label} className="flex items-center gap-2">
+                        {label}
+                      </Option>
+                    ))}
+                  </Select>
+        );
+      }, [sorter, sortChoices, sorterSelect, game.game_id]);
    
 
     return (
         <div>
-
-            <div className="state-dropdown">
-                <Select options={propChoices} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 5, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
-                        })} onChange={(propChoice) => propSelect(propChoice)} value={prop || ''}/>
-                </div>
+            {sorter && prop && sortChoices.length > 0 && propChoices.length > 0 ? 
             <div>
-                {data.has(prop.value) && data.get(prop.value).size > 0?<div className="bookmakers-container">
-                {Array.from(data.get(prop.value), ([bookmaker, line]) => ({ bookmaker, line })).sort(game.sortFunction(sorter)).map((bookmaker, index) => {
+                {propSelector}
+                <br></br>
+                {sortSelector}
+            </div>
+            : <></>}
+            <div>
+                {data.has(prop) && data.get(prop).size > 0?<div className="bookmakers-container">
+                {Array.from(data.get(prop), ([bookmaker, line]) => ({ bookmaker, line })).sort(game.sortFunction(sorter)).map((bookmaker, index) => {
                     let endOfPointBucket = false;
                     if(bookmaker.line.pointA !== lastPoint || index === 0){
                         endOfPointBucket = true;
@@ -100,19 +122,17 @@ const TeamPropDisplay = (game) => {
                         bookmakerLink={bookmaker_links[bookmaker.bookmaker]}
                         descriptOfPriceALabel={bookmaker.line.labelA}
                         aPrice={bookmaker.line.priceA > 0 ? '+' + bookmaker.line.priceA : bookmaker.line.priceA}
-                        aPoint={prop.value === "spreads" && bookmaker.line.pointA > 0 ? '+' + bookmaker.line.pointA : bookmaker.line.pointA}
+                        aPoint={prop === "spreads" && bookmaker.line.pointA > 0 ? '+' + bookmaker.line.pointA : bookmaker.line.pointA}
                         descriptOfPriceBLabel={bookmaker.line.labelB}
                         bPrice={bookmaker.line.priceB > 0 ? '+' + bookmaker.line.priceB : bookmaker.line.priceB}
-                        bPoint={prop.value === "spreads" && bookmaker.line.pointB > 0 ? '+' + bookmaker.line.pointB : bookmaker.line.pointB}
+                        bPoint={prop === "spreads" && bookmaker.line.pointB > 0 ? '+' + bookmaker.line.pointB : bookmaker.line.pointB}
                         endOfBucket={endOfPointBucket}
                         firstEntry={index === 0 ? true : false}
-                        sorter={sorter.label}
+                        sorter={sorter}
                     
                     />)
-                })}<hr className="bookmaker-child-end-of-block"></hr><div className="state-dropdown">
-                <Select key={`sorter_for_${prop}`} options={sortChoices} styles={{control: (baseStyles) => ({...baseStyles, width: '10.938rem'}),}} theme={(theme) => ({...theme,borderRadius: 5, colors: {...theme.colors, primary25: 'rgb(241, 238, 238)', primary: 'black',},
-                                                                                        })} onChange={(sorterChoice) => sorterSelect(sorterChoice)} value={sorter || ''} isDisabled={prop ? false : true}/>
-            </div></div>:<p>No odds available</p>}
+                })}<hr className="bookmaker-child-end-of-block"></hr>
+                </div>:<p>No odds available</p>}
             </div>
             
                 

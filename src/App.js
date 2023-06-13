@@ -11,9 +11,15 @@ import {
   Typography,
   IconButton,
   Select,
-  Option,
+  Option
 } from "@material-tailwind/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+
+//import {americanfootball_nfl_team_props, americanfootball_nfl_scores} from './SampleData/americanfootball_nfl_team_props.js';
+//import {icehockey_nhl_team_props, icehockey_nhl_scores} from './SampleData/hockey_nhl_team_props.js';
+//import {baseball_mlb_team_props, baseball_mlb_scores} from './SampleData/baseball_mlb_team_props.js';
+//import {basketball_nba_team_props, basketball_nba_scores} from './SampleData/basketball_nba_team_props.js';
+
 
 function App() {
   
@@ -159,7 +165,7 @@ function App() {
 
   return (
     <div>
-      <Navbar className="sticky inset-0 z-10 lg:px-8 lg:py-4 mx-auto max-w-screen-xl">
+      <Navbar className="sticky inset-0 z-10 lg:px-8 lg:py-4 mx-auto max-w-screen-2xl">
         <div className="flex flex-wrap items-center justify-between text-blue-700">
           <Typography
             color="blue"
@@ -200,9 +206,8 @@ function App() {
         </div>
       </Navbar>
 
-      <div className="app-container">
-        <div className="game-container">
-          <div className="all-container">
+      <div className="mx-auto max-w-screen-xl mb-32 mt-8">
+          <div className="flex flex-wrap justify-center items-center gap-4">
             {filteredGames.length > 0 ? filteredGames.map((game) => (
               game.bookmakers?
               <GameOverview
@@ -218,8 +223,8 @@ function App() {
               />:<></>
             )): <p className="no-upcoming-message">No Upcoming Games</p>}
           </div>
-        </div>
       </div>
+        
       <Footer></Footer>
     </div>
   );
