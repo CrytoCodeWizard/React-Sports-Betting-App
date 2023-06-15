@@ -57,6 +57,29 @@ function App() {
           console.log(err.message);
         });
         window.sessionStorage.setItem('sport', sport);
+    /*
+    let odds;
+    let scores;
+    if(sport === 'americanfootball_nfl'){
+      odds = americanfootball_nfl_team_props;
+      scores = americanfootball_nfl_scores;
+    }else if(sport === 'baseball_mlb') {
+      odds = baseball_mlb_team_props;
+      scores = baseball_mlb_scores;
+    }else if(sport === 'basketball_nba') {
+      odds = basketball_nba_team_props;
+      scores = basketball_nba_scores;
+    }else{
+      odds = icehockey_nhl_team_props;
+      scores = icehockey_nhl_scores;
+    }
+
+
+      let res = scores.map(x => Object.assign(x, odds.find(y => y.id === x.id)));
+      setGames(res);
+      */
+      window.sessionStorage.setItem('sport', sport);
+    
     }, [sport]);
 
     useEffect(() => {

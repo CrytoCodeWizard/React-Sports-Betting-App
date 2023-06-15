@@ -75,7 +75,6 @@ const PlayerPropDisplay = (event) => {
                 
             }
             setSortChoices(sortingChoices);
-            
         }
       
     }, [individualProps, prop, player]);
@@ -94,8 +93,8 @@ const PlayerPropDisplay = (event) => {
                 window.sessionStorage.setItem('player_prop_player_' + event.game_id, playerChoices[0]);
             }
         }
-        // eslint-disable-next-line
-    }, [playerChoices, event]);
+        
+    }, [playerChoices, player, event]);
 
     useEffect(() => {
         if(sortChoices.length > 0){
@@ -104,8 +103,8 @@ const PlayerPropDisplay = (event) => {
                 window.sessionStorage.setItem('player_prop_sorter_' + event.game_id, sortChoices[0]);
             }
         }
-        // eslint-disable-next-line
-    }, [sortChoices, event]);
+        
+    }, [sortChoices, sorter, event]);
 
     const propSelect = useCallback((propChoice) => {
 
@@ -138,7 +137,7 @@ const PlayerPropDisplay = (event) => {
 
     const propSelector = useMemo(() => {
         return (
-            <Select key={"prop: " + prop + event.game_id} variant="outlined" label="Prop" color="blue" value={prop} onChange={(values) => propSelect(values)} className="z-10" containerProps={{className: "min-w-[60px]",}}>
+            <Select key={"prop: " + propChoices + event.game_id} variant="outlined" label="Prop" color="blue" value={prop} onChange={(values) => propSelect(values)} className="z-10" containerProps={{className: "min-w-[60px]",}}>
                     {propChoices.map((player_prop) => (
                         <Option key={player_prop + event.game_id} value={player_prop} className="flex items-center gap-2">
                         {player_prop_choices[player_prop]}
@@ -150,7 +149,7 @@ const PlayerPropDisplay = (event) => {
 
     const sortSelector = useMemo(() => {
         return (
-            <Select key={"sorter: " + sorter + event.game_id} variant="outlined" label="Sort for" color="blue" value={sorter} onChange={(values) => sorterSelect(values)} className="z-10" containerProps={{className: "min-w-[60px]",}}>
+            <Select key={"sorter: " + sortChoices + event.game_id} variant="outlined" label="Sort for" color="blue" value={sorter} onChange={(values) => sorterSelect(values)} className="z-10" containerProps={{className: "min-w-[60px]",}}>
                     {sortChoices.map((label) => (
                         <Option key={label + event.game_id} value={label} className="flex items-center gap-2">
                         {label}
@@ -162,7 +161,7 @@ const PlayerPropDisplay = (event) => {
 
     const playerSelector = useMemo(() => {
         return (
-            <Select key={"player: " + player + event.game_id} variant="outlined" label="Player" color="blue" value={player} onChange={(values) => playerSelect(values)} className="z-10" containerProps={{className: "min-w-[60px]",}}>
+            <Select key={"player: " + playerChoices + event.game_id} variant="outlined" label="Player" color="blue" value={player} onChange={(values) => playerSelect(values)} className="z-10" containerProps={{className: "min-w-[60px]",}}>
                     {playerChoices.map((player_name) => (
                         <Option key={player_name + event.game_id} value={player_name} className="flex items-center gap-2">
                         {player_name}

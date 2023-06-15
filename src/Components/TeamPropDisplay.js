@@ -76,7 +76,7 @@ const TeamPropDisplay = (game) => {
 
     const propSelector = useMemo(() => {
         return (
-          <Select key={"prop: " + prop + game.game_id} variant="outlined" label="Prop" color="blue" value={prop} onChange={(values) => propSelect(values)} className="z-10" containerProps={{className: "min-w-[60px]",}}>
+          <Select key={"prop: " + propChoices + game.game_id} variant="outlined" label="Prop" color="blue" value={prop} onChange={(values) => propSelect(values)} className="z-10" containerProps={{className: "min-w-[60px]",}}>
                     {propChoices.map((team_prop) => (
                       <Option key={team_prop} value={team_prop} className="flex items-center gap-2">
                         {team_prop_choices[team_prop]}
@@ -88,7 +88,7 @@ const TeamPropDisplay = (game) => {
 
       const sortSelector = useMemo(() => {
         return (
-          <Select key={"sorter: " + sorter + game.game_id} variant="outlined" label="Sort for" color="blue" value={sorter} onChange={(values) => sorterSelect(values)} className="z-10" containerProps={{className: "min-w-[60px]",}}>
+          <Select key={"sorter: " + sortChoices + game.game_id} variant="outlined" label="Sort for" color="blue" value={sorter} onChange={(values) => sorterSelect(values)} className="z-10" containerProps={{className: "min-w-[60px]",}}>
                     {sortChoices.map((label) => (
                       <Option key={label} value={label} className="flex items-center gap-2">
                         {label}
