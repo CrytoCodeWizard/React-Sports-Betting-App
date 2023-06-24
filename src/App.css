@@ -1,21 +1,3 @@
-a:active {
-  color: rgb(61, 62, 159);
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-a:link{
-  color: rgb(61, 62, 159);
-  text-decoration: none;
-}
-
-a:visited {
-  color: rgb(61, 62, 159);
-  text-decoration: none;
-}
 
 
 

@@ -187,7 +187,7 @@ const PlayerPropDisplay = (event) => {
                 </div>:<></>}
             </div>:<></>}
             
-            <div>
+            <div className="mt-8">
                 {individualProps.has(prop) && individualProps.get(prop).has(player) && individualProps.get(prop).get(player).size > 0?<div className="bookmakers-container">
                 {Array.from(individualProps.get(prop).get(player), ([bookmaker, line]) => ({ bookmaker, line })).sort(event.sortFunction(sorter)).map((bookmaker, index) => {
                     let endOfPointBucket = false;

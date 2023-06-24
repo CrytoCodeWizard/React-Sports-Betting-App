@@ -1,6 +1,6 @@
 import React,{ useEffect, useState, useMemo } from "react";
 import GameOverview from "./Components/GameOverview";
-import Footer from "./Components/Footer";
+//import Footer from "./Components/Footer";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { state_bookmakers, team_codes } from "./Resources.js";
@@ -13,7 +13,7 @@ import {
   Select,
   Option
 } from "@material-tailwind/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon, ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 
 //import {americanfootball_nfl_team_props, americanfootball_nfl_scores} from './SampleData/americanfootball_nfl_team_props.js';
 //import {icehockey_nhl_team_props, icehockey_nhl_scores} from './SampleData/hockey_nhl_team_props.js';
@@ -22,7 +22,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 
 function App() {
-  
+  const numGamesPerPage = 9;
   const [games, setGames] = useState([]);
   const [filteredGames, setFilteredGames] = useState([]);
   const [sport, setSport] = useState(window.sessionStorage.getItem('sport') || 'americanfootball_nfl');
@@ -30,9 +30,23 @@ function App() {
   const [bookies, setBookies] = useState(window.sessionStorage.getItem('usState')?state_bookmakers[window.sessionStorage.getItem('usState')]:new Set([])) ;
   const [stateName, setStateName] = useState(window.sessionStorage.getItem('usState') || "");
   const [openNav, setOpenNav] = useState(false);
+  const [pages, setPages] = useState(0);
+  const [endIndex, setEndIndex] = useState(numGamesPerPage);
  
   const handleWindowResize = () =>
     window.innerWidth >= 960 && setOpenNav(false);
+
+  const [active, setActive] = useState(parseInt(window.sessionStorage.getItem('page_num')) || 1);
+
+  const next = () => {
+    if (active === pages) return;
+    setActive(active + 1);
+  };
+  
+  const prev = () => {
+    if (active === 1) return;
+    setActive(active - 1);
+  };
  
   useEffect(() => {
     window.addEventListener("resize", handleWindowResize);
@@ -43,6 +57,7 @@ function App() {
   }, []);
 
   useEffect(() => {
+    
     const urls = ['https://api.the-odds-api.com/v4/sports/' + sport + '/odds?regions=us&oddsFormat=american&markets=spreads,h2h,totals&dateFormat=iso&apiKey=' + process.env.REACT_APP_API_KEY_SPORT_ODDS,
      'https://api.the-odds-api.com/v4/sports/' + sport + '/scores/?apiKey=' + process.env.REACT_APP_API_KEY_SPORT_ODDS];
     Promise.all(urls.map(url => fetch(url, {
@@ -52,6 +67,7 @@ function App() {
         .then(([odds, scores]) => {
           let res = scores.map(x => Object.assign(x, odds.find(y => y.id === x.id)));
           setGames(res);
+          if(sport !== window.sessionStorage.getItem('sport')) setActive(1);
         })
         .catch((err) => {
           console.log(err.message);
@@ -73,19 +89,32 @@ function App() {
       odds = icehockey_nhl_team_props;
       scores = icehockey_nhl_scores;
     }
-
-
+    
+    
       let res = scores.map(x => Object.assign(x, odds.find(y => y.id === x.id)));
       setGames(res);
-      */
+      if(sport !== window.sessionStorage.getItem('sport')) setActive(1);
+    
       window.sessionStorage.setItem('sport', sport);
+      */
     
     }, [sport]);
 
     useEffect(() => {
-      setFilteredGames(games.filter((game) => game.away_team.toLowerCase().includes(filterText.toLowerCase()) || game.home_team.toLowerCase().includes(filterText.toLowerCase()) || team_codes[game.away_team].toLowerCase().includes(filterText.toLowerCase())
-      || team_codes[game.home_team].toLowerCase().includes(filterText.toLowerCase())));
+      let gamesFiltered = games.filter((game) => game.away_team.toLowerCase().includes(filterText.toLowerCase()) || game.home_team.toLowerCase().includes(filterText.toLowerCase()) || team_codes[game.away_team].toLowerCase().includes(filterText.toLowerCase())
+      || team_codes[game.home_team].toLowerCase().includes(filterText.toLowerCase()));
+      setFilteredGames(gamesFiltered);
+      if(gamesFiltered.length > 0){
+        let pageNumber = Math.ceil(gamesFiltered.length / numGamesPerPage);
+        setPages(pageNumber);
+        if(parseInt(window.sessionStorage.getItem('page_num')) > pageNumber) setActive(1);
+      }
     }, [games, filterText]);
+
+    useEffect(() => {
+      window.sessionStorage.setItem('page_num', active);
+      setEndIndex(active*numGamesPerPage);
+    }, [active]);
   
   function stateSelect(values){
     if(!values) {
@@ -103,6 +132,7 @@ function App() {
 
   function filterGames({ target }){
     setFilterText(target.value);
+    setActive(1);
     window.sessionStorage.setItem('filter_text_', target.value);
   }
 
@@ -229,9 +259,9 @@ function App() {
         </div>
       </Navbar>
 
-      <div className="mx-auto max-w-screen-xl mb-32 mt-8">
-          <div className="flex flex-wrap justify-center items-center gap-4">
-            {filteredGames.length > 0 ? filteredGames.map((game) => (
+      <div className="mx-auto max-w-screen-xl mb-16 mt-8">
+          <div className="flex flex-wrap justify-center items-center mb-16 gap-4">
+            {filteredGames.length > 0 ? filteredGames.slice(endIndex-numGamesPerPage,endIndex).map((game) => (
               game.bookmakers?
               <GameOverview
                 key={game.id}
@@ -246,9 +276,32 @@ function App() {
               />:<></>
             )): <p className="no-upcoming-message">No Upcoming Games</p>}
           </div>
-      </div>
-        
-      <Footer></Footer>
+
+          {pages > 1 ? <div className="flex items-center justify-center gap-8">
+            <IconButton
+              size="sm"
+              variant="outlined"
+              color="blue-gray"
+              onClick={prev}
+              disabled={active === 1}
+            >
+              <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" />
+            </IconButton>
+            <Typography color="gray" className="font-normal">
+              Page <strong className="text-blue-gray-900">{active}</strong> of{" "}
+              <strong className="text-blue-gray-900">{pages}</strong>
+            </Typography>
+            <IconButton
+              size="sm"
+              variant="outlined"
+              color="blue-gray"
+              onClick={next}
+              disabled={active === pages}
+            >
+              <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
+            </IconButton>
+          </div> : <></>}
+      </div>   
     </div>
   );
 }

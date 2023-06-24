@@ -108,7 +108,7 @@ const TeamPropDisplay = (game) => {
                 {sortSelector}
             </div>
             : <></>}
-            <div>
+            <div className="mt-8">
                 {data.has(prop) && data.get(prop).size > 0?<div className="bookmakers-container">
                 {Array.from(data.get(prop), ([bookmaker, line]) => ({ bookmaker, line })).sort(game.sortFunction(sorter)).map((bookmaker, index) => {
                     let endOfPointBucket = false;
