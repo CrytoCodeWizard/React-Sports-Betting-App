@@ -32,6 +32,8 @@ function App() {
   const [openNav, setOpenNav] = useState(false);
   const [pages, setPages] = useState(0);
   const [endIndex, setEndIndex] = useState(numGamesPerPage);
+  const stateImages = importAll(require.context('./Images/StateIcons/', true, /\.(png|jpe?g|svg)$/));
+  const teamImages = importAll(require.context('./Images/TeamImages/', true, /\.(png|jpe?g|svg)$/));
  
   const handleWindowResize = () =>
     window.innerWidth >= 960 && setOpenNav(false);
@@ -189,15 +191,17 @@ function App() {
 
   const SelectInHeader = useMemo(() => {
     return (
-      <Select key={stateName} variant="outlined" label="State" color="blue" value={stateName} onChange={(values) => stateSelect(values)} className="z-10" containerProps={{className: "min-w-[60px]",}}>
+      <Select key={stateName} selected={(element) => element && React.cloneElement(element, {className: "flex items-center px-0 gap-2 pointer-events-none",})} 
+      variant="outlined" label="State" color="blue" value={stateName} onChange={(values) => stateSelect(values)} className="z-10" containerProps={{className: "min-w-[60px]",}}>
                 {Object.keys(state_bookmakers).map((state) => (
                   <Option key={state} value={state} className="flex items-center gap-2">
+                    <img className="h-5 w-5 object-cover" src={stateImages[state + ".png"]} alt={state} />
                     {state}
                   </Option>
                 ))}
               </Select>
     );
-  }, [stateName]);
+  }, [stateName, stateImages]);
 
   
   const InputInHeader = useMemo(() => {
@@ -273,6 +277,7 @@ function App() {
                 startTime={game.commence_time}
                 sport={game.sport_key}
                 curScore={game.scores}
+                teamImages={teamImages}
               />:<></>
             )): <p className="no-upcoming-message">No Upcoming Games</p>}
           </div>
@@ -304,6 +309,12 @@ function App() {
       </div>   
     </div>
   );
+}
+
+function importAll(r) {
+  let images = {};
+  r.keys().forEach(item => { images[item.replace('./', '')] = r(item); });
+  return images;
 }
 
 export default App;

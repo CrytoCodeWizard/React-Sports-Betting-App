@@ -1,6 +1,12 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { player_prop_markets } from "../Resources.js";
 
+/*
+import football_data from './../SampleData/americanfootball_nfl_player_props.json';
+import basketball_data from './../SampleData/basketball_nba_player_props.json';
+import baseball_data from './../SampleData/baseball_mlb_player_props.json';
+import hockey_data from './../SampleData/hockey_nhl_player_props.json';
+*/
 
 const DataContext = createContext();
 

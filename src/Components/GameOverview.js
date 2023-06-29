@@ -18,7 +18,6 @@ const GameOverview = (game) => {
     const [playerPropsClicked, setPlayerPropsClicked] = useState(window.sessionStorage.getItem('player_prop_clicked_' + game.game_id) === 'true' ? true : false);;
     const today = new Date();
     const gameStart = new Date(game.startTime);
-    const images = importAll(require.context('./../Images/', true, /\.(png|jpe?g|svg)$/));
     const stringifiedGameStart = gameStart.toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'});
 
     return (
@@ -27,8 +26,8 @@ const GameOverview = (game) => {
         <Card className="w-80" color="transparent" variant="gradient">
             <CardBody className="text-center">
                 <div className="h-24 flex justify-center items-center">
-                    <img className="w-24 h-24" src={images[game.sport + "_TeamImages/" + game.awayTeam + ".png"]} alt={game.awayTeam} />
-                    <img className="w-24 h-24 transform -scale-x-100" src={images[game.sport + "_TeamImages/" + game.homeTeam + ".png"]} alt={game.homeTeam} />
+                    <img className="w-24 h-24" src={game.teamImages[game.sport + "_TeamImages/" + game.awayTeam + ".png"]} alt={game.awayTeam} />
+                    <img className="w-24 h-24 transform -scale-x-100" src={game.teamImages[game.sport + "_TeamImages/" + game.homeTeam + ".png"]} alt={game.homeTeam} />
                 </div>
                 <Typography variant="h4" color="blue-gray" className="mb-2">
                 {team_codes[game.awayTeam]} @ {team_codes[game.homeTeam]}
@@ -131,12 +130,6 @@ const GameOverview = (game) => {
 
 
 
-}
-
-function importAll(r) {
-    let images = {};
-    r.keys().forEach(item => { images[item.replace('./', '')] = r(item); });
-    return images;
 }
 
 export default GameOverview
