@@ -1,11 +1,11 @@
 import React,{ useEffect, useState, useMemo, useCallback } from "react";
-import PropDisplay from "./PropDisplay.js";
-import { bookmaker_links, player_prop_choices } from "../Resources.js";
+import { player_prop_choices } from "../Resources.js";
 import { useData } from './DataContext.js';
 import { 
     Select,
     Option
   } from "@material-tailwind/react";
+import PropContainer from "./PropContainer.js";
 
 const PlayerPropDisplay = (event) => {
 
@@ -16,7 +16,6 @@ const PlayerPropDisplay = (event) => {
     const [player, setPlayer] = useState(window.sessionStorage.getItem('player_prop_player_' + event.game_id) || "");
     const [prop, setProp] = useState(window.sessionStorage.getItem('player_prop_' + event.game_id) || "");
     const [sorter, setSorter] = useState(window.sessionStorage.getItem('player_prop_sorter_' + event.game_id) || "");
-    let lastPoint = 0.0;
     const { data } = useData();
     
     useEffect(() => {
@@ -188,29 +187,15 @@ const PlayerPropDisplay = (event) => {
             </div>:<></>}
             
             <div className="mt-8">
-                {individualProps.has(prop) && individualProps.get(prop).has(player) && individualProps.get(prop).get(player).size > 0?<div className="bookmakers-container">
-                {Array.from(individualProps.get(prop).get(player), ([bookmaker, line]) => ({ bookmaker, line })).sort(event.sortFunction(sorter)).map((bookmaker, index) => {
-                    let endOfPointBucket = false;
-                    if(bookmaker.line.pointA !== lastPoint || index === 0){
-                        endOfPointBucket = true;
-                        lastPoint = bookmaker.line.pointA;
-                    }
-                    return (<PropDisplay
-                        key={bookmaker.bookmaker}
-                        bookmaker={bookmaker.bookmaker}
-                        bookmakerLink={bookmaker_links[bookmaker.bookmaker]}
-                        descriptOfPriceALabel={bookmaker.line.labelA}
-                        aPrice={bookmaker.line.priceA > 0 ? '+' + bookmaker.line.priceA : bookmaker.line.priceA}
-                        aPoint={bookmaker.line.pointA}
-                        descriptOfPriceBLabel={bookmaker.line.labelB}
-                        bPrice={bookmaker.line.priceB > 0 ? '+' + bookmaker.line.priceB : bookmaker.line.priceB}
-                        bPoint={bookmaker.line.pointB}
-                        endOfBucket={endOfPointBucket}
-                        firstEntry={index === 0 ? true : false}
+                {individualProps.has(prop) && individualProps.get(prop).has(player) && individualProps.get(prop).get(player).size > 0 ?
+                    <PropContainer
+                        type={"team-prop-container"}
+                        game_id={event.game_id}
+                        bookmakerList={individualProps.get(prop).get(player)}
                         sorter={sorter}
-                    
-                    />)
-                })}<hr className="bookmaker-child-end-of-block"></hr></div>:<></>}
+                        lastIndex={individualProps.get(prop).get(player).size-1}
+                        prop={prop}
+                    />:prop === "" ? <></>:<span>No odds available</span>}
                 
             </div>
         </div>

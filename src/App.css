@@ -1,6 +1,11 @@
 
+a:link {
+  text-decoration: none;
+}
 
-
+a:hover {
+  text-decoration: none;
+}
 @keyframes blink {
   0% { text-shadow: 0 0 0.938rem red; }
   50% { text-shadow: none; }
@@ -11,33 +16,6 @@
   0% { text-shadow: 0 0 0.938rem red; }
   50% { text-shadow: 0 0 0; }
   100% { text-shadow: 0rem 0 0.938rem red; }
-}
-
-.bookmaker-child-name {
-  width: 40%;
-  font-family: monospace;
-  float: left;
-  text-align: center;
-  top: 50%;
-  transform: translateY(50%);
-}  
-
-.bookmaker-child-content {
-  width: 60%;
-  font-family: monospace;
-  float: left;
-  text-align: center;
-  
-}
-
-.bookmaker-child-end-of-block {
-  border: none;
-  height: 0.25rem;
-  background-color: black;  
-}
-
-.bookmaker-child-sep {
-  height: 0.25rem;
 }
 
 
@@ -51,11 +29,6 @@ footer {
   text-align: center;
 }
 
-hr {
-  width: 100%;
-  height: 1rem;
-  transform: translateY(150%);
-}
 
 html
   {
@@ -79,16 +52,4 @@ html
   padding: 5rem;
   font-size: 2rem;
   text-shadow: 0 0 1rem #4a4343;
-}
-
-.prop-text {
-  display: inline;
-}
-
-.prop-text-best {
-  color: green;
-}
-
-.prop-text-worst {
-  color: red;
 }

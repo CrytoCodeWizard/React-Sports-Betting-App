@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PlayerPropDisplay from "./PlayerPropDisplay";
 import TeamPropDisplay from './TeamPropDisplay';
 import { DataProvider } from './DataContext';
-import {team_codes} from '../Resources.js';
+import {team_codes, bookmaker_names} from '../Resources.js';
 
 import {
     Card,
@@ -34,8 +34,9 @@ const GameOverview = (game) => {
                 </Typography>
                 
                 <Typography  variant="h6" color="blue-gray" className="font-medium" textGradient>
-                {today>=gameStart?<p className="live">LIVE</p>:<p>{stringifiedGameStart}</p>}
-                {game.curScore?<p>{game.curScore[1].score} - {game.curScore[0].score}</p>:<></>}
+                {today>=gameStart?<span className="live">LIVE</span>:<span>{stringifiedGameStart}</span>}
+                <br></br>
+                {game.curScore?<span>{game.curScore[1].score} - {game.curScore[0].score}</span>:<></>}
                 </Typography>
 
                 <div className="h-24 w-48 mx-auto flex justify-center items-center">
@@ -48,21 +49,23 @@ const GameOverview = (game) => {
 
                 {showTeamProps===true?
                     <TeamPropDisplay
+                        key={"team-prop-" + game.game_id}
                         game_id={game.game_id}
                         bookmakers={game.bookmakers}
                         sport={game.sport}
                         bookies={game.bookie_list}
-                        sortFunction={propSortByLabel}
+                       
                     ></TeamPropDisplay>
                     :<></>
                 }
                 {playerPropsClicked ? <DataProvider game_id={game.game_id} sport={game.sport} showChild={showPlayerProps}>
                     <div className="bookmakers-container">
                         <PlayerPropDisplay
+                            key={"player-prop-" + game.game_id}
                             game_id={game.game_id}
                             sport={game.sport}
                             bookies={game.bookie_list}
-                            sortFunction={propSortByLabel}
+                            
                         ></PlayerPropDisplay>
                         </div>
                     </DataProvider> : <></>
@@ -96,40 +99,38 @@ const GameOverview = (game) => {
         }
     }
 
-    function propSortByLabel(sorter){
-        return function(a,b) {
-            if(sorter === a.line.labelA){
-                if(!a.line.priceA || !b.line.priceA){
-                    if(!a.line.priceA && b.line.priceA) return 1;
-                    else if(!b.line.priceA && a.line.priceA) return -1;
-                }
-                if(Math.abs(a.line.pointA) < Math.abs(b.line.pointA)) return -1;
-                else if(a.line.pointA === b.line.pointA){
-                    if(a.line.priceA > b.line.priceA) return -1;
-                    else if(a.line.priceA === b.line.priceA){
-                        if(a.line.title < b.line.title) return -1;
-                    }
+}
+
+export function propSortByLabel(sorter){
+    return function(a,b) {
+        if(sorter === a.line.labelA){
+            if(!a.line.priceA || !b.line.priceA){
+                if(!a.line.priceA && b.line.priceA) return 1;
+                else if(!b.line.priceA && a.line.priceA) return -1;
+            }
+            if(Math.abs(a.line.pointA) < Math.abs(b.line.pointA)) return -1;
+            else if(a.line.pointA === b.line.pointA){
+                if(a.line.priceA > b.line.priceA) return -1;
+                else if(a.line.priceA === b.line.priceA){
+                    if(bookmaker_names[a.bookmaker] < bookmaker_names[b.bookmaker]) return -1;
                 }
             }
-            else{
-                if(!a.line.priceB || !b.line.priceB){
-                    if(!a.line.priceB && b.line.priceB) return 1;
-                    else if(!b.line.priceB && a.line.priceB) return -1;
-                }
-                if(Math.abs(a.line.pointB) < Math.abs(b.line.pointB)) return -1;
-                else if(a.line.pointB === b.line.pointB){
-                    if(a.line.priceB > b.line.priceB) return -1;
-                    else if(a.line.priceB === b.line.priceB){
-                        if(a.line.title < b.line.title) return -1;
-                    }
-                }
-            }
-            return 1;
         }
+        else{
+            if(!a.line.priceB || !b.line.priceB){
+                if(!a.line.priceB && b.line.priceB) return 1;
+                else if(!b.line.priceB && a.line.priceB) return -1;
+            }
+            if(Math.abs(a.line.pointB) < Math.abs(b.line.pointB)) return -1;
+            else if(a.line.pointB === b.line.pointB){
+                if(a.line.priceB > b.line.priceB) return -1;
+                else if(a.line.priceB === b.line.priceB){
+                    if(bookmaker_names[a.bookmaker] < bookmaker_names[b.bookmaker]) return -1;
+                }
+            }
+        }
+        return 1;
     }
-
-
-
 }
 
 export default GameOverview

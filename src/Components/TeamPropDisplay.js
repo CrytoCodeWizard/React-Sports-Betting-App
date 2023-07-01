@@ -1,11 +1,10 @@
 import React, {useEffect, useState, useMemo, useCallback} from 'react';
-import { bookmaker_links, team_prop_choices } from "./../Resources.js";
-import PropDisplay from './PropDisplay';
+import { team_prop_choices } from "./../Resources.js";
 import { 
     Select,
     Option
   } from "@material-tailwind/react";
-
+  import PropContainer from './PropContainer.js';
 
 const TeamPropDisplay = (game) => {
     const [propChoices, setPropChoices] = useState([]);
@@ -13,7 +12,6 @@ const TeamPropDisplay = (game) => {
     const [prop, setProp] = useState(window.localStorage.getItem('team_prop_' + game.game_id) || 'h2h');
     const [sortChoices, setSortChoices] = useState([]);
     const [sorter, setSorter] = useState(window.localStorage.getItem('team_prop_sorter_' + game.game_id) || "");
-    let lastPoint = 0.0;
 
     useEffect(() => {
 
@@ -97,7 +95,6 @@ const TeamPropDisplay = (game) => {
                   </Select>
         );
       }, [sorter, sortChoices, sorterSelect, game.game_id]);
-   
 
     return (
         <div>
@@ -109,30 +106,15 @@ const TeamPropDisplay = (game) => {
             </div>
             : <></>}
             <div className="mt-8">
-                {data.has(prop) && data.get(prop).size > 0?<div className="bookmakers-container">
-                {Array.from(data.get(prop), ([bookmaker, line]) => ({ bookmaker, line })).sort(game.sortFunction(sorter)).map((bookmaker, index) => {
-                    let endOfPointBucket = false;
-                    if(bookmaker.line.pointA !== lastPoint || index === 0){
-                        endOfPointBucket = true;
-                        lastPoint = bookmaker.line.pointA;
-                    }
-                    return (<PropDisplay
-                        key={bookmaker.bookmaker}
-                        bookmaker={bookmaker.bookmaker}
-                        bookmakerLink={bookmaker_links[bookmaker.bookmaker]}
-                        descriptOfPriceALabel={bookmaker.line.labelA}
-                        aPrice={bookmaker.line.priceA > 0 ? '+' + bookmaker.line.priceA : bookmaker.line.priceA}
-                        aPoint={prop === "spreads" && bookmaker.line.pointA > 0 ? '+' + bookmaker.line.pointA : bookmaker.line.pointA}
-                        descriptOfPriceBLabel={bookmaker.line.labelB}
-                        bPrice={bookmaker.line.priceB > 0 ? '+' + bookmaker.line.priceB : bookmaker.line.priceB}
-                        bPoint={prop === "spreads" && bookmaker.line.pointB > 0 ? '+' + bookmaker.line.pointB : bookmaker.line.pointB}
-                        endOfBucket={endOfPointBucket}
-                        firstEntry={index === 0 ? true : false}
+                {data.has(prop) && data.get(prop).size > 0?
+                    <PropContainer
+                        type={"team-prop-container"}
+                        game_id={game.game_id}
+                        bookmakerList={data.get(prop)}
                         sorter={sorter}
-                    
-                    />)
-                })}<hr className="bookmaker-child-end-of-block"></hr>
-                </div>:<p>No odds available</p>}
+                        lastIndex={data.get(prop).size-1}
+                        prop={prop}
+                    />:<span>No odds available</span>}
             </div>
             
                 
