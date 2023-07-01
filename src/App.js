@@ -106,7 +106,7 @@ function App() {
       let gamesFiltered = games.filter((game) => game.away_team.toLowerCase().includes(filterText.toLowerCase()) || game.home_team.toLowerCase().includes(filterText.toLowerCase()) || team_codes[game.away_team].toLowerCase().includes(filterText.toLowerCase())
       || team_codes[game.home_team].toLowerCase().includes(filterText.toLowerCase()));
       setFilteredGames(gamesFiltered);
-      if(gamesFiltered.length > 0){
+      if(games.length > 0){
         let pageNumber = Math.ceil(gamesFiltered.length / numGamesPerPage);
         setPages(pageNumber);
         if(parseInt(window.sessionStorage.getItem('page_num')) > pageNumber) setActive(1);
