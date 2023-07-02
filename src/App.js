@@ -23,7 +23,7 @@ import { Bars3Icon, XMarkIcon, ArrowRightIcon, ArrowLeftIcon } from "@heroicons/
 
 function App() {
   const numGamesPerPage = 9;
-  const [games, setGames] = useState([]);
+  const [games, setGames] = useState();
   const [filteredGames, setFilteredGames] = useState([]);
   const [sport, setSport] = useState(window.sessionStorage.getItem('sport') || 'americanfootball_nfl');
   const [filterText, setFilterText] = useState(window.sessionStorage.getItem('filter_text_') ? window.sessionStorage.getItem('filter_text_') : '');
@@ -104,10 +104,11 @@ function App() {
     }, [sport]);
 
     useEffect(() => {
-      let gamesFiltered = games.filter((game) => game.away_team.toLowerCase().includes(filterText.toLowerCase()) || game.home_team.toLowerCase().includes(filterText.toLowerCase()) || team_codes[game.away_team].toLowerCase().includes(filterText.toLowerCase())
-      || team_codes[game.home_team].toLowerCase().includes(filterText.toLowerCase()));
-      setFilteredGames(gamesFiltered);
-      if(games.length > 0){
+      if(games){
+        let gamesFiltered = games.filter((game) => game.away_team.toLowerCase().includes(filterText.toLowerCase()) || game.home_team.toLowerCase().includes(filterText.toLowerCase()) || team_codes[game.away_team].toLowerCase().includes(filterText.toLowerCase())
+        || team_codes[game.home_team].toLowerCase().includes(filterText.toLowerCase()));
+        setFilteredGames(gamesFiltered);
+      
         let pageNumber = Math.ceil(gamesFiltered.length / numGamesPerPage);
         setPages(pageNumber);
         if(parseInt(window.sessionStorage.getItem('page_num')) > pageNumber) setActive(1);
@@ -141,7 +142,6 @@ function App() {
 
   function sportChange(sportChoice){
     setSport(sportChoice);
-    window.sessionStorage.setItem('sport', sportChoice);
   }
 
   function checkedBestChange(checkedChoice){

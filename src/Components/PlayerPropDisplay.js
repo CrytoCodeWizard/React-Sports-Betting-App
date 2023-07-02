@@ -196,7 +196,7 @@ const PlayerPropDisplay = (event) => {
                         lastIndex={individualProps.get(prop).get(player).size-1}
                         prop={prop}
                         checkedBest={event.checkedBest}
-                    />:prop === "" ? <></>:<span>No odds available</span>}
+                    />:individualProps.size !== 0 ? <></>:<span>No odds available</span>}
             </div>
         </div>
         
