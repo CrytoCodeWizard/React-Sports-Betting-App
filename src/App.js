@@ -143,6 +143,11 @@ function App() {
     window.sessionStorage.setItem('sport', sportChoice);
   }
 
+  function checkedBestChange(checkedChoice){
+    setCheckedBest(checkedChoice);
+    window.sessionStorage.setItem('checkedBest', checkedChoice);
+  }
+
   function NavList() {
     let inactive = "flex items-center hover:text-blue-700 transition-colors";
     let active = "flex items-center font-bold text-blue-700 transition-colors";
@@ -263,6 +268,16 @@ function App() {
         </div>
       </Navbar>
 
+      <div className="flex items-center justify-center mt-3">
+        <label className="relative inline-flex items-center mr-5 cursor-pointer">
+            <input type="checkbox" checked={checkedBest} className="sr-only peer" onChange={(value) => checkedBestChange(value.target.checked)}></input>
+            <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-400 dark:peer-focus:ring-blue-700 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-300"></div>
+            <span className="ml-3 text-sm font-medium text-blue-gray-500"> Only Show Best Lines</span>       
+        </label>
+        
+      </div>
+      
+
       <div className="mx-auto max-w-screen-xl mb-16 mt-8">
           <div className="flex flex-wrap justify-center items-center mb-16 gap-4">
             {filteredGames.length > 0 ? filteredGames.slice(endIndex-numGamesPerPage,endIndex).map((game) => (
@@ -278,6 +293,7 @@ function App() {
                 sport={game.sport_key}
                 curScore={game.scores}
                 teamImages={teamImages}
+                checkedBest={checkedBest}
               />:<></>
             )): <p className="no-upcoming-message">No Upcoming Games</p>}
           </div>

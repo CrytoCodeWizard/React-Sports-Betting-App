@@ -54,7 +54,7 @@ const GameOverview = (game) => {
                         bookmakers={game.bookmakers}
                         sport={game.sport}
                         bookies={game.bookie_list}
-                       
+                        checkedBest={game.checkedBest}
                     ></TeamPropDisplay>
                     :<></>
                 }
@@ -65,7 +65,7 @@ const GameOverview = (game) => {
                             game_id={game.game_id}
                             sport={game.sport}
                             bookies={game.bookie_list}
-                            
+                            checkedBest={game.checkedBest}
                         ></PlayerPropDisplay>
                         </div>
                     </DataProvider> : <></>
