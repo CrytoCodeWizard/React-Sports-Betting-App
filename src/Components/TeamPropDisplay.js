@@ -12,7 +12,7 @@ const TeamPropDisplay = (game) => {
     const [prop, setProp] = useState(window.localStorage.getItem('team_prop_' + game.game_id) || 'h2h');
     const [sortChoices, setSortChoices] = useState([]);
     const [sorter, setSorter] = useState(window.localStorage.getItem('team_prop_sorter_' + game.game_id) || "");
-
+    
     useEffect(() => {
 
         let team_props = new Map();
