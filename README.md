@@ -24,6 +24,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Credits
 
 This project utilizes [The Odds API](https://the-odds-api.com/)
+
 State Icons & Medal Icon by [Icons8](https://icons8.com)
 
 
