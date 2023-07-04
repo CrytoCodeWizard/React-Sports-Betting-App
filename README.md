@@ -6,17 +6,25 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Prerequisites
 
-1. Go to [Live Sports API](https://rapidapi.com/theoddsapi/api/live-sports-odds), create a free acount and subscribe to the unpaid version of the API.
-   - Once subscribed, your API Key can be found under X-RapidAPI-Key
+1. Go to [The Odds API](https://the-odds-api.com/), create a free acount and subscribe to the unpaid version of the API.
+   - Once subscribed, your API Key can be found on your account page
 2. You’ll need to have Node 14.0.0 or later version on your local development machine. [Node.js](https://nodejs.org/en/download/)
 
 ## Installation Instructions
 
 1. Download the project/save zip and unzip
-2. In the text editor of your choice, open `sports-odds-app/src/App.js` and go to line 19. replace `process.env.REACT_APP_API_KEY_SPORT_ODDS` with your API key from step 1 of the prerequisites
-3. Navigate to the project home on the command line using `cd` and run `npm install`, followed by `npm start`, the application should open at `http://localhost:3000/`.
+2. In the text editor of your choice, open `sports-odds-app/src/App.js` and go to line 64 & 65. replace `process.env.REACT_APP_API_KEY_SPORT_ODDS` with your API key from step 1 of the prerequisites
+3. open `sports-odds-app/src/DataContext.js` and go to line 24. replace `process.env.REACT_APP_API_KEY_SPORT_ODDS` with your API key from step 1 of the prerequisites
+4. Navigate to the project home on the command line using `cd` and run `npm install`, followed by `npm start`, the application should open at `http://localhost:3000/`.
 
+## Images
+
+![image](https://github.com/clarket33/shop-the-line/assets/43187188/c6ab47d7-f405-4d5c-8300-5220c0c7213c)
 
 ## Credits
 
 This project utilizes [The Odds API](https://the-odds-api.com/)
+State Icons & Medal Icon by [Icons8](https://icons8.com)
+
+
+
