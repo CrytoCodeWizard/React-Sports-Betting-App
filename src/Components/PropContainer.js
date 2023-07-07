@@ -19,13 +19,14 @@ const PropContainer = (bookmakerList) => {
         {Array.from(bookmakerList.bookmakerList, ([bookmaker, line]) => ({ bookmaker, line })).sort(propSortByLabel(bookmakerList.sorter)).map((bookmaker, index) => { 
             let bestOption = false;
             let endOfBucket = false;
+            let hasOddsforGivenSort = (bookmakerList.sorter === bookmaker.line.labelA || bookmakerList.sorter === bookmaker.line.labelB);
             if(bookmaker.line.pointA !== lastPoint || index === 0){
                 if(index !== 0){
                     endOfBucket = true;
                     completeList = propDisp;
                     propDisp = [];
                 }
-                bestOption = true;
+                if(hasOddsforGivenSort) bestOption = true;
                 lastPoint = bookmaker.line.pointA;
                 if(bookmakerList.sorter === bookmaker.line.labelA) lastPrice = bookmaker.line.priceA;
                 else if(bookmakerList.sorter === bookmaker.line.labelB) lastPrice = bookmaker.line.priceB;
@@ -53,16 +54,16 @@ const PropContainer = (bookmakerList) => {
                 sorter={bookmakerList.sorter}
             />);
 
-            if(endOfBucket && index === bookmakerList.lastIndex){
+            if(endOfBucket && index === bookmakerList.lastIndex && completeList.length > 0 && propDisp.length > 0){
                 return (<div key={bookmakerList.type + bookmakerList.game_id + index}><Card className="mt-4 shadow-xl"><List>{completeList}</List></Card><Card className="mt-4 shadow-xl"><List>{propDisp}</List></Card></div>);
             }
 
             
-            if(endOfBucket){
+            if(endOfBucket && completeList.length > 0){
                 return (<div key={bookmakerList.type + bookmakerList.game_id + index}><Card key={"player-prop-container-" + bookmakerList.game_id} className="mt-4 shadow-xl"><List>{completeList}</List></Card></div>);
             }
 
-            if(index === bookmakerList.lastIndex){
+            if(index === bookmakerList.lastIndex && propDisp.length > 0){
                 
                 return (<div key={bookmakerList.type + bookmakerList.game_id + index}><Card className="mt-4 shadow-xl"><List>{propDisp}</List></Card></div>);
             }

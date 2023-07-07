@@ -18,6 +18,7 @@ const GameOverview = (game) => {
     const [playerPropsClicked, setPlayerPropsClicked] = useState(window.sessionStorage.getItem('player_prop_clicked_' + game.game_id) === 'true' ? true : false);;
     const today = new Date();
     const gameStart = new Date(game.startTime);
+    const isLive = today>=gameStart;
     const stringifiedGameStart = gameStart.toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'});
 
     return (
@@ -34,18 +35,24 @@ const GameOverview = (game) => {
                 </Typography>
                 
                 <Typography  variant="h6" color="blue-gray" className="font-medium" textGradient>
-                {today>=gameStart?<span className="live">LIVE</span>:<span>{stringifiedGameStart}</span>}
+                {isLive?<span className="live">LIVE</span>:<span>{stringifiedGameStart}</span>}
                 <br></br>
                 {game.curScore?<span>{game.curScore[1].score} - {game.curScore[0].score}</span>:<></>}
                 </Typography>
 
+                {!isLive?
                 <div className="h-24 w-48 mx-auto flex justify-center items-center">
                     {showTeamProps===true?<Button variant="text" className="w-1/2 border-r-2 font-bold" color="blue" onClick={() => OddButtonClick(setShowTeamProps, showTeamProps, setShowPlayerProps)}>Team<br></br>Props</Button>
                     :<Button variant="text" className="w-1/2 border-r-2" color="blue-gray" onClick={() => OddButtonClick(setShowTeamProps, showTeamProps, setShowPlayerProps)}>Team<br></br>Props</Button>}
                     {showPlayerProps===true?<Button variant="text" className="w-1/2 border-l-2 font-bold" color="blue" onClick={() => OddButtonClick(setShowPlayerProps, showPlayerProps, setShowTeamProps)}>Player<br></br>Props</Button>
                     :<Button variant="text" className="w-1/2 border-l-2" color="blue-gray" onClick={() => OddButtonClick(setShowPlayerProps, showPlayerProps, setShowTeamProps)}>Player<br></br>Props</Button>}
                 </div>
-
+                : 
+                <div className="h-24 w-24 mx-auto flex justify-center items-center">
+                    {showTeamProps===true?<Button variant="text" className="border-l-2 border-r-2 font-bold" color="blue" onClick={() => OddButtonClick(setShowTeamProps, showTeamProps, setShowPlayerProps)}>Team<br></br>Props</Button>
+                    :<Button variant="text" className="border-l-2 border-r-2" color="blue-gray" onClick={() => OddButtonClick(setShowTeamProps, showTeamProps, setShowPlayerProps)}>Team<br></br>Props</Button>}
+                </div>
+                }
 
                 {showTeamProps===true?
                     <TeamPropDisplay

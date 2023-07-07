@@ -11,7 +11,7 @@ import {
 const PropDisplay = (bookmaker) => {
     let sortedChoice;
     if(bookmaker.sorter === bookmaker.descriptOfPriceALabel) sortedChoice = bookmaker.descriptOfPriceALabel;
-    else if(bookmaker.sorter === bookmaker.descriptOfPriceBLabel) sortedChoice = bookmaker.descriptOfPriceALabel;
+    else if(bookmaker.sorter === bookmaker.descriptOfPriceBLabel) sortedChoice = bookmaker.descriptOfPriceBLabel;
     let fontA;
     let fontB;
 
