@@ -42,15 +42,15 @@ const GameOverview = (game) => {
 
                 {!isLive?
                 <div className="h-24 w-48 mx-auto flex justify-center items-center">
-                    {showTeamProps===true?<Button variant="text" className="w-1/2 border-r-2 font-bold" color="blue" onClick={() => OddButtonClick(setShowTeamProps, showTeamProps, setShowPlayerProps)}>Team<br></br>Props</Button>
-                    :<Button variant="text" className="w-1/2 border-r-2" color="blue-gray" onClick={() => OddButtonClick(setShowTeamProps, showTeamProps, setShowPlayerProps)}>Team<br></br>Props</Button>}
-                    {showPlayerProps===true?<Button variant="text" className="w-1/2 border-l-2 font-bold" color="blue" onClick={() => OddButtonClick(setShowPlayerProps, showPlayerProps, setShowTeamProps)}>Player<br></br>Props</Button>
-                    :<Button variant="text" className="w-1/2 border-l-2" color="blue-gray" onClick={() => OddButtonClick(setShowPlayerProps, showPlayerProps, setShowTeamProps)}>Player<br></br>Props</Button>}
+                    {showTeamProps===true?<Button variant="text" className="w-1/2 border-r-2 font-bold" color="blue" onClick={() => teamPress()}>Team<br></br>Props</Button>
+                    :<Button variant="text" className="w-1/2 border-r-2" color="blue-gray" onClick={() => teamPress()}>Team<br></br>Props</Button>}
+                    {showPlayerProps===true?<Button variant="text" className="w-1/2 border-l-2 font-bold" color="blue" onClick={() => playerPress()}>Player<br></br>Props</Button>
+                    :<Button variant="text" className="w-1/2 border-l-2" color="blue-gray" onClick={() => playerPress()}>Player<br></br>Props</Button>}
                 </div>
                 : 
                 <div className="h-24 w-24 mx-auto flex justify-center items-center">
-                    {showTeamProps===true?<Button variant="text" className="border-l-2 border-r-2 font-bold" color="blue" onClick={() => OddButtonClick(setShowTeamProps, showTeamProps, setShowPlayerProps)}>Team<br></br>Props</Button>
-                    :<Button variant="text" className="border-l-2 border-r-2" color="blue-gray" onClick={() => OddButtonClick(setShowTeamProps, showTeamProps, setShowPlayerProps)}>Team<br></br>Props</Button>}
+                    {showTeamProps===true?<Button variant="text" className="border-l-2 border-r-2 font-bold" color="blue" onClick={() => teamPress()}>Team<br></br>Props</Button>
+                    :<Button variant="text" className="border-l-2 border-r-2" color="blue-gray" onClick={() => teamPress()}>Team<br></br>Props</Button>}
                 </div>
                 }
 
@@ -86,26 +86,20 @@ const GameOverview = (game) => {
         
     )
 
-    function OddButtonClick(setButtonClicked, buttonClickedStatus, ...setToFalse){
-       
-        if(playerPropsClicked === false && buttonClickedStatus === showPlayerProps){
-            setPlayerPropsClicked(true);
-        }
-        setButtonClicked(!buttonClickedStatus);
-        for(const func of setToFalse){
-            func(false);
-        }
-
-        if(setButtonClicked === setShowPlayerProps){
-            window.sessionStorage.setItem('player_prop_clicked_' + game.game_id, !buttonClickedStatus);
-            window.sessionStorage.setItem('team_prop_clicked_' + game.game_id, false);
-        }
-        else if(setButtonClicked === setShowTeamProps){
-            window.sessionStorage.setItem('team_prop_clicked_' + game.game_id, !buttonClickedStatus);
-            window.sessionStorage.setItem('player_prop_clicked_' + game.game_id, false);
-        }
+    function playerPress(){
+        if(playerPropsClicked === false) setPlayerPropsClicked(true);
+        setShowPlayerProps(!showPlayerProps);
+        setShowTeamProps(false);
+        window.sessionStorage.setItem('player_prop_clicked_' + game.game_id, !showPlayerProps);
+        window.sessionStorage.setItem('team_prop_clicked_' + game.game_id, false);
     }
 
+    function teamPress(){
+        setShowTeamProps(!showTeamProps);
+        setShowPlayerProps(false);
+        window.sessionStorage.setItem('team_prop_clicked_' + game.game_id, !showTeamProps);
+        window.sessionStorage.setItem('player_prop_clicked_' + game.game_id, false);
+    }
 }
 
 export function propSortByLabel(sorter){

@@ -155,6 +155,8 @@ export const team_codes={
     "Over":"O",
     "Under":"U",
     //mlb
+    "National League":"NL",
+    "American League":"AL",
     "Arizona Diamondbacks":"ARI",
     "Atlanta Braves":"ATL",
     "Baltimore Orioles":"BAL",

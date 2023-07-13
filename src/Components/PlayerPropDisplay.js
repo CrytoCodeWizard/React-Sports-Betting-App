@@ -22,7 +22,7 @@ const PlayerPropDisplay = (event) => {
         
         let filteredMap = new Map();
         let playerPropChoices = [];
-        if(data){
+        if(data instanceof Map){
             for(const propKey of data.keys()){
                 for(const playerKey of data.get(propKey).keys()){
                     for(const book of data.get(propKey).get(playerKey).keys()){

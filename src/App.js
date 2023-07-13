@@ -1,6 +1,5 @@
 import React,{ useEffect, useState, useMemo } from "react";
 import GameOverview from "./Components/GameOverview";
-//import Footer from "./Components/Footer";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { state_bookmakers, team_codes } from "./Resources.js";
@@ -14,16 +13,16 @@ import {
   Option
 } from "@material-tailwind/react";
 import { Bars3Icon, XMarkIcon, ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
+import { useQuery } from "@tanstack/react-query";
 
-//import {americanfootball_nfl_team_props, americanfootball_nfl_scores} from './SampleData/americanfootball_nfl_team_props.js';
-//import {icehockey_nhl_team_props, icehockey_nhl_scores} from './SampleData/hockey_nhl_team_props.js';
-//import {baseball_mlb_team_props, baseball_mlb_scores} from './SampleData/baseball_mlb_team_props.js';
-//import {basketball_nba_team_props, basketball_nba_scores} from './SampleData/basketball_nba_team_props.js';
+import {americanfootball_nfl_team_props, americanfootball_nfl_scores} from './SampleData/americanfootball_nfl_team_props.js';
+import {icehockey_nhl_team_props, icehockey_nhl_scores} from './SampleData/hockey_nhl_team_props.js';
+import {baseball_mlb_team_props, baseball_mlb_scores} from './SampleData/baseball_mlb_team_props.js';
+import {basketball_nba_team_props, basketball_nba_scores} from './SampleData/basketball_nba_team_props.js';
 
 
 function App() {
   const numGamesPerPage = 9;
-  const [games, setGames] = useState();
   const [filteredGames, setFilteredGames] = useState([]);
   const [sport, setSport] = useState(window.sessionStorage.getItem('sport') || 'americanfootball_nfl');
   const [filterText, setFilterText] = useState(window.sessionStorage.getItem('filter_text_') ? window.sessionStorage.getItem('filter_text_') : '');
@@ -59,49 +58,48 @@ function App() {
     };
   }, []);
 
-  useEffect(() => {
+  const fetchData = async () => {
     
-    const urls = ['https://api.the-odds-api.com/v4/sports/' + sport + '/odds?regions=us&oddsFormat=american&markets=spreads,h2h,totals&dateFormat=iso&apiKey=' + process.env.REACT_APP_API_KEY_SPORT_ODDS,
-     'https://api.the-odds-api.com/v4/sports/' + sport + '/scores/?apiKey=' + process.env.REACT_APP_API_KEY_SPORT_ODDS];
-    Promise.all(urls.map(url => fetch(url, {
-      method: 'GET',
-    })
-        .then((response) => response.json())))
-        .then(([odds, scores]) => {
-          let res = scores.map(x => Object.assign(x, odds.find(y => y.id === x.id)));
-          setGames(res);
-          if(sport !== window.sessionStorage.getItem('sport')) setActive(1);
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
-        window.sessionStorage.setItem('sport', sport);
-    /*
-    let odds;
-    let scores;
-    if(sport === 'americanfootball_nfl'){
-      odds = americanfootball_nfl_team_props;
-      scores = americanfootball_nfl_scores;
-    }else if(sport === 'baseball_mlb') {
-      odds = baseball_mlb_team_props;
-      scores = baseball_mlb_scores;
-    }else if(sport === 'basketball_nba') {
-      odds = basketball_nba_team_props;
-      scores = basketball_nba_scores;
-    }else{
-      odds = icehockey_nhl_team_props;
-      scores = icehockey_nhl_scores;
-    }
-    
-    
+    if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+      let odds;
+      let scores;
+      if(sport === 'americanfootball_nfl'){
+        odds = americanfootball_nfl_team_props;
+        scores = americanfootball_nfl_scores;
+      }else if(sport === 'baseball_mlb') {
+        odds = baseball_mlb_team_props;
+        scores = baseball_mlb_scores;
+      }else if(sport === 'basketball_nba') {
+        odds = basketball_nba_team_props;
+        scores = basketball_nba_scores;
+      }else{
+        odds = icehockey_nhl_team_props;
+        scores = icehockey_nhl_scores;
+      }
       let res = scores.map(x => Object.assign(x, odds.find(y => y.id === x.id)));
-      setGames(res);
-      if(sport !== window.sessionStorage.getItem('sport')) setActive(1);
-    
-      window.sessionStorage.setItem('sport', sport);
-      */
-    
-    }, [sport]);
+      return res;
+    } else {
+      const urls = ['https://api.the-odds-api.com/v4/sports/' + sport + '/odds?regions=us&oddsFormat=american&markets=spreads,h2h,totals&dateFormat=iso&apiKey=' + process.env.REACT_APP_API_KEY_SPORT_ODDS,
+        'https://api.the-odds-api.com/v4/sports/' + sport + '/scores/?apiKey=' + process.env.REACT_APP_API_KEY_SPORT_ODDS];
+      const [oddsResponse, scoresResponse] = await Promise.all(urls.map(url =>
+        fetch(url).then((response) => response.json())
+      ));
+      const updatedData = scoresResponse.map((x) => Object.assign(x, oddsResponse.find((y) => y.id === x.id)));
+      return updatedData;
+    }
+  };
+
+  const { data: games } = useQuery([sport], fetchData,
+      {
+        staleTime: 40000,
+        refetchOnWindowFocus: false
+      }
+  );
+
+  useEffect(() => {
+    if(sport !== window.sessionStorage.getItem('sport')) setActive(1);
+    window.sessionStorage.setItem('sport', sport);
+  }, [sport]);
 
     useEffect(() => {
       if(games){
@@ -269,6 +267,8 @@ function App() {
         </div>
       </Navbar>
 
+     
+      {filteredGames.length > 0 ?
       <div className="flex items-center justify-center mt-3">
         <label className="relative inline-flex items-center mr-5 cursor-pointer">
             <input type="checkbox" checked={checkedBest} className="sr-only peer" onChange={(value) => checkedBestChange(value.target.checked)}></input>
@@ -277,6 +277,7 @@ function App() {
         </label>
         
       </div>
+      :<></>}
       
 
       <div className="mx-auto max-w-screen-xl mb-16 mt-8">
