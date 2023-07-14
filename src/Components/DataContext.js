@@ -32,42 +32,7 @@ export const DataProvider = (event) => {
         });
         odds = await playerData.json();
     }
-    let individual_props = new Map();
-    for(const bookmaker of odds.bookmakers){
-        for(const market of bookmaker.markets){
-            if(!individual_props.has(market.key)){
-                individual_props.set(market.key, new Map());
-            }
-            for(const player_line of market.outcomes){
-                if(!individual_props.get(market.key).has(player_line.description)){
-                    individual_props.get(market.key).set(player_line.description, new Map());
-                }
-
-                if(!individual_props.get(market.key).get(player_line.description).has(bookmaker.key)){
-                    if(player_line.name === 'Over' || player_line.name === 'Yes'){
-                        individual_props.get(market.key).get(player_line.description).set(bookmaker.key, {labelA: player_line.name, labelB:'', pointA: player_line.point, pointB:'', priceA: player_line.price, priceB: ''});
-                    }else{
-                        individual_props.get(market.key).get(player_line.description).set(bookmaker.key, {labelB: player_line.name, labelA:'', pointA:'', pointB:player_line.point, priceA: '', priceB: player_line.price});
-                    }
-                }
-                else{
-                    let line = individual_props.get(market.key).get(player_line.description).get(bookmaker.key);
-                    if(player_line.name === 'Over' || player_line.name === 'Yes'){
-                        line.priceA = player_line.price;
-                        line.labelA = player_line.name;
-                        line.pointA = player_line.point;
-                    }else{
-                        line.priceB = player_line.price;
-                        line.labelB = player_line.name;
-                        line.pointB = player_line.point;
-                    }
-                }
-            }
-            
-            
-        }
-    }
-    return (individual_props);
+    return odds;
   };
 
   const { data} = useQuery([event.sport + ' - ' + event.game_id], fetchData,
@@ -76,6 +41,8 @@ export const DataProvider = (event) => {
       refetchOnWindowFocus: false
     }
 );
+
+  
             
   return (
     <DataContext.Provider value={{ data }}>
