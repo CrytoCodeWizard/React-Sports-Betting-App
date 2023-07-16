@@ -26,9 +26,17 @@ const GameOverview = (game) => {
             
         <Card className="w-80" color="transparent" variant="gradient">
             <CardBody className="text-center">
-                <div className="h-24 flex justify-center items-center">
-                    <img className="w-24 h-24" src={game.teamImages[game.sport + "_TeamImages/" + game.awayTeam + ".png"]} alt={game.awayTeam} />
-                    <img className="w-24 h-24 transform -scale-x-100" src={game.teamImages[game.sport + "_TeamImages/" + game.homeTeam + ".png"]} alt={game.homeTeam} />
+                <div className="lg:hidden">
+                    <div className="h-16 flex justify-center items-center">
+                        <img className="w-16 h-16 opacity-75" src={game.teamImages[game.sport + "_TeamImages/" + game.awayTeam + ".png"]} alt={game.awayTeam} />
+                        <img className="w-16 h-16 transform -scale-x-100 opacity-75" src={game.teamImages[game.sport + "_TeamImages/" + game.homeTeam + ".png"]} alt={game.homeTeam} />
+                    </div>
+                </div>
+                <div className="hidden lg:block">
+                    <div className="h-24 flex justify-center items-center">
+                        <img className="w-24 h-24 opacity-80" src={game.teamImages[game.sport + "_TeamImages/" + game.awayTeam + ".png"]} alt={game.awayTeam} />
+                        <img className="w-24 h-24 transform -scale-x-100 opacity-80" src={game.teamImages[game.sport + "_TeamImages/" + game.homeTeam + ".png"]} alt={game.homeTeam} />
+                    </div>
                 </div>
                 <Typography variant="h4" color="blue-gray" className="mb-2">
                 {team_codes[game.awayTeam]} @ {team_codes[game.homeTeam]}
