@@ -23,7 +23,7 @@ const persister = createSyncStoragePersister({
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  
+  <React.StrictMode>
     <ThemeProvider>
       <PersistQueryClientProvider
         client={queryClient}
@@ -33,7 +33,7 @@ root.render(
         <ReactQueryDevtools initialIsOpen />
       </PersistQueryClientProvider>
     </ThemeProvider>
-
+    </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

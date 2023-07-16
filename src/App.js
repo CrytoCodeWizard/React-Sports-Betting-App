@@ -1,6 +1,7 @@
 import React,{ useEffect, useState, useMemo } from "react";
 import GameOverview from "./Components/GameOverview";
 import './App.css';
+import Footer from "./Components/Footer";
 import 'bootstrap/dist/css/bootstrap.css';
 import { state_bookmakers, team_codes } from "./Resources.js";
 import { 
@@ -27,7 +28,7 @@ function App() {
   const [sport, setSport] = useState(window.sessionStorage.getItem('sport') || 'americanfootball_nfl');
   const [filterText, setFilterText] = useState(window.sessionStorage.getItem('filter_text_') ? window.sessionStorage.getItem('filter_text_') : '');
   const [bookies, setBookies] = useState(window.sessionStorage.getItem('usState')?state_bookmakers[window.sessionStorage.getItem('usState')]:state_bookmakers["New York"]) ;
-  const [stateName, setStateName] = useState(window.sessionStorage.getItem('usState') || "New York");
+  const [stateName, setStateName] = useState(window.sessionStorage.getItem('usState') || "All");
   const [openNav, setOpenNav] = useState(false);
   const [pages, setPages] = useState(0);
   const [endIndex, setEndIndex] = useState(numGamesPerPage);
@@ -213,7 +214,7 @@ function App() {
       <Input
                 type="search"
                 color="blue"
-                label="Team Search"
+                label="Search"
                 value={filterText}
                 onChange={filterGames}
                 className="pr-20"
@@ -297,7 +298,7 @@ function App() {
                 teamImages={teamImages}
                 checkedBest={checkedBest}
               />:<></>
-            )): <p className="no-upcoming-message">No Upcoming Games</p>}
+            )): <span className="text-gray-500 font-bold drop-shadow-lg text-5xl text-center">No Upcoming Games</span>}
           </div>
 
           {pages > 1 ? <div className="flex items-center justify-center gap-8">
@@ -310,7 +311,7 @@ function App() {
             >
               <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" />
             </IconButton>
-            <Typography color="gray" className="font-normal">
+            <Typography color="gray" className="font-normal mt-3">
               Page <strong className="text-blue-gray-900">{active}</strong> of{" "}
               <strong className="text-blue-gray-900">{pages}</strong>
             </Typography>
@@ -325,6 +326,7 @@ function App() {
             </IconButton>
           </div> : <></>}
       </div>   
+      <Footer></Footer>
     </div>
   );
 }

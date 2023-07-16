@@ -6,6 +6,17 @@ a:link {
 a:hover {
   text-decoration: none;
 }
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); 
+  z-index: 999;
+}
+
 @keyframes blink {
   0% { text-shadow: 0 0 0.938rem red; }
   50% { text-shadow: none; }
@@ -17,18 +28,6 @@ a:hover {
   50% { text-shadow: 0 0 0; }
   100% { text-shadow: 0rem 0 0.938rem red; }
 }
-
-
-footer {
-  position: fixed;
-  background-color: rgb(207, 205, 205);
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: .5rem;
-  text-align: center;
-}
-
 
 html
   {
@@ -42,14 +41,4 @@ html
   -ms-animation: blink 2.0s linear infinite;
   -o-animation: blink 2.0s linear infinite;
   animation: blink 2.0s linear infinite;
-}
-
-.no-upcoming-message{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 5rem;
-  font-size: 2rem;
-  text-shadow: 0 0 1rem #4a4343;
 }

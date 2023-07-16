@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-tailwind/react": "^2.0.1",
+    "@material-tailwind/react": "^2.0.6",
     "@tanstack/query-sync-storage-persister": "^4.29.19",
     "@tanstack/react-query": "^4.29.19",
     "@tanstack/react-query-devtools": "^4.29.19",
@@ -23,6 +23,7 @@
     "react-native-web": "^0.19.4",
     "react-scripts": "^5.0.1",
     "react-select": "^5.7.0",
+    "reactjs-popup": "^2.0.5",
     "reactstrap": "^9.1.5",
     "web-vitals": "^2.1.4"
   },
