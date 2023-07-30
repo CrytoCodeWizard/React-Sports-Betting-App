@@ -3,7 +3,8 @@ import { player_prop_choices } from "../Resources.js";
 import { useData } from './DataContext.js';
 import { 
     Select,
-    Option
+    Option,
+    Spinner
   } from "@material-tailwind/react";
 import PropContainer from "./PropContainer.js";
 
@@ -16,7 +17,7 @@ const PlayerPropDisplay = (event) => {
     const [player, setPlayer] = useState(window.sessionStorage.getItem('player_prop_player_' + event.game_id) || "");
     const [prop, setProp] = useState(window.sessionStorage.getItem('player_prop_' + event.game_id) || "");
     const [sorter, setSorter] = useState(window.sessionStorage.getItem('player_prop_sorter_' + event.game_id) || "");
-    const { data } = useData();
+    const { data, status } = useData();
     
     useEffect(() => {
 
@@ -190,37 +191,44 @@ const PlayerPropDisplay = (event) => {
     );
     }, [player, playerChoices, event.game_id, playerSelect]);
 
-    if (!data) {
-        return <div>Loading...</div>;
-    }
 
-    return (
-        <div>
-            {propChoices.length > 0 ? 
+    if(status === 'success'){
+        return (
             <div>
-                {propSelector}
-                <br></br>
-                {prop && playerChoices.length > 0 ? <div>{playerSelector}
-                <br></br>
-                {player && sortChoices.length > 0 ? <div>{sortSelector}</div>:<></>}
+                {propChoices.length > 0 ? 
+                <div>
+                    {propSelector}
+                    <br></br>
+                    {prop && playerChoices.length > 0 ? <div>{playerSelector}
+                    <br></br>
+                    {player && sortChoices.length > 0 ? <div>{sortSelector}</div>:<></>}
+                    </div>:<></>}
                 </div>:<></>}
-            </div>:<></>}
-            
-            <div className="mt-8">
-                {individualProps.has(prop) && individualProps.get(prop).has(player) && individualProps.get(prop).get(player).size > 0 ?
-                    <PropContainer
-                        type={"team-prop-container"}
-                        game_id={event.game_id}
-                        bookmakerList={individualProps.get(prop).get(player)}
-                        sorter={sorter}
-                        lastIndex={individualProps.get(prop).get(player).size-1}
-                        prop={prop}
-                        checkedBest={event.checkedBest}
-                    />:individualProps.size !== 0 ? <></>:<span>No odds available</span>}
+                
+                <div className="mt-8">
+                    {individualProps.has(prop) && individualProps.get(prop).has(player) && individualProps.get(prop).get(player).size > 0 ?
+                        <PropContainer
+                            type={"team-prop-container"}
+                            game_id={event.game_id}
+                            bookmakerList={individualProps.get(prop).get(player)}
+                            sorter={sorter}
+                            lastIndex={individualProps.get(prop).get(player).size-1}
+                            prop={prop}
+                            checkedBest={event.checkedBest}
+                        />:individualProps.size !== 0 ? <></>:<span>No odds available</span>}
+                </div>
             </div>
-        </div>
-        
-    )
+            
+        )
+    }
+    else{
+        return (
+            <div className="flex flex-wrap justify-center items-center">
+                {status === "loading" ? <Spinner className="h-8 w-8" />:
+                status === "error" ? <span className="text-red-500 font-bold text-sm text-center">An unexpected error has occurred. Please try again later</span>:<></> }
+            </div>
+        )
+    }
     
     
 }

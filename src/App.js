@@ -11,7 +11,8 @@ import {
   Typography,
   IconButton,
   Select,
-  Option
+  Option,
+  Spinner
 } from "@material-tailwind/react";
 import { Bars3Icon, XMarkIcon, ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { useQuery } from "@tanstack/react-query";
@@ -80,20 +81,24 @@ function App() {
       let res = scores.map(x => Object.assign(x, odds.find(y => y.id === x.id)));
       return res;
     } else {
-      const urls = ['https://api.the-odds-api.com/v4/sports/' + sport + '/odds?regions=us&oddsFormat=american&markets=spreads,h2h,totals&dateFormat=iso&apiKey=' + process.env.REACT_APP_API_KEY_SPORT_ODDS,
-        'https://api.the-odds-api.com/v4/sports/' + sport + '/scores/?apiKey=' + process.env.REACT_APP_API_KEY_SPORT_ODDS];
-      const [oddsResponse, scoresResponse] = await Promise.all(urls.map(url =>
-        fetch(url).then((response) => response.json())
-      ));
-      const updatedData = scoresResponse.map((x) => Object.assign(x, oddsResponse.find((y) => y.id === x.id)));
-      return updatedData;
+      const url = '/.netlify/functions/game-data-fetch?sport=' + sport;
+      const playerData = await fetch(url, {
+        method: 'GET'
+      });
+      if (!playerData.ok) {
+        console.error('HTTP Error:', playerData.status, playerData.statusText);
+        throw new Error(playerData.status, playerData.statusText);
+      }
+      const odds = await playerData.json();
+      return odds;
     }
   };
 
-  const { data: games } = useQuery([sport], fetchData,
+  const { data: games, status } = useQuery([sport], fetchData,
       {
         staleTime: 40000,
-        refetchOnWindowFocus: false
+        refetchOnWindowFocus: false,
+        retry: 2
       }
   );
 
@@ -103,7 +108,7 @@ function App() {
   }, [sport]);
 
     useEffect(() => {
-      if(games){
+      if(games && !games.error){
         let gamesFiltered = games.filter((game) => game.away_team.toLowerCase().includes(filterText.toLowerCase()) || game.home_team.toLowerCase().includes(filterText.toLowerCase()) || team_codes[game.away_team].toLowerCase().includes(filterText.toLowerCase())
         || team_codes[game.home_team].toLowerCase().includes(filterText.toLowerCase()));
         setFilteredGames(gamesFiltered);
@@ -267,7 +272,12 @@ function App() {
             {InputInHeader}
         </div>
       </Navbar>
-
+      
+      {status === "loading" || status === "error" ?
+        <div className="flex flex-wrap justify-center items-center mt-8 mb-8">
+          {status === "loading" ? <Spinner className="h-12 w-12" />:
+          status === "error" ? <span className="text-red-500 font-bold text-sm text-center">An unexpected error has occurred. Please try again later</span>:<></> }
+        </div> : <div>
      
       {filteredGames.length > 0 ?
       <div className="flex items-center justify-center mt-3">
@@ -325,7 +335,7 @@ function App() {
               <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
             </IconButton>
           </div> : <></>}
-      </div>   
+      </div></div>}
       <Footer></Footer>
     </div>
   );

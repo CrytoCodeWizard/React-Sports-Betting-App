@@ -20,33 +20,38 @@ export const DataProvider = (event) => {
     let odds;
     
     if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-        if(event.sport === 'americanfootball_nfl') odds = football_data;
-        else if(event.sport === 'baseball_mlb') odds = baseball_data;
-        else if(event.sport === 'basketball_nba') odds = basketball_data;
-        else odds = hockey_data;
+      if(event.sport === 'americanfootball_nfl') odds = football_data;
+      else if(event.sport === 'baseball_mlb') odds = baseball_data;
+      else if(event.sport === 'basketball_nba') odds = basketball_data;
+      else odds = hockey_data;
     }
     else {
-        const url = 'https://api.the-odds-api.com/v4/sports/' + event.sport + '/events/' + event.game_id + '/odds?regions=us&oddsFormat=american&markets=' + specMarketsForSport + '&dateFormat=iso&apiKey=' + process.env.REACT_APP_API_KEY_SPORT_ODDS;
-        const playerData = await fetch(url, {
+      const url = '/.netlify/functions/player-data-fetch?sport=' + event.sport + '&game_id=' + event.game_id + '&specMarkets=' + specMarketsForSport;
+      const playerData = await fetch(url, {
         method: 'GET'
-        });
-        odds = await playerData.json();
+      });
+      if (!playerData.ok) {
+        console.error('HTTP Error:', playerData.status, playerData.statusText);
+        throw new Error(playerData.status, playerData.statusText);
+      }
+      odds = await playerData.json();
     }
     return odds;
   };
 
-  const { data} = useQuery([event.sport + ' - ' + event.game_id], fetchData,
+  const { data, status } = useQuery([event.sport + ' - ' + event.game_id], fetchData,
     {
       staleTime: 300000,
-      refetchOnWindowFocus: false
+      refetchOnWindowFocus: false,
+      retry: 2
     }
 );
 
   
             
   return (
-    <DataContext.Provider value={{ data }}>
-      {data && event.showChild && event.children}
+    <DataContext.Provider value={{ data, status }}>
+      {event.showChild && event.children}
     </DataContext.Provider>
   );
 }
