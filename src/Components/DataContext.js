@@ -42,7 +42,7 @@ export const DataProvider = (event) => {
   const { data, status } = useQuery([event.sport + ' - ' + event.game_id], fetchData,
     {
       staleTime: 300000,
-      refetchOnWindowFocus: false,
+      refetchOnWindowFocus: true,
       retry: 2
     }
 );
