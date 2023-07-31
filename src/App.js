@@ -28,8 +28,8 @@ function App() {
   const [filteredGames, setFilteredGames] = useState([]);
   const [sport, setSport] = useState(window.sessionStorage.getItem('sport') || 'americanfootball_nfl');
   const [filterText, setFilterText] = useState(window.sessionStorage.getItem('filter_text_') ? window.sessionStorage.getItem('filter_text_') : '');
-  const [bookies, setBookies] = useState(window.sessionStorage.getItem('usState')?state_bookmakers[window.sessionStorage.getItem('usState')]:state_bookmakers["New York"]) ;
-  const [stateName, setStateName] = useState(window.sessionStorage.getItem('usState') || "All");
+  const [bookies, setBookies] = useState(window.localStorage.getItem('usState')?state_bookmakers[window.localStorage.getItem('usState')]:state_bookmakers["New York"]) ;
+  const [stateName, setStateName] = useState(window.localStorage.getItem('usState') || "All");
   const [openNav, setOpenNav] = useState(false);
   const [pages, setPages] = useState(0);
   const [endIndex, setEndIndex] = useState(numGamesPerPage);
@@ -128,12 +128,12 @@ function App() {
     if(!values) {
       setBookies(new Set([]));
       setStateName("");
-      sessionStorage.removeItem('usState');
+      window.localStorage.removeItem('usState');
     }
     else{
       setBookies(state_bookmakers[values]);
       setStateName(values);
-      window.sessionStorage.setItem('usState', values);
+      window.localStorage.setItem('usState', values);
     }
     
   }
@@ -145,6 +145,7 @@ function App() {
   }
 
   function sportChange(sportChoice){
+    setOpenNav(false);
     setSport(sportChoice);
   }
 
