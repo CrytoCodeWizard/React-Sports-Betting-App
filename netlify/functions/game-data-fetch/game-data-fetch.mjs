@@ -15,9 +15,8 @@ const config = {
 
 const handler = withIntegrations(
   async function (event) {
-    throw Error("error thrown by failed scheduled function");
     const sport = event.queryStringParameters?.sport;
-    const urls = ['https://api.the-odds-api.com/v4/sports/' + sport + '/odds?regions=us&oddsFormat=american&markets=spreads,h2h,totals&dateFormat=iso&apiKey=' + process.env.REACT_APP_API_KEY_SPORT_ODDS,
+    const urls = ['https://api.the-odds-api.com/v4/sports/' + sport + '/odds?reglions=us&oddsFormat=american&markets=spreads,h2h,totals&dateFormat=iso&apiKey=' + process.env.REACT_APP_API_KEY_SPORT_ODDS,
           'https://api.the-odds-api.com/v4/sports/' + sport + '/scores/?apiKey=' + process.env.REACT_APP_API_KEY_SPORT_ODDS];
     try {
       const cachedData = await redisConfig.get(sport);
@@ -44,16 +43,10 @@ const handler = withIntegrations(
       }));
       if(oddsResp.statusCode !== 200 || scoresResp.statusCode !== 200){
         if(oddsResp.statusCode !== 200){
-          return {
-            statusCode: oddsResp.statusCode,
-            body: JSON.stringify(oddsResp.body),
-          };
+          throw Error("Error querying for games, Code: " + oddsResp.statusCode + ", Body: " + JSON.stringify(oddsResp.body));
         }
         else{
-          return {
-            statusCode: scoresResp.statusCode,
-            body: JSON.stringify(scoresResp.body),
-          };
+          throw Error("Error querying for scores, Code: " + scoresResp.statusCode + ", Body: " + JSON.stringify(scoresResp.body));
         }
       }
       const oddsResponse = oddsResp.body;
@@ -65,11 +58,7 @@ const handler = withIntegrations(
         body: JSON.stringify(updatedData),
       };
     } catch(error){
-      console.error('Fetch Error:', error);
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ error: 'Internal Server Error' }),
-      };
+      throw Error("Error querying for scores, Error: " + error);
     }
   }, config);
 
