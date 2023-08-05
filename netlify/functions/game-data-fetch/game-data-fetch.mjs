@@ -9,14 +9,14 @@ const withIntegrations = wrap(withSentry);
 
 const config = {
   sentry: {
-    sampleRate: 0.5
+    sampleRate: 0.3
   },
 };
 
 const handler = withIntegrations(
   async function (event) {
     const sport = event.queryStringParameters?.sport;
-    const urls = ['https://api.the-odds-api.com/v4/sports/' + sport + '/odds?reglions=us&oddsFormat=american&markets=spreads,h2h,totals&dateFormat=iso&apiKey=' + process.env.REACT_APP_API_KEY_SPORT_ODDS,
+    const urls = ['https://api.the-odds-api.com/v4/sports/' + sport + '/odds?regions=us&oddsFormat=american&markets=spreads,h2h,totals&dateFormat=iso&apiKey=' + process.env.REACT_APP_API_KEY_SPORT_ODDS,
           'https://api.the-odds-api.com/v4/sports/' + sport + '/scores/?apiKey=' + process.env.REACT_APP_API_KEY_SPORT_ODDS];
     try {
       const cachedData = await redisConfig.get(sport);
@@ -58,7 +58,7 @@ const handler = withIntegrations(
         body: JSON.stringify(updatedData),
       };
     } catch(error){
-      throw Error("Error querying for scores, Error: " + error);
+      throw Error("Error querying for games, " + error);
     }
   }, config);
 
