@@ -58,7 +58,7 @@ const InstructionCarousel = (size) => {
     return (
         <Carousel className="rounded-xl">
             {slides.map((slide, index) => (
-                <figure className="relative h-full w-full mb-2" key={"slide " + index}>
+            <figure data-testid="slide" className="relative h-full w-full mb-2" key={"slide " + index}>
                 <img
                     className="h-full w-full rounded-xl"
                     src={slide.slide}

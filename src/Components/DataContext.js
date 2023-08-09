@@ -55,3 +55,5 @@ export const DataProvider = (event) => {
     </DataContext.Provider>
   );
 }
+
+export default DataContext;

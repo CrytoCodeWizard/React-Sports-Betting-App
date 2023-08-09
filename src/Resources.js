@@ -127,7 +127,6 @@ export const bookmaker_names={
     "fanduel":"FanDuel",
     "foxbet":"FOX Bet",
     "pointsbetus":"PointsBet",
-    "sugarhouse":"SugarHouse",
     "superbook":"Superbook",
     "unibet_us":"Unibet",
     "williamhill_us":"Caesars",
