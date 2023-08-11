@@ -63,7 +63,7 @@ describe('Player Props Component success state', () => {
     expect(playerPropDisplayElement).toBeInTheDocument();
   });
 
-  test('Dropdown options should appear on click', () => {
+  test('Prop dropdown options should appear on click', () => {
     render(htmlToRender);
     const playerPropDisplayElement =  screen.getByText('Prop');
     const dropdown =  screen.getByRole('combobox');
