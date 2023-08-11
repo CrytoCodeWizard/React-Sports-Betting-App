@@ -57,16 +57,16 @@ describe('Game Overview component, upcoming game', () => {
         }  
     });
 
-    test('should have match-up listed as away team @ home team (in team codes)', () => {
+    test('should have match-up listed as away team @ home team (in team codes) (2 per screen size)', () => {
         render(htmlToRender);
-        const matchupText = screen.getByText(team_codes[upcoming_game_data.away_team] + ' @ ' +  team_codes[upcoming_game_data.home_team]);
-        expect(matchupText).not.toBe(null);
+        const matchupText = screen.getAllByText(team_codes[upcoming_game_data.away_team] + ' @ ' +  team_codes[upcoming_game_data.home_team]);
+        expect(matchupText).toHaveLength(2);
     });
 
-    test('should have commence time listed in proper format', () => {
+    test('should have commence time listed in proper format (2 per screen size)', () => {
         render(htmlToRender);
-        const startTime = screen.getByText(new Date(upcoming_game_data.commence_time).toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'}));
-        expect(startTime).not.toBe(null);
+        const startTime = screen.getAllByText(new Date(upcoming_game_data.commence_time).toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'}));
+        expect(startTime).toHaveLength(2);
     });
 
     test('should have clickable team props button that sets team props to active', () => {
@@ -117,10 +117,10 @@ describe('Game Overview component, Live game', () => {
     />
 
 
-    test('should have LIVE displayed', () => {
+    test('should have LIVE displayed (2 per screen size)', () => {
         render(htmlToRender);
-        const startTime = screen.getByText('LIVE');
-        expect(startTime).not.toBe(null);
+        const startTime = screen.getAllByText('LIVE');
+        expect(startTime).toHaveLength(2);
     });
 
     test('should have clickable team props button that sets team props to active', () => {
