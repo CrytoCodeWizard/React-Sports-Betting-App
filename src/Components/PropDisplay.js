@@ -26,29 +26,56 @@ const PropDisplay = (bookmaker) => {
         
             
                 <a href={bookmaker.bookmakerLink} target="_blank" rel="noopener noreferrer">
-                    <ListItem className="h-24 border-b-2 border-t-2">
-                        <ListItemPrefix className="text-sm w-3/12 h-6 justify-center">
-                            <Typography variant="small" color="blue">
-                            {bookmaker_names[bookmaker.bookmaker]}
-                            </Typography>
-                        </ListItemPrefix>
-                        <div className="grid grid-rows-2 gap-2 h-14 w-8/12 border-5">
-                            <div className="flex mx-auto">
-                                <Typography variant="small" color="blue-gray" className={fontA}>
-                                {bookmaker.descriptOfPriceALabel ? <span>{team_codes[bookmaker.descriptOfPriceALabel] || bookmaker.descriptOfPriceALabel} {bookmaker.aPoint} ({bookmaker.aPrice})</span> : <span>N/A</span>}
+                    <div className="lg:hidden">
+                        <ListItem className="h-18 border-b-2 border-t-2">
+                            <ListItemPrefix className="text-sm w-3/12 h-6 justify-center">
+                                <Typography variant="small" color="blue">
+                                {bookmaker_names[bookmaker.bookmaker]}
                                 </Typography>
+                            </ListItemPrefix>
+                            <div className="grid grid-rows-2 gap-2 h-14 w-8/12 border-5">
+                                <div className="flex mx-auto">
+                                    <Typography variant="small" color="blue-gray" className={fontA}>
+                                    {bookmaker.descriptOfPriceALabel ? <span>{team_codes[bookmaker.descriptOfPriceALabel] || bookmaker.descriptOfPriceALabel} {bookmaker.aPoint} ({bookmaker.aPrice})</span> : <span>N/A</span>}
+                                    </Typography>
+                                </div>
+                                <div className="flex mx-auto">
+                                    <Typography variant="small" color="blue-gray" className={fontB}>
+                                    {bookmaker.descriptOfPriceBLabel ? <span>{team_codes[bookmaker.descriptOfPriceBLabel] || bookmaker.descriptOfPriceBLabel} {bookmaker.bPoint} ({bookmaker.bPrice})</span> : <span>N/A</span>}
+                                    </Typography>
+                                </div>
                             </div>
-                            <div className="flex mx-auto">
-                                <Typography variant="small" color="blue-gray" className={fontB}>
-                                {bookmaker.descriptOfPriceBLabel ? <span>{team_codes[bookmaker.descriptOfPriceBLabel] || bookmaker.descriptOfPriceBLabel} {bookmaker.bPoint} ({bookmaker.bPrice})</span> : <span>N/A</span>}
+                            
+                            <ListItemSuffix className=" w-1/12">
+                            {bookmaker.bestOption && sortedChoice ? <img className="h-8 w-8 object-cover" src={medalImage} alt={"Medal"} /> : ""}
+                            </ListItemSuffix>
+                        </ListItem>
+                    </div>
+                    <div className="hidden lg:block">
+                        <ListItem className="h-24 border-b-2 border-t-2">
+                            <ListItemPrefix className="text-sm w-3/12 h-6 justify-center">
+                                <Typography variant="small" color="blue">
+                                {bookmaker_names[bookmaker.bookmaker]}
                                 </Typography>
+                            </ListItemPrefix>
+                            <div className="grid grid-rows-2 gap-2 h-14 w-8/12 border-5">
+                                <div className="flex mx-auto">
+                                    <Typography variant="small" color="blue-gray" className={fontA}>
+                                    {bookmaker.descriptOfPriceALabel ? <span>{team_codes[bookmaker.descriptOfPriceALabel] || bookmaker.descriptOfPriceALabel} {bookmaker.aPoint} ({bookmaker.aPrice})</span> : <span>N/A</span>}
+                                    </Typography>
+                                </div>
+                                <div className="flex mx-auto">
+                                    <Typography variant="small" color="blue-gray" className={fontB}>
+                                    {bookmaker.descriptOfPriceBLabel ? <span>{team_codes[bookmaker.descriptOfPriceBLabel] || bookmaker.descriptOfPriceBLabel} {bookmaker.bPoint} ({bookmaker.bPrice})</span> : <span>N/A</span>}
+                                    </Typography>
+                                </div>
                             </div>
-                        </div>
-                        
-                        <ListItemSuffix className=" w-1/12">
-                        {bookmaker.bestOption && sortedChoice ? <img className="h-8 w-8 object-cover" src={medalImage} alt={"Medal"} /> : ""}
-                        </ListItemSuffix>
-                    </ListItem>
+                            
+                            <ListItemSuffix className=" w-1/12">
+                            {bookmaker.bestOption && sortedChoice ? <img className="h-8 w-8 object-cover" src={medalImage} alt={"Medal"} /> : ""}
+                            </ListItemSuffix>
+                        </ListItem>
+                    </div>
                 </a>
         
     )

@@ -31,22 +31,30 @@ const GameOverview = (game) => {
                         <img className="w-16 h-16 opacity-75" src={game.teamImages[game.sport + "_TeamImages/" + game.awayTeam + ".png"]} alt={game.awayTeam} />
                         <img className="w-16 h-16 transform -scale-x-100 opacity-75" src={game.teamImages[game.sport + "_TeamImages/" + game.homeTeam + ".png"]} alt={game.homeTeam} />
                     </div>
+                    <Typography variant="h5" color="blue-gray" className="mb-2">
+                    {team_codes[game.awayTeam]} @ {team_codes[game.homeTeam]}
+                    </Typography>
+                    <Typography  variant="small" color="blue-gray" className="font-medium" textGradient>
+                    {isLive?<span className="live">LIVE</span>:<span>{stringifiedGameStart}</span>}
+                    <br></br>
+                    {game.curScore?<span>{game.curScore[1].score} - {game.curScore[0].score}</span>:<></>}
+                    </Typography>
                 </div>
                 <div className="hidden lg:block">
                     <div className="h-24 flex justify-center items-center">
                         <img className="w-24 h-24 opacity-80" src={game.teamImages[game.sport + "_TeamImages/" + game.awayTeam + ".png"]} alt={game.awayTeam} />
                         <img className="w-24 h-24 transform -scale-x-100 opacity-80" src={game.teamImages[game.sport + "_TeamImages/" + game.homeTeam + ".png"]} alt={game.homeTeam} />
                     </div>
+                    <Typography variant="h4" color="blue-gray" className="mb-2">
+                    {team_codes[game.awayTeam]} @ {team_codes[game.homeTeam]}
+                    </Typography>
+                    <Typography  variant="h6" color="blue-gray" className="font-medium" textGradient>
+                    {isLive?<span className="live">LIVE</span>:<span>{stringifiedGameStart}</span>}
+                    <br></br>
+                    {game.curScore?<span>{game.curScore[1].score} - {game.curScore[0].score}</span>:<></>}
+                    </Typography>
                 </div>
-                <Typography variant="h4" color="blue-gray" className="mb-2">
-                {team_codes[game.awayTeam]} @ {team_codes[game.homeTeam]}
-                </Typography>
                 
-                <Typography  variant="h6" color="blue-gray" className="font-medium" textGradient>
-                {isLive?<span className="live">LIVE</span>:<span>{stringifiedGameStart}</span>}
-                <br></br>
-                {game.curScore?<span>{game.curScore[1].score} - {game.curScore[0].score}</span>:<></>}
-                </Typography>
 
                 {!isLive?
                 <div className="h-24 w-48 mx-auto flex justify-center items-center">
