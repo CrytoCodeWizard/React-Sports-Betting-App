@@ -113,7 +113,7 @@ function App() {
         || team_codes[game.home_team].toLowerCase().includes(filterText.toLowerCase()));
         setFilteredGames(gamesFiltered);
       
-        let pageNumber = Math.ceil(gamesFiltered.length / numGamesPerPage);
+        let pageNumber = Math.min(3,Math.ceil(gamesFiltered.length / numGamesPerPage));
         setPages(pageNumber);
         if(parseInt(window.sessionStorage.getItem('page_num')) > pageNumber) setActive(1);
       }

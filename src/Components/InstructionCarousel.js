@@ -39,7 +39,7 @@ const InstructionCarousel = (size) => {
         },
         {
             slide: (size.size === "big" ? slide5 : slide5_small),
-            instruction: "The \"Player Props\" button on a game card will allow you to toggle seeing upcoming lines for player-related props, which vary depending on the sport."
+            instruction: "The \"Player Props\" button on a game card will allow you to toggle seeing upcoming lines for player-related props, which vary depending on the sport. Appears when event is within 2 days."
         },
         {
             slide: (size.size === "big" ? slide6 : slide6_small),
