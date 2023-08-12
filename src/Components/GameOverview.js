@@ -32,7 +32,7 @@ const GameOverview = (game) => {
                         <img className="w-16 h-16 transform -scale-x-100 opacity-75" src={game.teamImages[game.sport + "_TeamImages/" + game.homeTeam + ".png"] || game.teamImages[game.sport + "_TeamImages/NotFound.png"]} alt={game.homeTeam} />
                     </div>
                     <Typography variant="h5" color="blue-gray" className="mb-2">
-                    {team_codes[game.awayTeam]} @ {team_codes[game.homeTeam]}
+                    {team_codes[game.awayTeam] || game.awayTeam.substring(0,3).toUpperCase()} @ {team_codes[game.homeTeam] || game.homeTeam.substring(0,3).toUpperCase()}
                     </Typography>
                     <Typography  variant="small" color="blue-gray" className="font-medium" textGradient>
                     {isLive?<span className="live">LIVE</span>:<span>{stringifiedGameStart}</span>}
@@ -46,7 +46,7 @@ const GameOverview = (game) => {
                         <img className="w-24 h-24 transform -scale-x-100 opacity-80" src={game.teamImages[game.sport + "_TeamImages/" + game.homeTeam + ".png"] || game.teamImages[game.sport + "_TeamImages/NotFound.png"]} alt={game.homeTeam} />
                     </div>
                     <Typography variant="h4" color="blue-gray" className="mb-2">
-                    {team_codes[game.awayTeam]} @ {team_codes[game.homeTeam]}
+                    {team_codes[game.awayTeam] || game.awayTeam.substring(0,3).toUpperCase()} @ {team_codes[game.homeTeam] || game.homeTeam.substring(0,3).toUpperCase()}
                     </Typography>
                     <Typography  variant="h6" color="blue-gray" className="font-medium" textGradient>
                     {isLive?<span className="live">LIVE</span>:<span>{stringifiedGameStart}</span>}
