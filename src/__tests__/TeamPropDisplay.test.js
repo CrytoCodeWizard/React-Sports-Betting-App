@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, act} from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import TeamPropDisplay from '../Components/TeamPropDisplay';
 import {basketball_nba_team_props, basketball_nba_scores} from './../SampleData/basketball_nba_team_props.js';
 import { state_bookmakers, team_prop_choices } from "../Resources.js";
@@ -19,7 +19,7 @@ for(const bookmaker of game_data.bookmakers){
   }
 }
 
-describe('Team Props Component component', () => {
+describe('Team Props Component', () => {
 
   const htmlToRender = 
             <TeamPropDisplay key={"team-prop-" + game_data.id}
