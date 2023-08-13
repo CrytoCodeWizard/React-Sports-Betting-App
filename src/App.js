@@ -62,7 +62,7 @@ function App() {
 
   const fetchData = async () => {
     
-    if (false) {
+    if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
       let odds;
       let scores;
       if(sport === 'americanfootball_nfl'){
