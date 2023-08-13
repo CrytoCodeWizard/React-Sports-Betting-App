@@ -86,7 +86,6 @@ function App() {
         method: 'GET'
       });
       if (!playerData.ok) {
-        console.error('HTTP Error:', playerData.status, playerData.statusText);
         throw new Error(playerData.status, playerData.statusText);
       }
       const odds = await playerData.json();
