@@ -31,7 +31,6 @@ export const DataProvider = (event) => {
         method: 'GET'
       });
       if (!playerData.ok) {
-        console.error('HTTP Error:', playerData.status, playerData.statusText);
         throw new Error(playerData.status, playerData.statusText);
       }
       odds = await playerData.json();
