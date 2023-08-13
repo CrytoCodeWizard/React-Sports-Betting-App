@@ -29,9 +29,11 @@ const PropDisplay = (bookmaker) => {
                     <div className="lg:hidden">
                         <ListItem className="h-18 border-b-2 border-t-2">
                             <ListItemPrefix className="text-sm w-3/12 h-6 justify-center">
-                                <Typography variant="small" color="blue">
-                                {bookmaker_names[bookmaker.bookmaker]}
-                                </Typography>
+                                
+                                    <Typography variant="small" color="blue">
+                                        <span>{bookmaker_names[bookmaker.bookmaker]}</span>
+                                    </Typography>
+                                
                             </ListItemPrefix>
                             <div className="grid grid-rows-2 gap-2 h-14 w-8/12 border-5">
                                 <div className="flex mx-auto">
@@ -55,7 +57,7 @@ const PropDisplay = (bookmaker) => {
                         <ListItem className="h-24 border-b-2 border-t-2">
                             <ListItemPrefix className="text-sm w-3/12 h-6 justify-center">
                                 <Typography variant="small" color="blue">
-                                {bookmaker_names[bookmaker.bookmaker]}
+                                <span>{bookmaker_names[bookmaker.bookmaker]}</span>
                                 </Typography>
                             </ListItemPrefix>
                             <div className="grid grid-rows-2 gap-2 h-14 w-8/12 border-5">
