@@ -81,7 +81,7 @@ function App() {
       let res = scores.map(x => Object.assign(x, odds.find(y => y.id === x.id)));
       return res;
     } else {
-      const url = '/.netlify/functions/game-data-fetch?sport=' + sport;
+      const url = process.env.AWS_API + '/game-data-fetch?sport=' + sport;
       const playerData = await fetch(url, {
         method: 'GET'
       });
@@ -96,7 +96,7 @@ function App() {
 
   const { data: games, status } = useQuery([sport], fetchData,
       {
-        staleTime: 30000,
+        staleTime: 20000,
         refetchOnWindowFocus: true,
         retry: 2
       }
