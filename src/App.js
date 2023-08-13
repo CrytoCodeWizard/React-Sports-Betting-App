@@ -62,7 +62,7 @@ function App() {
 
   const fetchData = async () => {
     
-    if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+    if (false) {
       let odds;
       let scores;
       if(sport === 'americanfootball_nfl'){
@@ -81,7 +81,7 @@ function App() {
       let res = scores.map(x => Object.assign(x, odds.find(y => y.id === x.id)));
       return res;
     } else {
-      const url = process.env.AWS_API + '/game-data-fetch?sport=' + sport;
+      const url = process.env.REACT_APP_AWS_API + '/game-data-fetch?sport=' + sport;
       const playerData = await fetch(url, {
         method: 'GET'
       });
