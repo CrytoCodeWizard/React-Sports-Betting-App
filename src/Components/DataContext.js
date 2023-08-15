@@ -26,7 +26,7 @@ export const DataProvider = (event) => {
       else odds = hockey_data;
     }
     else {
-      const url = process.env.REACT_APP_AWS_API + '/player-data-fetch?sport=' + event.sport + '&game_id=' + event.game_id + '&specMarkets=' + specMarketsForSport;
+      const url = 'https://' + process.env.REACT_APP_AWS_API_ID + '.execute-api.' + process.env.REACT_APP_AWS_API_REGION + '.amazonaws.com/default/player-data-fetch?sport=' + event.sport + '&game_id=' + event.game_id + '&specMarkets=' + specMarketsForSport;
       const playerData = await fetch(url, {
         method: 'GET'
       });
