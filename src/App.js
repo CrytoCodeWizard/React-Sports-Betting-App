@@ -81,7 +81,7 @@ function App() {
       let res = scores.map(x => Object.assign(x, odds.find(y => y.id === x.id)));
       return res;
     } else {
-      const url = process.env.REACT_APP_AWS_API + '/game-data-fetch?sport=' + sport;
+      const url = 'https://' + process.env.REACT_APP_AWS_API_ID + '.execute-api.' + process.env.REACT_APP_AWS_API_REGION + '.amazonaws.com/default/game-data-fetch?sport=' + sport;
       const playerData = await fetch(url, {
         method: 'GET'
       });
