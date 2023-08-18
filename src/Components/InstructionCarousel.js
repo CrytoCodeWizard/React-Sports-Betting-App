@@ -43,7 +43,7 @@ const InstructionCarousel = (size) => {
         },
         {
             slide: (size.size === "big" ? slide6 : slide6_small),
-            instruction: "The \"Sort For\" dropdown allows specify the side of the line you are interested in (Ex: Over vs. Under), showing you the best options based on your choice."
+            instruction: "The \"Sort For\" dropdown allows you to specify the side of the line you are interested in (Ex: Over vs. Under), showing you the best options based on your choice."
         },
         {
             slide: (size.size === "big" ? slide7 : slide7_small),
