@@ -5,35 +5,54 @@ import Footer from '../Components/Footer';
 describe('Footer component', () => {
   test('should render contact link', () => {
     render(<Footer />);
-    const contactLink = screen.getByRole('link', { name: 'Contact Us' });
-    expect(contactLink).toBeInTheDocument();
-    expect(contactLink).toHaveAttribute('href', 'mailto:team@shopthe-line.com');
+    const contactLinks = screen.getAllByRole('link', { name: 'Contact Us' });
+    expect(contactLinks).toHaveLength(2);
+    for(const link of contactLinks){
+        expect(link).toHaveAttribute('href', 'mailto:team@shopthe-line.com');
+    }
   });
-
+  
   test('should render Icons8 attribution link', () => {
     render(<Footer />);
-    const icons8Link = screen.getByRole('link', { name: 'Icons8' });
-    expect(icons8Link).toBeInTheDocument();
-    expect(icons8Link).toHaveAttribute('href', 'https://icons8.com');
+    const icons8Links = screen.getAllByRole('link', { name: 'Icons8' });
+    expect(icons8Links).toHaveLength(2);
+    for(const link of icons8Links){
+      expect(link).toHaveAttribute('href', 'https://icons8.com');
+    }
 
   });
-
+  
   test('should render The Odds API attribution link', () => {
     render(<Footer />);
-    const contactUsLink = screen.getByRole('link', { name: 'Contact Us' });
-    expect(contactUsLink).toBeInTheDocument();
-    expect(contactUsLink).toHaveAttribute('href', 'mailto:team@shopthe-line.com');
+    const contactUsLinks = screen.getAllByRole('link', { name: 'Contact Us' });
+    expect(contactUsLinks).toHaveLength(2);
+    for(const link of contactUsLinks){
+      expect(link).toHaveAttribute('href', 'mailto:team@shopthe-line.com');
+    }
   });
 
   test('should render PopupComponent with type "instructions"', () => {
-    const { getByText } = render(<Footer />);
-    const instructionsPopup = getByText('How to Use');
-    expect(instructionsPopup).toBeInTheDocument();
+    render(<Footer />);
+    const instructionsPopups = screen.getAllByText('How to Use');
+    expect(instructionsPopups).toHaveLength(2);
   });
 
   test('should render PopupComponent with type "sportsbook-list"', () => {
-    const { getByText } = render(<Footer />);
-    const sportsbookListPopup = getByText('Sportsbooks');
-    expect(sportsbookListPopup).toBeInTheDocument();
+    render(<Footer />);
+    const sportsbookListPopups = screen.getAllByText('Sportsbooks');
+    expect(sportsbookListPopups).toHaveLength(2);
   });
+
+  test('should render Terms of Use link', () => {
+    render(<Footer />);
+    const termsOfUseLinks = screen.getAllByText('Terms of Use');
+    expect(termsOfUseLinks).toHaveLength(2);
+  });
+
+  test('should render Privacy Policy link', () => {
+    render(<Footer />);
+    const privLinks = screen.getAllByText('Privacy Policy');
+    expect(privLinks).toHaveLength(2);
+  });
+  
 });
