@@ -26,7 +26,7 @@ import {basketball_nba_team_props, basketball_nba_scores} from './SampleData/bas
 function App() {
   const numGamesPerPage = 9;
   const [filteredGames, setFilteredGames] = useState([]);
-  const [sport, setSport] = useState(window.sessionStorage.getItem('sport') || 'americanfootball_nfl');
+  const [sport, setSport] = useState(window.localStorage.getItem('sport') || 'americanfootball_nfl');
   const [filterText, setFilterText] = useState(window.sessionStorage.getItem('filter_text_') ? window.sessionStorage.getItem('filter_text_') : '');
   const [bookies, setBookies] = useState(window.localStorage.getItem('usState')?state_bookmakers[window.localStorage.getItem('usState')]:state_bookmakers["New York"]) ;
   const [stateName, setStateName] = useState(window.localStorage.getItem('usState') || "All");
@@ -102,8 +102,8 @@ function App() {
   );
 
   useEffect(() => {
-    if(sport !== window.sessionStorage.getItem('sport')) setActive(1);
-    window.sessionStorage.setItem('sport', sport);
+    if(sport !== window.localStorage.getItem('sport')) setActive(1);
+    window.localStorage.setItem('sport', sport);
   }, [sport]);
 
     useEffect(() => {
