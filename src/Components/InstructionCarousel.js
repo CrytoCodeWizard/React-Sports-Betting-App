@@ -27,7 +27,7 @@ const InstructionCarousel = (size) => {
         },
         {
             slide: (size.size === "big" ? slide2 : slide2_small),
-            instruction: "The \"State\" dropdown allows you to view sportsbook legally operating in your location. Select the \"All\" option to view all supported sportsbooks."
+            instruction: "The \"State\" dropdown allows you to view sportsbooks legally operating in your location. Select the \"All\" option to view all supported sportsbooks."
         },
         {
             slide: (size.size === "big" ? slide3 : slide3_small),
@@ -35,7 +35,7 @@ const InstructionCarousel = (size) => {
         },
         {
             slide: (size.size === "big" ? slide4 : slide4_small),
-            instruction: "The \"Team Props\" button on a game card will allow you to toggle seeing upcoming & live lines for team-related props, such as Moneyline, Spreads, and Totals."
+            instruction: "The \"Team Props\" button on a game card will allow you to toggle seeing upcoming & live lines for team-related props, such as moneyline, spreads, and totals."
         },
         {
             slide: (size.size === "big" ? slide5 : slide5_small),
@@ -47,7 +47,7 @@ const InstructionCarousel = (size) => {
         },
         {
             slide: (size.size === "big" ? slide7 : slide7_small),
-            instruction: "The lines with gold medal icons on them represent the best return for your money out of the available sportsbooks for the particular prop and sorting choice."
+            instruction: "The list items with gold medal icons on them represent the best line of the available sportsbooks for the particular prop and sorting choice."
         },
         {
             slide: (size.size === "big" ? slide8 : slide8_small),
