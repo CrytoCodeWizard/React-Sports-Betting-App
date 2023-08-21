@@ -11,7 +11,7 @@ export default function Policy(policy) {
 
             <Typography className="mb-3" variant="h4">Liability</Typography>
             <p>This site is for entertainment purposes & involves no actual betting. We are not liable for any actions that you take on third-party sites based on the data that we provide. 
-                The data that we provide is for informational purposes only and it is your responsibility to verify the accuracy of the data before taking any action.
+                The data that we provide is for informational purposes only and it is your responsibility to verify the accuracy of the data.
                 We make no guarantees about the accuracy or completeness of the data, and we are not responsible for any losses that you may incur as a result of using the data.
                 Gambling addiction is a serious problem that can affect anyone. If you are concerned that you or someone you know may have a gambling addiction, please seek help.</p>
 
@@ -49,12 +49,15 @@ export default function Policy(policy) {
                 We will use this information only for the purpose of responding to your request and will not share it with any third parties.</p>
 
 
-            <Typography className="mb-3" variant="h4">Information Automatically Collected</Typography>
+            <Typography className="mb-3" variant="h4">Analytics</Typography>
             <p>We use Netlify Site Analytics, a server-side GDPR-compliant service, to collect data about how users interact with our website.
-            The data collected may include your browser type, operating system, IP address, domain name, click-activity, referring website, and date/time stamp. We do not collect any personal information about you, such as your name, email address, or contact information.
-            We use this information for monitoring and analytical purposes only.</p>
+            Site activity is tracked anonymously without cookies or personally identifying information</p>
 
-            <Typography className="mb-3" variant="h4">Third-Party Advertising</Typography>
+            <Typography className="mb-3" variant="h4">Cookies</Typography>
+            <p>Cookies are small text files that are placed on your computer or mobile device when you visit a website. They are used to store information about your visit, 
+                such as your preferences and browsing history. Cookies can also be used to track your activity across websites.</p>
+
+            <Typography className="mb-3" variant="h4">Cookies We Collect</Typography>
             <p>We use third-party advertising companies to serve ads on our website. These companies may use cookies to track your browsing activity on our website and on other websites in order to show you relevant ads. 
                 You can opt out of third-party ad tracking by visiting the Network Advertising Initiative: <a href="https://optout.networkadvertising.org/" target="_blank" rel="noopener noreferrer">optout.networkadvertising.org</a> website.
             Google, as a third-party vendor, uses cookies to serve ads on our website. Google's use of the advertising cookie enables it and its partners to serve ads to our users based on their visit to our site and/or other sites on the internet.
@@ -67,8 +70,8 @@ export default function Policy(policy) {
                 We have no control over and assume no responsibility for the content, privacy policies or practices of any third-party websites or services.</p>
 
                 <Typography className="mb-3" variant="h4">Session & Local Storage</Typography>
-            <p>We use session and local storage to store certain information on your device, such as the current tab that you are viewing. 
-                This information is not personally identifiable and is used to improve your experience on our website. You can opt-out of this data collection by clearing your cookies and local storage.</p>
+            <p>We use session and local storage to store certain information on your device, such as the current sport that you are viewing. 
+                This information is not personally identifiable and is used to improve your experience on our website. You may erase this data by clearing your browser history</p>
 
                 <Typography className="mb-3" variant="h4">Minors</Typography>
             <p>

@@ -1,8 +1,10 @@
 import React,{ useEffect, useState, useMemo } from "react";
 import GameOverview from "./Components/GameOverview";
+import PopupComponent from "./Components/PopupComponent";
 import './App.css';
 import Footer from "./Components/Footer";
 import 'bootstrap/dist/css/bootstrap.css';
+import CookieConsent from "react-cookie-consent";
 import { state_bookmakers, team_codes } from "./Resources.js";
 import { 
   Collapse,
@@ -232,6 +234,16 @@ function App() {
 
   return (
     <div>
+      <CookieConsent
+      location="bottom"
+      buttonText="Got it."
+      cookieName="CookieBanner1"
+      style={{ background: "#2B373B" }}
+      buttonStyle={{ background: "#319DF4", color: "#000000", fontSize: "20px" }}
+      expires={150}
+    >
+      We use cookies to deliver targeted advertising on our website. You can learn more about how we use cookies & how to opt out in our <PopupComponent type="privacy" text="text-blue-500 text-sm cursor-pointer"/>{" "}
+    </CookieConsent>
       <Navbar className="sticky inset-0 z-10 lg:px-8 lg:py-4 mx-auto max-w-screen-2xl">
         <div className="flex flex-wrap items-center justify-between text-blue-700">
           <Typography

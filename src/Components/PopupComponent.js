@@ -18,7 +18,7 @@ const PopupComponent = (type) => {
   };
 
     return (
-      <div>
+      <span>
           
           <span className={type.text} onClick={handleClick}>{title}</span>
           
@@ -45,7 +45,7 @@ const PopupComponent = (type) => {
               </Popup>
           </div>
           
-      </div>
+      </span>
     );
   
 };

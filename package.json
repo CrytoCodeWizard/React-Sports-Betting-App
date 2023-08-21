@@ -25,6 +25,7 @@
     "node-fetch": "^2.6.12",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.0",
+    "react-cookie-consent": "^8.0.1",
     "react-dom": "^18.2.0",
     "react-dropdown-select": "^4.9.3",
     "react-native": "^0.71.7",
