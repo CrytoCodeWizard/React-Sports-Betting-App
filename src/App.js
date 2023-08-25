@@ -244,7 +244,7 @@ function App() {
     >
       We use cookies to deliver targeted advertising on our website. You can learn more about how we use cookies & how to opt out in our <PopupComponent type="privacy" text="text-blue-500 text-sm cursor-pointer"/>{" "}
     </CookieConsent>
-      <Navbar className="sticky inset-0 z-10 lg:px-8 lg:py-4 mx-auto max-w-screen-2xl">
+      <Navbar className="sticky z-10 lg:px-8 lg:py-4 mx-auto max-w-screen-2xl">
         <div className="flex flex-wrap items-center justify-between text-blue-700">
           <Typography
             color="blue"
