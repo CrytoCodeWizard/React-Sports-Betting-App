@@ -174,7 +174,7 @@ export const team_codes={
     "Cleveland Cavaliers":"CLE",
     "Dallas Mavericks":"DAL",
     "Denver Nuggets":"DEN",
-    "Detriot Pistons":"DET",
+    "Detroit Pistons":"DET",
     "Golden State Warriors":"GSW",
     "Houston Rockets":"HOU",
     "Indiana Pacers":"IND",

@@ -1,4 +1,4 @@
-import React,{ useEffect, useState, useMemo } from "react";
+import React,{ useEffect, useState, useMemo, useCallback } from "react";
 import GameOverview from "./Components/GameOverview";
 import PopupComponent from "./Components/PopupComponent";
 import './App.css';
@@ -29,7 +29,7 @@ function App() {
   const numGamesPerPage = 9;
   const [filteredGames, setFilteredGames] = useState([]);
   const [sport, setSport] = useState(window.localStorage.getItem('sport') || 'americanfootball_nfl');
-  const [filterText, setFilterText] = useState(window.sessionStorage.getItem('filter_text_') ? window.sessionStorage.getItem('filter_text_') : '');
+  const [filterText, setFilterText] = useState(window.sessionStorage.getItem('filter_text_' + sport) ? window.sessionStorage.getItem('filter_text_' + sport) : "");
   const [bookies, setBookies] = useState(window.localStorage.getItem('usState')?state_bookmakers[window.localStorage.getItem('usState')]:state_bookmakers["New York"]) ;
   const [stateName, setStateName] = useState(window.localStorage.getItem('usState') || "All");
   const [openNav, setOpenNav] = useState(false);
@@ -38,6 +38,15 @@ function App() {
   const [checkedBest, setCheckedBest] = useState(window.sessionStorage.getItem('checkedBest') === 'true' ? true : false);
   const stateImages = importAll(require.context('./Images/StateIcons/', true, /\.(png|jpe?g|svg)$/));
   const teamImages = importAll(require.context('./Images/TeamImages/', true, /\.(png|jpe?g|svg)$/));
+
+  const filterGames = useCallback(
+    ({ target }) => {
+      setFilterText(target.value);
+      setActive(1);
+      window.sessionStorage.setItem('filter_text_' + sport, target.value);
+    },
+    [sport],
+  );
  
   const handleWindowResize = () =>
     window.innerWidth >= 960 && setOpenNav(false);
@@ -104,14 +113,17 @@ function App() {
   );
 
   useEffect(() => {
-    if(sport !== window.localStorage.getItem('sport')) setActive(1);
+    if(sport !== window.localStorage.getItem('sport')){
+      setActive(1);
+      filterGames({target: {value: window.sessionStorage.getItem('filter_text_' + sport) || ""}})
+    }
     window.localStorage.setItem('sport', sport);
-  }, [sport]);
+  }, [sport, filterGames]);
 
     useEffect(() => {
       if(games && !games.error){
-        let gamesFiltered = games.filter((game) => game.away_team.toLowerCase().includes(filterText.toLowerCase()) || game.home_team.toLowerCase().includes(filterText.toLowerCase()) || team_codes[game.away_team].toLowerCase().includes(filterText.toLowerCase())
-        || team_codes[game.home_team].toLowerCase().includes(filterText.toLowerCase()));
+        let gamesFiltered = games.filter((game) => game.away_team.toLowerCase().includes(filterText.toLowerCase()) || game.home_team.toLowerCase().includes(filterText.toLowerCase()) || (team_codes[game.away_team] ? team_codes[game.away_team].toLowerCase().includes(filterText.toLowerCase()):false)
+        || (team_codes[game.home_team] ? team_codes[game.home_team].toLowerCase().includes(filterText.toLowerCase()):false));
         setFilteredGames(gamesFiltered);
       
         let pageNumber = Math.min(3,Math.ceil(gamesFiltered.length / numGamesPerPage));
@@ -137,12 +149,6 @@ function App() {
       window.localStorage.setItem('usState', values);
     }
     
-  }
-
-  function filterGames({ target }){
-    setFilterText(target.value);
-    setActive(1);
-    window.sessionStorage.setItem('filter_text_', target.value);
   }
 
   function sportChange(sportChoice){
@@ -218,19 +224,31 @@ function App() {
   
   const InputInHeader = useMemo(() => {
     return (
-      <Input
-                type="search"
-                color="blue"
-                label="Search"
-                value={filterText}
-                onChange={filterGames}
-                className="pr-20"
-                containerProps={{
-                  className: "min-w-[60px]",
-                }}
-              />
+      <div className="relative flex w-full">
+        <Input
+                  color="blue"
+                  label="Search"
+                  value={filterText}
+                  onChange={filterGames}
+                  className="pr-20 w-full"
+                  containerProps={{
+                    className: "min-w-[60px]",
+                  }}
+                />
+        {filterText && (
+          <span className="absolute right-0 top-1.5 mr-2">
+            <IconButton
+            variant="text"
+            className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent"
+            onClick={() => (filterGames({target: {value:""}}))}
+          >
+                <XMarkIcon color="gray" className="h-5 w-5" strokeWidth={4} />
+            </IconButton>
+          </span>
+          )}
+      </div>
     );
-  }, [filterText]);
+  }, [filterText, filterGames]);
 
   return (
     <div>
