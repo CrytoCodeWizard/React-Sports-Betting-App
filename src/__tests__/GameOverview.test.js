@@ -71,8 +71,8 @@ describe('Game Overview component, upcoming game', () => {
 
     test('should have clickable team props button that sets team props to active', () => {
         render(htmlToRender);
-        const team_props_button = screen.getByText('TeamProps');
-        fireEvent.click(team_props_button);
+        const team_props_buttons = screen.getAllByText('TeamProps');
+        fireEvent.click(team_props_buttons[0]);
         const propDrop = screen.queryByText('Prop');
         expect(propDrop).not.toBe(null);
     });
@@ -91,8 +91,8 @@ describe('Game Overview component, upcoming game', () => {
             teamImages={images}
             checkedBest={false}
         /></QueryClientProvider>);
-        const player_props_button = screen.getByText('PlayerProps');
-        fireEvent.click(player_props_button);
+        const player_props_buttons = screen.getAllByText('PlayerProps');
+        fireEvent.click(player_props_buttons[0]);
         const playerPropDisplayLoading = screen.queryByTestId('loader');
         expect(playerPropDisplayLoading).toBeInTheDocument();
     });
@@ -125,8 +125,8 @@ describe('Game Overview component, Live game', () => {
 
     test('should have clickable team props button that sets team props to active', () => {
         render(htmlToRender);
-        const team_props_button = screen.getByText('TeamProps');
-        fireEvent.click(team_props_button);
+        const team_props_buttons = screen.getAllByText('TeamProps');
+        fireEvent.click(team_props_buttons[0]);
         const propDrop = screen.queryByText('Prop');
         expect(propDrop).not.toBe(null);
     }); 

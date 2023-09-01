@@ -31,19 +31,19 @@ const PropDisplay = (bookmaker) => {
                             <ListItemPrefix className="text-sm w-3/12 h-6 justify-center">
                                 
                                     <Typography variant="small" color="blue">
-                                        <span>{bookmaker_names[bookmaker.bookmaker]}</span>
+                                        <span className="text-xs">{bookmaker_names[bookmaker.bookmaker]}</span>
                                     </Typography>
                                 
                             </ListItemPrefix>
                             <div className="grid grid-rows-2 gap-2 h-14 w-8/12 border-5">
                                 <div className="flex mx-auto">
                                     <Typography variant="small" color="blue-gray" className={fontA}>
-                                    {bookmaker.descriptOfPriceALabel ? <span>{team_codes[bookmaker.descriptOfPriceALabel] || bookmaker.descriptOfPriceALabel.substring(0,3).toUpperCase()} {bookmaker.aPoint} ({bookmaker.aPrice})</span> : <span>N/A</span>}
+                                    {bookmaker.descriptOfPriceALabel ? <span className="text-xs">{team_codes[bookmaker.descriptOfPriceALabel] || bookmaker.descriptOfPriceALabel.substring(0,3).toUpperCase()} {bookmaker.aPoint} ({bookmaker.aPrice})</span> : <span>N/A</span>}
                                     </Typography>
                                 </div>
                                 <div className="flex mx-auto">
                                     <Typography variant="small" color="blue-gray" className={fontB}>
-                                    {bookmaker.descriptOfPriceBLabel ? <span>{team_codes[bookmaker.descriptOfPriceBLabel] || bookmaker.descriptOfPriceBLabel.substring(0,3).toUpperCase()} {bookmaker.bPoint} ({bookmaker.bPrice})</span> : <span>N/A</span>}
+                                    {bookmaker.descriptOfPriceBLabel ? <span className="text-xs">{team_codes[bookmaker.descriptOfPriceBLabel] || bookmaker.descriptOfPriceBLabel.substring(0,3).toUpperCase()} {bookmaker.bPoint} ({bookmaker.bPrice})</span> : <span>N/A</span>}
                                     </Typography>
                                 </div>
                             </div>
