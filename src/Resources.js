@@ -17,6 +17,13 @@ export const player_prop_markets = [
     }
 ]
 
+export const league_titles = {
+  "americanfootball_nfl":"NFL",
+  "baseball_mlb":"MLB",
+  "icehockey_nhl":"NHL",
+  "basketball_nba":"NBA",
+}
+
 export const player_prop_choices = {
   //football
   "player_pass_tds":"Pass Touchdowns",
