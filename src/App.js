@@ -265,7 +265,7 @@ function App() {
       buttonStyle={{ background: "#319DF4", color: "#000000", fontSize: "20px" }}
       expires={150}
     >
-      We use cookies to deliver targeted advertising on our website. You can learn more about how we use cookies & how to opt out in our <PopupComponent type="privacy" text="text-blue-500 text-sm cursor-pointer"/>{" "}
+      We use cookies to enhance your browsing experience and to deliver targeted advertising on our website. You can learn more about how we use cookies & how to opt out in our <PopupComponent type="privacy" text="text-blue-500 text-sm cursor-pointer"/>{" "}
     </CookieConsent>
       <Navbar className="sticky z-10 lg:px-8 lg:py-4 mx-auto max-w-screen-2xl">
         <div className="flex flex-wrap items-center justify-between text-blue-700">
