@@ -43,7 +43,7 @@ const Footer = () => {
               <span className="text-blue-500 text-sm">The Odds API</span></a></span>
             </div>
         </div>
-        <div className="mx-auto max-w-screen-2xl flex items-center justify-center gap-8 mb-8">
+        <div className="mx-auto max-w-screen-2xl flex items-center justify-center gap-8 mb-4">
             <div>
               <PopupComponent type="terms" text="text-gray-500 text-sm cursor-pointer"></PopupComponent> 
             </div>
@@ -53,6 +53,9 @@ const Footer = () => {
             <div>
               <PopupComponent type="privacy" text="text-gray-500 text-sm cursor-pointer"></PopupComponent>
             </div>
+        </div>
+        <div className="mx-auto max-w-screen-2xl flex items-center justify-center gap-8 mb-8">
+          <img className="opacity-70" src={logo} alt={"Shop the Line"} />
         </div>
       </div>
       <div className="hidden lg:grid mx-auto max-w-screen-2xl border-t border-blue-gray-50 grid grid-cols-3 mb-4">
