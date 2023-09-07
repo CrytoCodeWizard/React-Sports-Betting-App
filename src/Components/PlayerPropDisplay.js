@@ -73,7 +73,7 @@ const PlayerPropDisplay = (event) => {
             for(const key of individualProps.get(prop).keys()){
                 playerChoices.push(key);
             }
-            setPlayerChoices(playerChoices.sort(propSort));
+            setPlayerChoices(playerChoices.sort(playerSort));
         }
       
     }, [individualProps, prop]);
@@ -150,6 +150,17 @@ const PlayerPropDisplay = (event) => {
     }, [sorter, event.game_id]);
 
     function propSort(a, b){
+        if(player_prop_choices[a] && player_prop_choices[b]){
+            if(player_prop_choices[a] < player_prop_choices[b]) return -1;
+            else return 1;
+        }
+        else{
+            if(a < b) return -1;
+            else return 1;
+        }
+    }
+
+    function playerSort(a, b){
         if(a < b) return -1;
         else return 1;
     }

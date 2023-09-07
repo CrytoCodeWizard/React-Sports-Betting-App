@@ -1,6 +1,6 @@
 export const player_prop_markets = [
     { 
-      markets: "player_pass_tds,player_pass_yds,player_pass_completions,player_pass_attempts,player_pass_interceptions,player_pass_longest_completion,player_rush_yds,player_rush_attempts,player_rush_longest,player_receptions,player_reception_yds,player_reception_longest",
+      markets: "player_pass_tds,player_pass_yds,player_pass_completions,player_pass_attempts,player_pass_interceptions,player_pass_longest_completion,player_rush_yds,player_rush_attempts,player_rush_longest,player_receptions,player_reception_yds,player_reception_longest,player_1st_td,player_last_td,player_anytime_td",
       label: "americanfootball_nfl"
     },
     {
@@ -38,6 +38,9 @@ export const player_prop_choices = {
   "player_receptions":"Receptions",
   "player_reception_yds":"Reception Yards",
   "player_reception_longest":"Longest Reception",
+  "player_1st_td":"First Touchdown Scorer",
+  "player_last_td":"Last Touchdown Scorer",
+  "player_anytime_td":"Anytime Touchdown Scorer",
   //basketball
   "player_points":"Points", //also covers hockey
   "player_rebounds":"Rebounds",
