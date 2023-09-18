@@ -38,7 +38,7 @@ const GameOverview = (game) => {
                     <Typography  variant="small" color="blue-gray" className="font-medium" textGradient>
                     {isLive?<span className="live">LIVE</span>:<span>{stringifiedGameStart}</span>}
                     <br></br>
-                    {game.curScore?<span>{game.curScore[1].score} - {game.curScore[0].score}</span>:<></>}
+                    {game.curScore?<span>{game.curScore[0].name === game.awayTeam ? game.curScore[0].score : game.curScore[1].score} - {game.curScore[0].name === game.homeTeam ? game.curScore[0].score : game.curScore[1].score}</span>:<></>}
                     </Typography>
                     {!isLive && daysTilStart <= 2 ?
                     <div className="h-18 w-48 mx-auto flex justify-center items-center">
@@ -66,7 +66,7 @@ const GameOverview = (game) => {
                     <Typography  variant="h6" color="blue-gray" className="font-medium" textGradient>
                     {isLive?<span className="live">LIVE</span>:<span>{stringifiedGameStart}</span>}
                     <br></br>
-                    {game.curScore?<span>{game.curScore[1].score} - {game.curScore[0].score}</span>:<></>}
+                    {game.curScore?<span>{game.curScore[0].name === game.awayTeam ? game.curScore[0].score : game.curScore[1].score} - {game.curScore[0].name === game.homeTeam ? game.curScore[0].score : game.curScore[1].score}</span>:<></>}
                     </Typography>
                     {!isLive && daysTilStart <= 2 ?
                     <div className="h-24 w-48 mx-auto flex justify-center items-center">
