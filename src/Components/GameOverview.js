@@ -15,9 +15,9 @@ import {
 const GameOverview = (game) => {
     const [showTeamProps,setShowTeamProps] = useState(window.sessionStorage.getItem('team_prop_clicked_' + game.game_id) === 'true' ? true : false);
     const [showPlayerProps, setShowPlayerProps] = useState(window.sessionStorage.getItem('player_prop_clicked_' + game.game_id) === 'true' ? true : false);
-    const [playerPropsClicked, setPlayerPropsClicked] = useState(window.sessionStorage.getItem('player_prop_clicked_' + game.game_id) === 'true' ? true : false);
-    const today = process.env.JEST_WORKER_ID ? new Date('2023-09-06T00:20:00Z') : new Date();
+    const [eitherPropClicked, setPlayerPropsClicked] = useState(window.sessionStorage.getItem('player_prop_clicked_' + game.game_id) === 'true' || window.sessionStorage.getItem('team_prop_clicked_' + game.game_id) === 'true' ? true : false);
     const gameStart = new Date(game.startTime);
+    const today = process.env.JEST_WORKER_ID ? new Date('2023-09-23T00:20:00Z') : new Date();
     const isLive = today>=gameStart;
     const daysTilStart = (gameStart - today) / (1000 * 3600 * 24)
     const stringifiedGameStart = gameStart.toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'});
@@ -83,19 +83,33 @@ const GameOverview = (game) => {
                     }
                 </div>
                 
-
-                {showTeamProps===true?
+                {(isLive || daysTilStart > 2) && showTeamProps ? 
                     <TeamPropDisplay
                         key={"team-prop-" + game.game_id}
                         game_id={game.game_id}
+                        away_team={game.awayTeam}
+                        home_team={game.homeTeam}
                         bookmakers={game.bookmakers}
                         sport={game.sport}
                         bookies={game.bookie_list}
                         checkedBest={game.checkedBest}
+                        withinRange={false}
+                    ></TeamPropDisplay> :
+                eitherPropClicked ? <DataProvider game_id={game.game_id} sport={game.sport} showChild={showTeamProps}>
+                    <TeamPropDisplay
+                        key={"team-prop-" + game.game_id}
+                        game_id={game.game_id}
+                        away_team={game.awayTeam}
+                        home_team={game.homeTeam}
+                        bookmakers={game.bookmakers}
+                        sport={game.sport}
+                        bookies={game.bookie_list}
+                        checkedBest={game.checkedBest}
+                        withinRange={true}
                     ></TeamPropDisplay>
-                    :<></>
+                    </DataProvider>:<></>
                 }
-                {playerPropsClicked ? <DataProvider game_id={game.game_id} sport={game.sport} showChild={showPlayerProps}>
+                {eitherPropClicked ? <DataProvider game_id={game.game_id} sport={game.sport} showChild={showPlayerProps}>
                         <PlayerPropDisplay
                             key={"player-prop-" + game.game_id}
                             game_id={game.game_id}
@@ -116,7 +130,7 @@ const GameOverview = (game) => {
     )
 
     function playerPress(){
-        if(playerPropsClicked === false) setPlayerPropsClicked(true);
+        if(eitherPropClicked === false) setPlayerPropsClicked(true);
         setShowPlayerProps(!showPlayerProps);
         setShowTeamProps(false);
         window.sessionStorage.setItem('player_prop_clicked_' + game.game_id, !showPlayerProps);
@@ -124,6 +138,7 @@ const GameOverview = (game) => {
     }
 
     function teamPress(){
+        if(eitherPropClicked === false) setPlayerPropsClicked(true);
         setShowTeamProps(!showTeamProps);
         setShowPlayerProps(false);
         window.sessionStorage.setItem('team_prop_clicked_' + game.game_id, !showTeamProps);

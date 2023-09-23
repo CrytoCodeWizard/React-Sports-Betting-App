@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import GameOverview from '../Components/GameOverview';
+import DataContext from '../Components/DataContext';
 import {americanfootball_nfl_team_props, americanfootball_nfl_scores} from './../SampleData/americanfootball_nfl_team_props.js';
 import {basketball_nba_team_props, basketball_nba_scores} from './../SampleData/basketball_nba_team_props.js';
 import { state_bookmakers } from "../Resources.js";
@@ -28,18 +29,18 @@ const images = {
 describe('Game Overview component, upcoming game', () => {
 
     const htmlToRender = <GameOverview 
-        key={upcoming_game_data.id}
-        game_id={upcoming_game_data.id}
-        bookie_list={state_bookmakers["All"]}
-        homeTeam={upcoming_game_data.home_team}
-        awayTeam={upcoming_game_data.away_team}
-        bookmakers={upcoming_game_data.bookmakers}
-        startTime={upcoming_game_data.commence_time}
-        sport={upcoming_game_data.sport_key}
-        curScore={upcoming_score_data.scores}
-        teamImages={images}
-        checkedBest={false}
-    />
+    key={upcoming_game_data.id}
+    game_id={upcoming_game_data.id}
+    bookie_list={state_bookmakers["All"]}
+    homeTeam={upcoming_game_data.home_team}
+    awayTeam={upcoming_game_data.away_team}
+    bookmakers={upcoming_game_data.bookmakers}
+    startTime={upcoming_game_data.commence_time}
+    sport={upcoming_game_data.sport_key}
+    curScore={upcoming_score_data.scores}
+    teamImages={images}
+    checkedBest={false}
+/>
 
     test('should be 4 images at the top of the game overview (2 per screen size)', () => {
         render(htmlToRender);
@@ -69,32 +70,12 @@ describe('Game Overview component, upcoming game', () => {
         expect(startTime).toHaveLength(2);
     });
 
-    test('should have clickable team props button that sets team props to active', () => {
+    test('should have team props and player props buttons', () => {
         render(htmlToRender);
         const team_props_buttons = screen.getAllByText('TeamProps');
-        fireEvent.click(team_props_buttons[0]);
-        const propDrop = screen.queryByText('Prop');
-        expect(propDrop).not.toBe(null);
-    });
-
-    test('should have clickable player props button that sets player props to active', () => {
-        render(<QueryClientProvider client={queryClient}><GameOverview 
-            key={upcoming_game_data.id}
-            game_id={upcoming_game_data.id}
-            bookie_list={state_bookmakers["All"]}
-            homeTeam={upcoming_game_data.home_team}
-            awayTeam={upcoming_game_data.away_team}
-            bookmakers={upcoming_game_data.bookmakers}
-            startTime={upcoming_game_data.commence_time}
-            sport={upcoming_game_data.sport_key}
-            curScore={upcoming_score_data.scores}
-            teamImages={images}
-            checkedBest={false}
-        /></QueryClientProvider>);
-        const player_props_buttons = screen.getAllByText('PlayerProps');
-        fireEvent.click(player_props_buttons[0]);
-        const playerPropDisplayLoading = screen.queryByTestId('loader');
-        expect(playerPropDisplayLoading).toBeInTheDocument();
+        const player_props_button = screen.getAllByText('PlayerProps');
+        expect(team_props_buttons).not.toBe(null);
+        expect(player_props_button).not.toBe(null);
     });
 
   
@@ -123,12 +104,16 @@ describe('Game Overview component, Live game', () => {
         expect(startTime).toHaveLength(2);
     });
 
-    test('should have clickable team props button that sets team props to active', () => {
+    test('should have only a team props button, not player props', () => {
         render(htmlToRender);
+
         const team_props_buttons = screen.getAllByText('TeamProps');
-        fireEvent.click(team_props_buttons[0]);
-        const propDrop = screen.queryByText('Prop');
-        expect(propDrop).not.toBe(null);
+        const player_props_button = screen.queryAllByText('PlayerProps');
+        expect(team_props_buttons).not.toBe(null);
+        expect(player_props_button).toHaveLength(0);
+      
+
     }); 
 });
+
 

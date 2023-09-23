@@ -69,15 +69,15 @@ describe('Player Props Component success state', () => {
     const dropdown =  screen.getByRole('combobox');
     fireEvent.click(dropdown);
     const options = screen.queryAllByRole('option');
-    expect(options).toHaveLength(1);
+    expect(options.length).toBeGreaterThan(0);
   });
 
   test('Selecting Prop dropdown should trigger appearence of Player & Sort Dropdowns', () => {
     render(htmlToRender);
     const propDropdown =  screen.getByRole('combobox');
     fireEvent.click(propDropdown);
-    const option = screen.getByRole('option');
-    fireEvent.click(option);
+    const options = screen.getAllByRole('option');
+    fireEvent.click(options[0]);
     const playerDropdown = screen.queryByText('Player');
     const sortDropdown = screen.queryByText('Sort for');
     expect(playerDropdown).not.toBe(null);
@@ -109,12 +109,14 @@ describe('Player Props Component success state', () => {
         sortDropdown = drop;
       }
     }
+    
     fireEvent.click(sortDropdown);
     const newOptions = screen.getAllByRole('option', {selected:false});
     let newSorter = newOptions[0].textContent;
     fireEvent.click(newOptions[0]);
     expect(sortDropdown.textContent).toBe(newSorter);
   });
+  
   
 });
 

@@ -46,10 +46,10 @@ const PropContainer = (bookmakerList) => {
                 bookmakerLink={bookmaker_links[bookmaker.bookmaker]}
                 descriptOfPriceALabel={bookmaker.line.labelA}
                 aPrice={bookmaker.line.priceA > 0 ? '+' + bookmaker.line.priceA : bookmaker.line.priceA}
-                aPoint={bookmakerList.prop === "spreads" && bookmaker.line.pointA > 0 ? '+' + bookmaker.line.pointA : bookmaker.line.pointA}
+                aPoint={bookmakerList.prop.includes("spreads") && bookmaker.line.pointA > 0 ? '+' + bookmaker.line.pointA : bookmaker.line.pointA}
                 descriptOfPriceBLabel={bookmaker.line.labelB}
                 bPrice={bookmaker.line.priceB > 0 ? '+' + bookmaker.line.priceB : bookmaker.line.priceB}
-                bPoint={bookmakerList.prop === "spreads" && bookmaker.line.pointB > 0 ? '+' + bookmaker.line.pointB : bookmaker.line.pointB}
+                bPoint={bookmakerList.prop.includes("spreads") && bookmaker.line.pointB > 0 ? '+' + bookmaker.line.pointB : bookmaker.line.pointB}
                 bestOption={bestOption}
                 sorter={bookmakerList.sorter}
             />);

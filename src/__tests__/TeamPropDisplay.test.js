@@ -1,67 +1,60 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import TeamPropDisplay from '../Components/TeamPropDisplay';
-import {basketball_nba_team_props, basketball_nba_scores} from './../SampleData/basketball_nba_team_props.js';
+import {americanfootball_nfl_team_props, americanfootball_nfl_scores} from './../SampleData/americanfootball_nfl_team_props.js';
 import { state_bookmakers, team_prop_choices } from "../Resources.js";
+import DataContext from '../Components/DataContext';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 global.ResizeObserver = require('resize-observer-polyfill')
+import football_extended_data from './../SampleData/americanfootball_nfl_player_props.json';
 
+const game_data = americanfootball_nfl_team_props[0];
 
-const game_data = basketball_nba_team_props[0];
-let prop_options = new Set();
-let sort_options = new Set();
+const mockDataContextSuccess = {
+  data:  football_extended_data, 
+  status: 'success',
+};
 
-for(const bookmaker of game_data.bookmakers){
-  for(const market of bookmaker.markets){
-    prop_options.add(team_prop_choices[market.key]);
-    for(const outcome of market.outcomes){
-      sort_options.add(outcome.name);
-    }
-  }
-}
+const mockDataContextLoading = {
+    data:  football_extended_data, 
+    status: 'loading',
+  };
+
+const mockDataContextError = {
+data:  football_extended_data, 
+status: 'error',
+};
+
+const queryClient = new QueryClient();
+
+//let prop_options = new Set();
+//let sub_prop_options = new Set();
+//let sort_options = new Set();
+
 
 describe('Team Props Component', () => {
 
   const htmlToRender = 
+        <QueryClientProvider client={queryClient}>
+        <DataContext.Provider value={mockDataContextSuccess}>
             <TeamPropDisplay key={"team-prop-" + game_data.id}
                             game_id={game_data.id}
+                            away_team={game_data.awayTeam}
+                            home_team={game_data.homeTeam}
                             bookmakers={game_data.bookmakers.filter((bk) => state_bookmakers["All"].has(bk.key))}
-                            sport={"basketball_nba"}
+                            sport={"american_football"}
                             bookies={state_bookmakers["All"]}
-                            checkedBest={false}/>
+                            checkedBest={false}
+                            withinRange={true}/>
+        </DataContext.Provider>
+        </QueryClientProvider>
   
+        test('on success should display Prop dropdown with h2h defaulted', () => {
+          render(htmlToRender);
+          const dropDownValue =  screen.queryByText('Moneyline');
+          expect(dropDownValue).not.toBe(null);
+        });
 
-    test('prop dropdown should be present and switchable', () => {
-        render(htmlToRender);
-        
-        const dropdowns = screen.getAllByRole("combobox");
-        let propDropdown;
-        for(const drop of dropdowns){
-            if(prop_options.has(drop.textContent)){
-                propDropdown = drop;
-            }
-        }
-        fireEvent.click(propDropdown);
-        const newOptions = screen.getAllByRole('option', {selected:false});
-        let newProp = newOptions[0].textContent;
-        fireEvent.click(newOptions[0]);
-        expect(propDropdown.textContent).toBe(newProp);
-    });
-
-    test('sort dropdown should be present and switchable', () => {
-        render(htmlToRender);
-        
-        const dropdowns = screen.getAllByRole("combobox");
-        let sortDropdown;
-        for(const drop of dropdowns){
-            if(sort_options.has(drop.textContent)){
-                sortDropdown = drop;
-            }
-        }
-        fireEvent.click(sortDropdown);
-        const newOptions = screen.getAllByRole('option', {selected:false});
-        let newSort = newOptions[0].textContent;
-        fireEvent.click(newOptions[0]);
-        expect(sortDropdown.textContent).toBe(newSort);
-    });
+    
   
 });

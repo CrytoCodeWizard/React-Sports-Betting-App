@@ -14,11 +14,11 @@ export function useData() {
 }
 
 export const DataProvider = (event) => {
-  const specMarketsForSport = player_prop_markets.filter(sport => sport["label"] === event.sport)[0]["markets"];
+  let curr_sport = player_prop_markets.filter(sport => sport["label"] === event.sport)[0];
+  const specMarketsForSport = curr_sport["team_markets"] + curr_sport["player_markets"];
 
   const fetchData = async () => {
     let odds;
-    
     if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
       if(event.sport === 'americanfootball_nfl') odds = football_data;
       else if(event.sport === 'baseball_mlb') odds = baseball_data;
@@ -35,6 +35,7 @@ export const DataProvider = (event) => {
       }
       odds = await playerData.json();
     }
+
     return odds;
   };
 
