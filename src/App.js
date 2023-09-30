@@ -93,7 +93,9 @@ function App() {
       let res = scores.map(x => Object.assign(x, odds.find(y => y.id === x.id)));
       return res;
     } else {
-      const url = 'https://' + process.env.REACT_APP_AWS_API_ID + '.execute-api.' + process.env.REACT_APP_AWS_API_REGION + '.amazonaws.com/default/game-data-fetch?sport=' + sport;
+      let today = new Date();
+      let nextweek = new Date(today.getFullYear(), today.getMonth(), today.getDate()+8).toISOString().substring(0, 19) + 'Z';
+      const url = 'https://' + process.env.REACT_APP_AWS_API_ID + '.execute-api.' + process.env.REACT_APP_AWS_API_REGION + '.amazonaws.com/default/game-data-fetch?sport=' + sport + '&commenceTimeTo=' + nextweek;
       const playerData = await fetch(url, {
         method: 'GET'
       });
@@ -127,7 +129,7 @@ function App() {
         || (team_codes[game.home_team] ? team_codes[game.home_team].toLowerCase().includes(filterText.toLowerCase()):false));
         setFilteredGames(gamesFiltered);
       
-        let pageNumber = Math.min(3,Math.ceil(gamesFiltered.length / numGamesPerPage));
+        let pageNumber = Math.ceil(gamesFiltered.length / numGamesPerPage);
         setPages(pageNumber);
         if(parseInt(window.sessionStorage.getItem('page_num')) > pageNumber) setActive(1);
       }
