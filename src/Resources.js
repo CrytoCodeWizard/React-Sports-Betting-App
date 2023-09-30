@@ -181,7 +181,7 @@ export const bookmaker_links={
   "pointsbetus":"https://pointsbet.com/",
   "superbook":"https://co.superbook.com/sports",
   "unibet_us":"https://unibet.com/",
-  "williamhill_us":"https://www.williamhill.com/us/",
+  "williamhill_us":"https://www.williamhill.com/us/nj/bet/",
   "wynnbet":"https://www.wynnbet.com/"
 }
 
