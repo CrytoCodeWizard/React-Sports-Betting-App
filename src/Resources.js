@@ -133,8 +133,8 @@ export const additional_team_prop_titles={
   "spreads_p2":"2nd Period",
   "spreads_p3":"3rd Period",
   "totals_p1":"1st Period",
-  "totals_p2":"1st Period",
-  "totals_p3":"1st Period",
+  "totals_p2":"2nd Period",
+  "totals_p3":"3rd Period",
 }
 
 export const team_prop_titles={ 
@@ -281,7 +281,7 @@ export const team_codes={
     "Florida Panthers":"FLA",
     "Los Angeles Kings":"LA",
     "Minnesota Wild":"MIN",
-    "Montreal Canadiens":"MTL",
+    "Montréal Canadiens":"MTL",
     "Nashville Predators":"NSH",
     "New Jersey Devils":"NJ",
     "New York Islanders":"NYI",
@@ -291,7 +291,7 @@ export const team_codes={
     "Pittsburgh Penguins":"PIT",
     "San Jose Sharks":"SJ",
     "Seattle Kraken":"SEA",
-    "St. Louis Blues":"STL",
+    "St Louis Blues":"STL",
     "Tampa Bay Lightning":"TB",
     "Toronto Maple Leafs":"TOR",
     "Vancouver Canucks":"VAN",
