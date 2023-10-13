@@ -60,8 +60,12 @@ describe('Game Overview component, upcoming game', () => {
 
     test('should have match-up listed as away team @ home team (in team codes) (2 per screen size)', () => {
         render(htmlToRender);
-        const matchupText = screen.getAllByText(team_codes[upcoming_game_data.away_team] + ' @ ' +  team_codes[upcoming_game_data.home_team]);
-        expect(matchupText).toHaveLength(2);
+        const awayTeam = screen.getAllByText(team_codes[upcoming_game_data.away_team]);
+        const atSymbol = screen.getAllByText('@');
+        const homeTeam = screen.getAllByText(team_codes[upcoming_game_data.home_team]);
+        expect(awayTeam).toHaveLength(2);
+        expect(atSymbol).toHaveLength(2);
+        expect(homeTeam).toHaveLength(2);
     });
 
     test('should have commence time listed in proper format (2 per screen size)', () => {

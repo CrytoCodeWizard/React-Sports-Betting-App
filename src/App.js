@@ -5,7 +5,7 @@ import './App.css';
 import Footer from "./Components/Footer";
 import 'bootstrap/dist/css/bootstrap.css';
 import CookieConsent from "react-cookie-consent";
-import { state_bookmakers, team_codes, league_titles } from "./Resources.js";
+import { state_bookmakers, league_titles, team_titles } from "./Resources.js";
 import { 
   Collapse,
   Input,
@@ -125,8 +125,8 @@ function App() {
 
     useEffect(() => {
       if(games && !games.error){
-        let gamesFiltered = games.filter((game) => game.away_team.toLowerCase().includes(filterText.toLowerCase()) || game.home_team.toLowerCase().includes(filterText.toLowerCase()) || (team_codes[game.away_team] ? team_codes[game.away_team].toLowerCase().includes(filterText.toLowerCase()):false)
-        || (team_codes[game.home_team] ? team_codes[game.home_team].toLowerCase().includes(filterText.toLowerCase()):false));
+        let gamesFiltered = games.filter((game) => game.away_team.toLowerCase().includes(filterText.toLowerCase()) || game.home_team.toLowerCase().includes(filterText.toLowerCase()) || (team_titles[game.away_team] ? team_titles[game.away_team].toLowerCase().includes(filterText.toLowerCase()):false)
+        || (team_titles[game.home_team] ? team_titles[game.home_team].toLowerCase().includes(filterText.toLowerCase()):false));
         setFilteredGames(gamesFiltered);
       
         let pageNumber = Math.ceil(gamesFiltered.length / numGamesPerPage);
@@ -188,6 +188,16 @@ function App() {
         >
           {sport === 'americanfootball_nfl' ?<button className={active}>NFL<img className="h-4 w-4 object-cover ml-1" src={sportImages["americanfootball_nfl.png"]} alt={league_titles[sport]} /></button>:
           <button className={inactive} onClick={() => sportChange('americanfootball_nfl')}>NFL
+          <img className="h-4 w-4 object-cover ml-1" src={sportImages["americanfootball_nfl.png"]} alt={league_titles[sport]} /></button>}
+        </Typography>
+        <Typography
+          as="li"
+          variant="small"
+          color="blue-gray"
+          className="p-1 font-medium"
+        >
+          {sport === 'americanfootball_ncaaf' ?<button className={active}>NCAAF<img className="h-4 w-4 object-cover ml-1" src={sportImages["americanfootball_ncaaf.png"]} alt={league_titles[sport]} /></button>:
+          <button className={inactive} onClick={() => sportChange('americanfootball_ncaaf')}>NCAAF
           <img className="h-4 w-4 object-cover ml-1" src={sportImages["americanfootball_nfl.png"]} alt={league_titles[sport]} /></button>}
         </Typography>
         <Typography

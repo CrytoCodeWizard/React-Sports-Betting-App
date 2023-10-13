@@ -83,9 +83,13 @@ const TeamPropDisplay = (game) => {
                                         let curKey; 
                                         if(outcome.point === 0) curKey = "EVEN";
                                         else if(outcome.name === game.away_team){
-                                            curKey = team_codes[outcome.name] + " " + (outcome.point > 0 ? "+" + outcome.point : outcome.point) + " | " + team_codes[matchedSpread.name] + " " + (matchedSpread.point > 0 ? "+" + matchedSpread.point : matchedSpread.point);
+                                            let firstName = team_codes[outcome.name] || outcome.name.substring(0,3).toUpperCase();
+                                            let secondName =  team_codes[matchedSpread.name] || matchedSpread.name.substring(0,3).toUpperCase();
+                                            curKey = firstName + " " + (outcome.point > 0 ? "+" + outcome.point : outcome.point) + " | " + secondName + " " + (matchedSpread.point > 0 ? "+" + matchedSpread.point : matchedSpread.point);
                                         }else{
-                                            curKey = team_codes[matchedSpread.name] + " " + (matchedSpread.point > 0 ? "+" + matchedSpread.point : matchedSpread.point) + " | " + team_codes[outcome.name] + " " + (outcome.point > 0 ? "+" + outcome.point : outcome.point);
+                                            let firstName =  team_codes[matchedSpread.name] || matchedSpread.name.substring(0,3).toUpperCase();
+                                            let secondName = team_codes[outcome.name] || outcome.name.substring(0,3).toUpperCase();
+                                            curKey = firstName + " " + (matchedSpread.point > 0 ? "+" + matchedSpread.point : matchedSpread.point) + " | " + secondName + " " + (outcome.point > 0 ? "+" + outcome.point : outcome.point);
                                         }
                                         if(!team_props.get(category).has(curKey)){
                                             team_props.get(category).set(curKey, new Map());

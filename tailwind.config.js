@@ -9,6 +9,7 @@ module.exports = withMT({
     fontSize: {
       'miniscule': '0.65rem',
       xs: '0.75rem',
+      xsm:'0.8rem',
       sm: '0.875rem', 
       base: '1rem',
       lg: '1.125rem', 
