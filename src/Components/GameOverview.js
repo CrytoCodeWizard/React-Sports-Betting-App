@@ -40,14 +40,14 @@ const GameOverview = (game) => {
                         </div>
                         <div className="h-8 align-top">
                             
-                            <div className="flex">
-                                <div className={game.sport !== "americanfootball_ncaaf" ? "w-4/12 text-right m-auto" : "w-4/12 text-center m-auto overflow-hidden text-ellipsis line-clamp-2"}>
+                            <div className={game.sport !== "americanfootball_ncaaf" ? "flex w-6/12 m-auto": "flex"}>
+                                <div className="w-4/12 text-center m-auto overflow-hidden text-ellipsis line-clamp-2">
                                     <Typography variant={game.sport !== "americanfootball_ncaaf" ? "h6":"small"} color="blue-gray" className="font-semibold">
                                         {team_titles[game.awayTeam] || (game.sport !== "americanfootball_ncaaf" ? game.awayTeam.substring(0,3).toUpperCase() : game.awayTeam)}
                                     </Typography>
                                 </div>
-                                <div className="w-1/12 text-center m-auto"></div>
-                                <div className={game.sport !== "americanfootball_ncaaf" ? "w-4/12 text-left m-auto" : "w-4/12 text-center m-auto overflow-hidden text-ellipsis line-clamp-2"}>
+                                <div className="w-4/12 text-center m-auto"></div>
+                                <div className="w-4/12 text-center m-auto overflow-hidden text-ellipsis line-clamp-2">
                                     <Typography variant={game.sport !== "americanfootball_ncaaf" ? "h6":"small"} color="blue-gray" className="font-semibold">
                                         {team_titles[game.homeTeam] || (game.sport !== "americanfootball_ncaaf" ? game.homeTeam.substring(0,3).toUpperCase() : game.homeTeam)}
                                     </Typography>
@@ -59,18 +59,18 @@ const GameOverview = (game) => {
                      
                     
                    
-                    {isLive ? <div className="flex">
-                            <div className={game.sport !== "americanfootball_ncaaf" ? "w-4/12 text-right m-auto":"w-5/12 text-center m-auto"}>
+                    {isLive ? <div className={game.sport !== "americanfootball_ncaaf" ? "flex w-6/12 m-auto": "flex"}>
+                            <div className="w-4/12 text-center m-auto">
                                 <Typography  variant="small" color="blue-gray" className="font-medium" textGradient>
                                     {game.curScore?<span>{game.curScore[0].name === game.awayTeam ? game.curScore[0].score : game.curScore[1].score}</span>:<></>}
                                 </Typography>
                             </div>
-                            <div className={game.sport !== "americanfootball_ncaaf" ? "w-4/12 text-center m-auto":"w-2/12 text-center m-auto"}>
+                            <div className="w-4/12 text-center m-auto">
                                 <Typography  variant="small" color="blue-gray" className="font-medium" textGradient>
                                     <span className="live opacity-60">LIVE</span>
                                 </Typography>
                             </div>
-                            <div className={game.sport !== "americanfootball_ncaaf" ? "w-4/12 text-left m-auto":"w-5/12 text-center m-auto"}>
+                            <div className="w-4/12 text-center m-auto">
                                 <Typography  variant="small" color="blue-gray" className="font-medium" textGradient>
                                     {game.curScore?<span>{game.curScore[0].name === game.homeTeam ? game.curScore[0].score : game.curScore[1].score}</span>:<></>}
                                 </Typography>
@@ -108,14 +108,14 @@ const GameOverview = (game) => {
                         </div>
                         <div className="h-12 align-top">
                             
-                            <div className="flex">
-                                <div className={game.sport !== "americanfootball_ncaaf" ? "w-4/12 text-right m-auto" : "w-5/12 text-center m-auto overflow-hidden text-ellipsis line-clamp-2"}>
+                            <div className={game.sport !== "americanfootball_ncaaf" ? "flex w-8/12 m-auto" : "flex"}>
+                                <div className={game.sport !== "americanfootball_ncaaf" ? "w-4/12 text-center m-auto" : "w-5/12 text-center m-auto overflow-hidden text-ellipsis line-clamp-2"}>
                                     <Typography variant={game.sport !== "americanfootball_ncaaf" ? "h5":"h6"} color="blue-gray">
                                         {team_titles[game.awayTeam] || (game.sport !== "americanfootball_ncaaf" ? game.awayTeam.substring(0,3).toUpperCase() : game.awayTeam)}
                                     </Typography>
                                 </div>
-                                <div className="w-2/12 text-center m-auto"></div>
-                                <div className={game.sport !== "americanfootball_ncaaf" ? "w-4/12 text-left m-auto" : "w-5/12 text-center m-auto overflow-hidden text-ellipsis line-clamp-2"}>
+                                {game.sport !== "americanfootball_ncaaf" ? <div className="w-4/12 text-center m-auto"></div> : <div className="w-2/12 text-center m-auto"></div>}
+                                <div className={game.sport !== "americanfootball_ncaaf" ? "w-4/12 text-center m-auto" : "w-5/12 text-center m-auto overflow-hidden text-ellipsis line-clamp-2"}>
                                     <Typography variant={game.sport !== "americanfootball_ncaaf" ? "h5":"h6"} color="blue-gray">
                                         {team_titles[game.homeTeam] || (game.sport !== "americanfootball_ncaaf" ? game.homeTeam.substring(0,3).toUpperCase() : game.homeTeam)}
                                     </Typography>
@@ -129,10 +129,10 @@ const GameOverview = (game) => {
                      
                     <Typography  variant="h6" color="blue-gray" className="font-medium" textGradient>
                         
-                        {isLive ? <div className="flex">
-                            <div className={game.sport !== "americanfootball_ncaaf" ? "w-4/12 text-right m-auto":"w-5/12 text-center m-auto"}>{game.curScore?<span>{game.curScore[0].name === game.awayTeam ? game.curScore[0].score : game.curScore[1].score}</span>:<></>}</div>
+                        {isLive ? <div className={game.sport !== "americanfootball_ncaaf" ? "flex w-8/12 m-auto" : "flex"}>
+                            <div className={game.sport !== "americanfootball_ncaaf" ? "w-4/12 text-center m-auto":"w-5/12 text-center m-auto"}>{game.curScore?<span>{game.curScore[0].name === game.awayTeam ? game.curScore[0].score : game.curScore[1].score}</span>:<></>}</div>
                             <div className={game.sport !== "americanfootball_ncaaf" ? "w-4/12 text-center m-auto":"w-2/12 text-center m-auto"}><span className="live opacity-60">LIVE</span></div>
-                            <div className={game.sport !== "americanfootball_ncaaf" ? "w-4/12 text-left m-auto":"w-5/12 text-center m-auto"}>{game.curScore?<span>{game.curScore[0].name === game.homeTeam ? game.curScore[0].score : game.curScore[1].score}</span>:<></>}</div>
+                            <div className={game.sport !== "americanfootball_ncaaf" ? "w-4/12 text-center m-auto":"w-5/12 text-center m-auto"}>{game.curScore?<span>{game.curScore[0].name === game.homeTeam ? game.curScore[0].score : game.curScore[1].score}</span>:<></>}</div>
                         </div>:<span>{stringifiedGameStart}</span>}
                        
                     </Typography>
