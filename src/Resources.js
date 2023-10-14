@@ -632,7 +632,7 @@ export const team_titles={
   "California Golden Bears":"California",
   "Central Michigan Chippewas":"Central Michigan",
   "Charlotte 49ers":"Charlotte",
-  "Cincinnati Bearcats":"CIN",
+  "Cincinnati Bearcats":"Cincinnati",
   "Clemson Tigers":"Clemson",
   "Coastal Carolina Chanticleers":"Coastal Carolina",
   "Colorado Buffaloes":"Colorado",
